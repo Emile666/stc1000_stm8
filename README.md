@@ -15,9 +15,11 @@ only has 128 bytes of EEPROM, so the number of profiles and the number of temper
 For those of you willing to do some de-soldering: you can replace the microcontroller with a STM8S103Fs microcontroller that has 640 bytes of EEPROM. Then you have the 6 profiles with all temperature-time pairs again.
 
 Last but not least: I also have PCB boards that replace the existing PCBs which contain
-an Arduino Nano. Then you have everything you want and more: USB connection for easy changing of parameters and profiles, One-Wire temperaturesensor support, I2C interface for more fancy stuff and a PID controller.
+an Arduino Nano. Then you have everything you want and more: USB connection for easy changing of parameters and profiles, One-Wire temperature sensor support, I2C interface for more fancy stuff and a PID controller.
 
 ![STC-1000](img/frontpanel_backplane.jpg)
+
+![stc-1000-top](img/stc1000_top.jpg)
 
 Questions?
 ----------
@@ -30,18 +32,25 @@ You'd need one of those fancy coloured ST-Link V2 USB adapter (which are very ch
 the IAR development environment for STM8, which can be downloaded free of charge. Use the code-size limited version. After having installed this, the drivers for the ST-Link USB adapter are also installed.
 ![st-link-v2](img/st_link_v2.png)
 
-The frontpanel PCB has a 4-pin connector (labeled with SIG, RST, VCC and GND). Solder some pins to this and connect the ST-Link adapter (use GND-GND, RST-RST and SWIM-SIG). Power-up the STC\-1000 and connect the ST-Link V2 USB
-If you have downloaded the project-files, open the project in IAR, do a Project->Rebuild All and then press Ctrl-D. This opens the debugger and transfers the code to the microcontroller. Remove the wires, re cycle power and you are good to go!
+The frontpanel PCB has a 4-pin connector (labeled with SIG, RST, VCC and GND). Solder some pins to this and connect the ST-Link adapter (use GND-GND, RST-RST and SWIM-SIG. VCC is not needed). This is all you need to reprogram the device! 
+Power-up the STC\-1000 and connect the ST-Link V2 USB. 
+If you have downloaded the project- and source-files, open the project in IAR, do a Project->Rebuild All and then press Ctrl-D. This opens the debugger and transfers the code to the microcontroller. The first time you do this, a message pops up stating that
+protection bits are set and these need to be cleared. If you do this (necessary if you want to reprogram the uC), the program present is erased (with no way of getting this back!).
+
 ![swim-interface](img/swim_interface.jpg)
+
+Remove the wires, re-cycle power and you are good to go!
 
 Schematics
 ----------
-I reversed engineered both the frontpanel PCB as well as the backplane PCB. The frontpanel PCB holds the buttons, the 7-segment display (3 digit common-cathode) as well as the STM8S003F3 uC. There's an ingenious connection to the
+I reversed engineered both the frontpanel PCB as well as the backplane PCB. The frontpanel PCB holds the buttons, the 7-segment display (3 digit common-cathode) as well as the STM8S003F3 uC. There's an ingenious soldered connection to the
 backplane that holds both relays (able to switch 12A at 230VAC), the power-supply (12V and 5V) and the connectors. The schematics were made with the Eagle PCB program.
+
 ![frontpanel](img/schematics_frontpanel.png)
 
+An interesting feature are the S1 and S2 lines. It looks likes this is an I2C interface. Interesting feature for those of you willing to do some more hacking! With the current hardware, it is only used for multiplexing the 7-segment display.
+
 ![backplane](img/schematics_backplane.png)
-An interesting feature are the S1, S2 lines. It looks likes this is an I2C interface. Interesting feature for those of you willing to do some more hacking!
 
 Introduction (taken from https://github.com/matsstaff/stc1000p)
 ----------------------------------------------------------
