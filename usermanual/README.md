@@ -1,5 +1,5 @@
-STC-1000+/STM8 USER MANUAL
-==============-----=======
+STC-1000+/STM8 USER MANUAL<br>
+=====================
 
 Mats Staffansson / Emile
 
@@ -40,8 +40,8 @@ The menu is divided in two steps. When first pressing 'S', the following choices
 |Pr1|Set parameters for profile 1|
 |Pr2|Set parameters for profile 2|
 |Pr3|Set parameters for profile 3|
-|Pr4|Set parameters for profile 4| (not with STM8S003F3 uC)
-|Pr5|Set parameters for profile 5| (not with STM8S003F3 uC)
+|Pr4|Set parameters for profile 4 (not with STM8S003F3 uC)|
+|Pr5|Set parameters for profile 5 (not with STM8S003F3 uC)|
 |Set|Settings menu|
 *Table 2: Menu items*
 
@@ -179,7 +179,7 @@ Another tip would be to try to design your profiles with ramping in mind, if pos
 
 The STC-1000 (WR-032) hardware seems to have been designed to allow for two temperature probes to be connected, but the stock firmware only uses one and it alo only ships with one sensor. Also the screw type terminal for the second sensor is not populated as well as the noise reduction capacitor.
 
-![Temperature probe header](temp_probe2)<br>
+![Temperature probe header](img/temp_probe2.jpg)<br>
 *The temperature probe connections*
 
 Here, you can see that there is room on the PCB for a three pole screw terminal. I find that the best way is to desolder the two pole screw terminal and solder back a three pole screw terminal. The picture shows a connected temperature sensor and a resistor to
@@ -223,7 +223,6 @@ STC-1000+-STM8 is written in C and compiled using IAR STM8 embedded workbench
 
 * The eeprom of the STM8S003F3 has only 128 bytes on-board. Therefore only 4 profiles (instead of 6) with a maximum of 5 temperature time-pairs (instead of 9) are used. If you are willing to desolder this chip, you can replace it
 with a STM8S103F3 device, which has 640 bytes on-board. Setting the defines NO_OF_PROFILES and NO_OF_TT_PAIRS and proper initialisation of eedata[] (in stc1000plib.c) is sufficient to enable this.
-
 
 * HEX files can be uploaded directly to STC-1000 with ST-Link v2, but I haven't figured out how to do this yet. The default route with IAR, Project->Rebuild All, then Ctrl-D (debug) also uploads the .hex file. But it would be nice
 to upload a hex file directly without using IAR.
