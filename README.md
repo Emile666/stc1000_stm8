@@ -2,20 +2,16 @@ STC\-1000+\-STM8
 ==========
 
 This version of the STC\-1000+ is heavily based on the beautiful work from Mats Staffansson (https://github.com/matsstaff/stc1000p), where he creates an open-source implementation of firmware(s) for the STC\-1000 dual stage thermostat.
-Mats version is used by numerous home-brewers for automating their brewery / climate chamber. The hardware is controlled by a PIC18F1828 microcontroller, which is pretty limited. Despite these limitations Mats succeeded in
+Mats version is used by numerous home-brewers for automating their brewery / climate chamber. The hardware is controlled by a PIC18F1828 microcontroller (uC), which is pretty limited. Despite these limitations Mats succeeded in
 adding 6 profiles with up to 9 temperature-time pairs per profile.
 
-I bought a couple of STC\-1000 devices which had another microcontroller and completely different hardware on-board. It is the STM8S003F3 microcontroller. Being the electrical engineer that I am, I wanted to reverse engineer
+I bought a couple of STC\-1000 devices which had another uC with completely different hardware on-board. It is the **STM8S003F3** uC. Being the electrical engineer that I am, I wanted to reverse engineer
 the hardware, create the schematics and new boards and (like Mats) add new features. You can find the schematics (with the Eagle design files) all here. I also used Mats software as a start, but needed to heavily modify it in order
 to run on the new hardware platform.
 
-So, for those of you who have this version of the STC\-1000: enjoy! Because now you can have almost the same functionality as Mats realised in the PIC version of the STC\-1000. There's only one real drawback: the STM8 microcontroller
-only has 128 bytes of EEPROM, so the number of profiles and the number of temperature-time pairs per profile are reduced. But you get more features as a standard (switchable) option (instead of programming a different firmware version).
-
-For those of you willing to do some de-soldering: you can replace the microcontroller with a STM8S103Fs microcontroller that has 640 bytes of EEPROM. Then you have the 6 profiles with all temperature-time pairs again.
-
-Last but not least: I also have PCB boards that replace the existing PCBs which contain
-an Arduino Nano. Then you have everything you want and more: USB connection for easy changing of parameters and profiles, One-Wire temperature sensor support, I2C interface for more fancy stuff and a PID controller.
+So, for those of you who have this version of the STC\-1000: enjoy! Because now you can have almost the same functionality as Mats realised in the PIC version of the STC\-1000. There's only one real drawback: the STM8 uC
+only has 128 bytes of EEPROM, so the number of profiles and the number of temperature-time pairs per profile are reduced. But you get more features as a standard (switchable) option (instead of programming a different firmware version). 
+For those of you willing to do some de-soldering: you can replace the uC with a **STM8S103F3** uC that has 640 bytes of EEPROM. Then you have the 6 profiles with all temperature-time pairs again.
 
 ![STC-1000](img/frontpanel_backplane.jpg)
 
@@ -32,7 +28,7 @@ You'd need one of those fancy coloured ST-Link V2 USB adapter (which are very ch
 the IAR development environment for STM8, which can be downloaded free of charge. Use the code-size limited version. After having installed this, the drivers for the ST-Link USB adapter are also installed.
 ![st-link-v2](img/st_link_v2.png)
 
-The frontpanel PCB has a 4-pin connector (labeled with SIG, RST, VCC and GND). Solder some pins to this and connect the ST-Link adapter (use GND-GND, RST-RST and SWIM-SIG. VCC is not needed). This is all you need to reprogram the device! 
+The frontpanel PCB already has a 4-pin connector (labeled with SIG, RST, VCC and GND). Solder some pins to this and connect the ST-Link adapter (use GND-GND, RST-RST and SWIM-SIG. VCC is not needed). This is all you need to reprogram the device! 
 Power-up the STC\-1000 and connect the ST-Link V2 USB. 
 If you have downloaded the project- and source-files, open the project in IAR, do a Project->Rebuild All and then press Ctrl-D. This opens the debugger and transfers the code to the microcontroller. The first time you do this, a message pops up stating that
 protection bits are set and these need to be cleared. If you do this (necessary if you want to reprogram the uC), the program present is erased (with no way of getting this back!).
@@ -43,14 +39,38 @@ Remove the wires, re-cycle power and you are good to go!
 
 Schematics
 ----------
-I reversed engineered both the frontpanel PCB as well as the backplane PCB. The frontpanel PCB holds the buttons, the 7-segment display (3 digit common-cathode) as well as the STM8S003F3 uC. There's an ingenious soldered connection to the
+I reversed engineered both the frontpanel PCB as well as the backplane PCB. The frontpanel PCB holds the buttons, the 7-segment display (3 digit common-cathode) as well as the **STM8S003F3** uC. There's an ingenious soldered connection to the
 backplane that holds both relays (able to switch 12A at 230VAC), the power-supply (12V and 5V) and the connectors. The schematics were made with the Eagle PCB program.
 
 ![frontpanel](img/schematics_frontpanel.png)
+*Eagle schematic of the Frontpanel*
 
-An interesting feature are the S1 and S2 lines. It looks likes this is an I2C interface. Interesting feature for those of you willing to do some more hacking! With the current hardware, it is only used for multiplexing the 7-segment display.
+An interesting feature are the **S1** and **S2** lines. It looks likes this is an I2C interface. Interesting feature for those of you willing to do some more hacking! With the current hardware, it is only used for multiplexing the 7-segment display.
 
 ![backplane](img/schematics_backplane.png)
+*Eagle schematic of the Backplane*
+
+Replacing the STM8S003F3 uC
+-----------------------------
+You do not need to do this, but if you replace the existing **STM8S003F3** microcontroller (uC) with a **STM8S103F3** uC, you get 640 bytes of EEPROM and you can have 6 profiles with up to 9 temperature-time pairs (same as in Mats his version).
+You can skip this section if you are not into soldering small devices and the default profiles are oke for you. You would need the following:
+- A new **STM8S103F3P6** device (Mouser part nr. 511-STM8S103F3P6). This is a 20-pin TSSOP package.
+- A hot-air rework station for SMD devices.
+- A soldering iron.
+- Solder wick.
+- Solder paste. This typically comes with an injection-needle for applying just a little paste on every solder pad.
+
+To start with, we want to remove the frontpanel PCB from the backplane. Remove all the solder-joint with the solder wick. Place the solder wick over the solder-joints, heat it up with the soldering iron and make sure that the solder wick absorbs all solder.
+After having done this, it is possible to remove the frontpanel from the backplane with just a little bit of pulling. Be careful, since you don't want to break anything.
+![frontpanel removed](img/frontpanel_bottom_view.jpg)
+*This is how it looks after the frontpanel is removed from the backplane*
+
+NExt: use the hot-air to heat-up one side of the uC. Use a sharp knife and place this under the uC. Carefully lift-up one side. If this is done, let it cool down and heat-up the other side.
+When the solder melts, it is easy to remove the uC. Use the solder-wick again to remove excess solder from the solder-pads.
+
+Then: apply solder paste to the solder-pads of the uC and position the STM8S103F3P6 exactly above the pads. Note the orientation of the device! It would be wise at this point to connect the ST-Link V2 USB device to the programming connector and see if
+the device is seen. If all is well, solder both PCB boards back together.
+
 
 Introduction (taken from https://github.com/matsstaff/stc1000p)
 ----------------------------------------------------------

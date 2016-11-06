@@ -13,9 +13,10 @@ Mats Staffansson / Emile
 
 * Fahrenheit or Celsius display selectable with CF parameter
 * Minutes or hours time-base selectable with Hrs parameter
-* Second temperature probe functionality selectable with Pb2 parameter
-* PID-controller selectable with adjustbale Kc, Ti, Td and Ts parameters
+* PID-controller selectable with adjustable Kc, Ti, Td and Ts parameters
+* PID-output signal (slow PWM, T=0.2 sec) present at S3 output for connection to a Solid-State Realy (SSR)
 * Standard thermostat functionality available when PID-controller is disabled (TS parameter set to 0)
+* Second temperature probe functionality selectable with Pb2 parameter
 * Up to 4 profiles with up to 6 setpoints (6 profiles with 10 setpoints if the STM8S003F3 is replaced with a STM8S103FS uC)
 * Each setpoint can be held for 1-999 hours (i.e. up to ~41 days).
 * Approximative ramping
@@ -40,8 +41,8 @@ The menu is divided in two steps. When first pressing 'S', the following choices
 |Pr1|Set parameters for profile 1|
 |Pr2|Set parameters for profile 2|
 |Pr3|Set parameters for profile 3|
-|Pr4|Set parameters for profile 4 (not with STM8S003F3 uC)|
-|Pr5|Set parameters for profile 5 (not with STM8S003F3 uC)|
+|Pr4|Set parameters for profile 4 (STM8S103F3 only)|
+|Pr5|Set parameters for profile 5 (STM8S103F3 only)|
 |Set|Settings menu|
 *Table 2: Menu items*
 
@@ -54,8 +55,8 @@ Pr0-3 submenus have the following items:
 |SP0|Set setpoint 0|-40.0 to 140͒°C or -40.0 to 250°F|
 |dh0|Set duration 0|0 to 999 hours|
 |...|Set setpoint/duration x|...|
-|dh4|Set duration 4|0 to 999 hours|
-|SP5|Set setpoint 5|-40.0 to 140°C or -40.0 to 250°F|
+|dh4 (dh8 with STM8S103F3)|Set duration 8 (9)|0 to 999 hours|
+|SP5 (SP9 with STM8S103FS)|Set setpoint 5 (9)|-40.0 to 140°C or -40.0 to 250°F|
 *Table 3: Profile sub-menu items*
 
 You can change all the setpoints and durations associated with that profile from here. When running the programmed profile, *SP0* will be the initial setpoint, it will be held for *dh0* hours (unless ramping is used). 
@@ -123,7 +124,7 @@ The delay can be used to prevent oscillation (hunting). For example, setting an 
 
 **Ts**, this is the sample-time for the PID controller. The PID-controller runs every Ts seconds. When set to 0, the PID-controller is disabled and normal thermostat (on-off) control is enabled. See below for a more detailed explanation.
 
-**Run mode**, selecting *Pr0* to *Pr3* will start the corresponding profile running from step 0, duration 0. Selecting *th* (when Ts = 0) or *PId* (when Ts > 0) will switch to thermostat/PID mode, the last setpoint from the previously running profile will be retained as the current setpoint when switching from a profile to thermostat/PID mode.
+**Run mode**, selecting *Pr0* to *Pr3* (*Pr5* with STM8S103F3) will start the corresponding profile running from step 0, duration 0. Selecting *th* (when Ts = 0) or *PId* (when Ts > 0) will switch to thermostat/PID mode, the last setpoint from the previously running profile will be retained as the current setpoint when switching from a profile to thermostat/PID mode.
 
 
 ## Thermostat mode
@@ -138,12 +139,16 @@ When the Ts parameter is set to a value > 0, the PID-controller is enabled and t
 The PID-controller is controlled with the *proportional gain*, *integral time-constant* and the *differential time-constant*. They all work closely together. For more information on how to select optimum settings for a PID-controller, please refer to 
 http://www.vandelogt.nl/uk_regelen_pid.php
 
-The pid-output is a percentage between -100.0 and +100.0 %. It is in E-1 %, so a value of 123 actually means 12.3 %. This value can be seen by pressing the PWR button twice (one press shows the 2nd temperature, the 2nd press shows the pid-output percentage). When the value is greater than 0, it indicates that
-the temperature is too low and heating should be applied. When the value is negative, the temperature is too high and cooling should be applied. The pid-output percentage controls both the heating and the cooling relays. The way to do this is with the
-*hysteresis* and *hysteresis 2* parameters.
+The pid-output is a percentage between -100.0 and +100.0 %. It is in E-1 %, so a value of 123 actually means 12.3 %. This value can be seen by pressing the PWR button twice (one press shows the 2nd temperature, the 2nd press shows the pid-output percentage). When this value is greater than 0, it indicates that
+the actual temperature is too low and heating should be applied. When this value is negative, the temperature is too high and cooling should be applied. The pid-output percentage is available at the S3 output as a slow PWM signal (period-time is 5 seconds), with the duty-cycle corresponding with the PID-output percentage.
+For example: if the pid-output is equal to 200 (20.0 %), the S3 output is low (0 V) for 1 second and high (+5 V) for 4 seconds.
 
-**PID control example**: suppose that *hysteresis* is set to 50 and *hysteresis 2* is set to 100. When the pid-output percentage exceeds 10 % (100), the heating relay is switched on. When the pid-output drops below 5 % (50), the heating relay is switched off again.
-Suppose that the pid-output further drops and becomes negative. If it becomes less than -10 % (-100), the cooling relay is switched on. When the pid-output then increases again, the cooling relay is switched off again when it crosses -5 % (-50).
+The PID-output also controls both the heating and the cooling relays. The way to do this is with the *hysteresis* and *hysteresis 2* parameters.
+
+**PID control example**: suppose that *hysteresis* is set to 50 (5 %) and *hysteresis 2* is set to 100 (10 %). When the pid-output percentage exceeds 100 (10 %), the heating relay is switched on. When the pid-output drops below 50 (5 %), the heating relay is switched off again.
+Suppose that the pid-output further drops and becomes negative. If it becomes less than -100 (-10 %), the cooling relay is switched on. When the pid-output then increases again, the cooling relay is switched off again when it crosses -5 % (-50).
+
+Note that the S3 output also outputs the PWM signal when the PID-controller output is less than 0. So -100 (-10 %) is seen as a duty-cycle of 10 %. You can use the relay to indicate whether you are cooling or heating.
 
 ## Running profiles
 
@@ -193,6 +198,20 @@ It should also be noted, that it would be a very good idea to make sure the two 
 
 To enable use of the second temp probe in the thermostat logic (i.e. to enable *hy2* limits on temperature2), set *Pb2* = 1. Even with with it disabled it is still possible to switch to display the second temperature input using a short press on the power button. 
 
+## PID-output for connection to a Solid-State Relay (SSR)
+
+The PID-output signal is available at the rear of the STC-1000, but it is not wired yet. I soldered some output pins to this, so you can connect a SSR to this.
+![S3 output](img/s3_output.jpg)<br>
+* The S3 output port (left black pin is GND (0 V), right black-pin is the S3 output*
+
+Although the microcontroller has sufficient capability to drive a SSR directly, there's a resistor mounted in series with the output pin. It is labeled as C5, but it is clearly a resistor with a value of 5.1 kOhms. This could be too high to drive a SSR directly,
+better is to use an additional transistor (and resistor) in order to drive a SSR. Use the following schematic to connect a SSR properly.
+![S3 transistor](img/s3_interface.png)<br>
+*Schematic how to wire the S3 output to a SSR*
+
+The +5V can be taken from the temperature sensor connector. The middle pin is the +5V. If you wire it like this, you don't need to change the resistor within the STC-1000. Only solder these 2 pins and you have a pid-output that connects properly to a SSR.
+I used a 220 Ohms resistor. This give you approximately 10 mA (the LED within the SSR typically uses 3V, so there's 2 V left). If you need more/less, change the resistor appropriately.
+ 
 ## Additional features
 
 **Sensor alarm**, if the measured temperature is out of range (indicating the sensor is not connected properly or broken), the internal buzzer will sound and display will show 'AL'. If secondary probe is enabled for thermostat control (*Pb2* = 1), then alarm will go off if that temperature goes out of range as well. On alarm, both relays will be disengaged and the heating and cooling delay will be reset to 1 minute. So, once the temperature in in range again (i.e. sensor is reconnected), temperature readings can stabilize before thermostat control takes over.
