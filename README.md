@@ -42,12 +42,12 @@ Schematics
 I reversed engineered both the frontpanel PCB as well as the backplane PCB. The frontpanel PCB holds the buttons, the 7-segment display (3 digit common-cathode) as well as the **STM8S003F3** uC. There's an ingenious soldered connection to the
 backplane that holds both relays (able to switch 12A at 230VAC), the power-supply (12V and 5V) and the connectors. The schematics were made with the Eagle PCB program.
 
-![frontpanel](img/schematics_frontpanel.png)
+![frontpanel](img/schematics_frontpanel.png)<br>
 *Eagle schematic of the Frontpanel*
 
 An interesting feature are the **S1** and **S2** lines. It looks likes this is an I2C interface. Interesting feature for those of you willing to do some more hacking! With the current hardware, it is only used for multiplexing the 7-segment display.
 
-![backplane](img/schematics_backplane.png)
+![backplane](img/schematics_backplane.png)<br>
 *Eagle schematic of the Backplane*
 
 Replacing the STM8S003F3 uC
@@ -62,7 +62,7 @@ You can skip this section if you are not into soldering small devices and the de
 
 To start with, we want to remove the frontpanel PCB from the backplane. Remove all the solder-joint with the solder wick. Place the solder wick over the solder-joints, heat it up with the soldering iron and make sure that the solder wick absorbs all solder.
 After having done this, it is possible to remove the frontpanel from the backplane with just a little bit of pulling. Be careful, since you don't want to break anything.
-![frontpanel removed](img/frontpanel_bottom_view.jpg)
+![frontpanel removed](img/frontpanel_bottom_view.jpg)<br>
 *This is how it looks after the frontpanel is removed from the backplane*
 
 NExt: use the hot-air to heat-up one side of the uC. Use a sharp knife and place this under the uC. Carefully lift-up one side. If this is done, let it cool down and heat-up the other side.
