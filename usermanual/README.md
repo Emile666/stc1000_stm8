@@ -14,7 +14,7 @@ Mats Staffansson / Emile
 * Fahrenheit or Celsius display selectable with CF parameter
 * Minutes or hours time-base selectable with Hrs parameter
 * PID-controller selectable with adjustable Kc, Ti, Td and Ts parameters
-* PID-output signal (slow PWM, T=0.2 sec) present at S3 output for connection to a Solid-State Realy (SSR)
+* PID-output signal (slow PWM, T=0.2 sec) present at S3 output for connection to a Solid-State Relay (SSR)
 * Standard thermostat functionality available when PID-controller is disabled (TS parameter set to 0)
 * Second temperature probe functionality selectable with Pb2 parameter
 * Up to 4 profiles with up to 6 setpoints (6 profiles with 10 setpoints if the STM8S003F3 is replaced with a STM8S103FS uC)
@@ -30,7 +30,7 @@ Mats Staffansson / Emile
 
 ## Navigation and menus
 
-By default the current temperature is displayed in C or F on the display, depending on the CF parameter. Pressing the 'S' button enters the menu. Pressing button 'Up' and 'Down' scrolls through the menu items. 
+By default the current temperature is displayed in °C or °F on the display, depending on the CF parameter. Pressing the 'S' button enters the menu. Pressing button 'Up' and 'Down' scrolls through the menu items. 
 Button 'S' selects and 'Power' button steps back or cancels current selection.
 
 The menu is divided in two steps. When first pressing 'S', the following choices are presented:
@@ -129,9 +129,7 @@ The delay can be used to prevent oscillation (hunting). For example, setting an 
 
 ## Thermostat mode
 
-When mode is set to thermostat (the Ts parameter needs to be set to 0), setpoint, *SP*, will not change and the controller will aim to keep the temperature to within the range of *SP* ± *hy*. Much like how the normal STC-1000 firmware works.
-
-The thermostat control runs once every second.
+When mode is set to thermostat (the Ts parameter needs to be set to 0), setpoint, *SP*, will not change and the controller will aim to keep the temperature to within the range of *SP* ± *hy*. Much like how the normal STC-1000 firmware works. The thermostat control runs once every second.
 
 ## PID-Control mode
 
@@ -252,6 +250,6 @@ Project home at [Github](https://github.com/Emile666/stc1000_stm8/)
 
 # Acknowledgements
 
-Many thanks to Mats Staffansson (https://github.com/matsstaff/stc1000p) for initial development of a STC1000+ on the A400_P hardware (containing a PIC18F1828 microcontroller). The STM8S003FS device is a bit more advanced and I was
+Many thanks to Mats Staffansson (https://github.com/matsstaff/stc1000p) for initial development of a STC1000+ on the A400_P hardware (containing a **PIC18F1828** microcontroller). The **STM8S003F3** device is a bit more advanced and I was
 intrigued by the idea of doing the same as Mats has done. In the end I ended with a few more features than he had (and also fewer, since he had more different firmwares).
 
