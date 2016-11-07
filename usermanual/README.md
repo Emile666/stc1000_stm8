@@ -14,7 +14,7 @@ Mats Staffansson / Emile
 * Fahrenheit or Celsius display selectable with CF parameter
 * Minutes or hours time-base selectable with Hrs parameter
 * PID-controller selectable with adjustable Kc, Ti, Td and Ts parameters
-* PID-output signal (slow PWM, T=0.2 sec) present at S3 output for connection to a Solid-State Relay (SSR)
+* PID-output signal (slow PWM, T=12.5 sec) present at S3 output for connection to a Solid-State Relay (SSR)
 * Standard thermostat functionality available when PID-controller is disabled (TS parameter set to 0)
 * Second temperature probe functionality selectable with Pb2 parameter
 * Up to 4 profiles with up to 6 setpoints (6 profiles with 10 setpoints if the STM8S003F3 is replaced with a STM8S103FS uC)
@@ -122,7 +122,8 @@ The delay can be used to prevent oscillation (hunting). For example, setting an 
 
 **Td**, this is the differential time-constant for the PID controller. See below for a more detailed explanation.
 
-**Ts**, this is the sample-time for the PID controller. The PID-controller runs every Ts seconds. When set to 0, the PID-controller is disabled and normal thermostat (on-off) control is enabled. See below for a more detailed explanation.
+**Ts**, this is the sample-time for the PID controller. The PID-controller runs every Ts seconds. When set to 0, the PID-controller is disabled and normal thermostat (on-off) control is enabled. If you set this time too small, the pid-controller
+becomes too sensitive for changes in temperature. A decent value for temperature control is around 20-30 seconds (yes, that slow! It's temperature remember, doesn't change that quick). See below for a more detailed explanation.
 
 **Run mode**, selecting *Pr0* to *Pr3* (*Pr5* with STM8S103F3) will start the corresponding profile running from step 0, duration 0. Selecting *th* (when Ts = 0) or *PId* (when Ts > 0) will switch to thermostat/PID mode, the last setpoint from the previously running profile will be retained as the current setpoint when switching from a profile to thermostat/PID mode.
 
@@ -133,7 +134,7 @@ When mode is set to thermostat (the Ts parameter needs to be set to 0), setpoint
 
 ## PID-Control mode
 
-When the Ts parameter is set to a value > 0, the PID-controller is enabled and the thermostat-control is disabled. The PID-controller uses a sophisticated algorithm (a velocity algorithm) where the new output value is based upon the previous output value.
+When the Ts parameter is set to a value > 0, the PID-controller is enabled and the thermostat-control is disabled. The PID-controller uses a sophisticated algorithm (a Takahashi Type C velocity algorithm) where the new output value is based upon the previous output value.
 The PID-controller is controlled with the *proportional gain*, *integral time-constant* and the *differential time-constant*. They all work closely together. For more information on how to select optimum settings for a PID-controller, please refer to 
 http://www.vandelogt.nl/uk_regelen_pid.php
 

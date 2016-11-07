@@ -82,6 +82,7 @@ After having done this, it is possible to remove the frontpanel from the backpla
 
 Next: use the hot-air to heat-up one side of the uC. Use a sharp knife and place it under the uC. Carefully lift-up one side. If this is done, let it cool down and heat-up the other side.
 When the solder melts, it is easy to remove the uC. Use the solder-wick again to remove excess solder from the solder-pads.
+If you don't have access to a hot-air rework station, here's a tip from Mats himself: one can can simply thread a thin wire under the legs on one side of the IC, fix one end of the wire and heat the legs with a soldering iron (starting at the other end) while keeping the wire under tension. As the solder melts, you pull the wire under the leg/pad, freeing them.
 
 Then: apply solder paste to the solder-pads of the uC and position the **STM8S103F3P6** exactly above the pads. Note the orientation of the device (there's a small circle denoting pin 1), you don't want to solder it upside-down! It would be wise at this point to connect the ST-Link V2 USB device to the programming connector and see if
 you can connect to the device. If all is well, solder both PCB boards back together.
