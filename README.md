@@ -70,7 +70,7 @@ Replacing the STM8S003F3 uC for more EEPOM size
 You do not need to do this, but if you replace the existing **STM8S003F3** microcontroller (uC) with a **STM8S103F3** uC, you get 640 bytes of EEPROM and you can have 6 profiles with up to 9 temperature-time pairs (same as in Mats his version).
 You can skip this section if you are not into soldering small devices and the default profiles are oke for you. To replace the device, you would need the following:
 - A new **STM8S103F3P6** device (Mouser part nr. 511-STM8S103F3P6). This is a 20-pin TSSOP package that costs about a $1.
-- A hot-air rework station for SMD devices.
+- A hot-air rework station for SMD devices (I bought a 858D hot-air station that is very affordable on ebay)
 - A soldering iron.
 - Solder wick.
 - Solder paste. This typically comes with an injection-needle for applying just a little paste on every solder pad.
@@ -82,6 +82,7 @@ After having done this, it is possible to remove the frontpanel from the backpla
 
 Next: use the hot-air to heat-up one side of the uC. Use a sharp knife and place it under the uC. Carefully lift-up one side. If this is done, let it cool down and heat-up the other side.
 When the solder melts, it is easy to remove the uC. Use the solder-wick again to remove excess solder from the solder-pads.
+
 If you don't have access to a hot-air rework station, here's a tip from Mats himself: one can can simply thread a thin wire under the legs on one side of the IC, fix one end of the wire and heat the legs with a soldering iron (starting at the other end) while keeping the wire under tension. As the solder melts, you pull the wire under the leg/pad, freeing them.
 
 Then: apply solder paste to the solder-pads of the uC and position the **STM8S103F3P6** exactly above the pads. Note the orientation of the device (there's a small circle denoting pin 1), you don't want to solder it upside-down! It would be wise at this point to connect the ST-Link V2 USB device to the programming connector and see if

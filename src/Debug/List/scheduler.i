@@ -1,4 +1,4 @@
-#line 1 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\scheduler.c"
+#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.c"
 /*==================================================================
   File Name    : scheduler.c
   Author       : Emile
@@ -22,7 +22,7 @@
   $Log: $
   ==================================================================
 */ 
-#line 1 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\scheduler.h"
+#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.h"
 /*==================================================================
   File Name    : scheduler.h
   Author       : Emile
@@ -1941,7 +1941,7 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 27 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\scheduler.h"
+#line 27 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdbool.h"
 /* stdbool.h header */
 /* Copyright 2003-2010 IAR Systems AB.  */
@@ -1972,7 +1972,7 @@ V5.04:0576 */
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 28 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\scheduler.h"
+#line 28 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
 /* string.h standard header */
 /* Copyright 2009-2010 IAR Systems AB. */
@@ -2245,7 +2245,7 @@ _Pragma("function_effects = no_state, no_errno, no_write(1,2)") __intrinsic __no
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 29 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\scheduler.h"
+#line 29 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.h"
 
 
 
@@ -2278,7 +2278,7 @@ uint8_t enable_task(char *Name);
 uint8_t disable_task(char *Name);
 void    list_all_tasks(_Bool rs232_udp);
 
-#line 25 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\scheduler.c"
+#line 25 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.c"
 
 task_struct task_list[(5)]; // struct with all tasks
 uint8_t     max_tasks = 0;

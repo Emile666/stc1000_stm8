@@ -1,12 +1,13 @@
-#line 1 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\pid.c"
+#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.c"
 /*==================================================================
   File name    : pid.c
   Author       : Emile
   ------------------------------------------------------------------
   Purpose : This file contains the main body of the PID controller.
 
-            For design details, please check the website:
-            http://www.vandelogt.nl/uk_regelen_pid.php
+           For design details, please check:
+           document: PID_Controller_Calculus.pdf
+           website : http://www.vandelogt.nl/uk_regelen_pid.php
 
             With the GUI, the following parameters can be changed:
             Kc: The controller gain in %/°C
@@ -30,7 +31,7 @@
   $Log: $
   ==================================================================
 */
-#line 1 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\pid.h"
+#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.h"
 /*==================================================================
   File name    : pid.h
   Author       : Emile
@@ -1946,19 +1947,21 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 26 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\pid.h"
+#line 26 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.h"
 
 // PID controller upper & lower limit [E-1 %]
+// Set GMA_LLIM to 0 if PID should only control heating
+// Set GMA_LLIM to -1000 if PID should also control cooling
 
 
 
 //--------------------
 // Function Prototypes
 //--------------------
-void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t xk);
-void pid_reg(int16_t xk, int16_t *yk, uint16_t tset);
+void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk);
+void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset);
 
-#line 33 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\pid.c"
+#line 34 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.c"
 
 uint16_t kc = 0;   // Parameter value for Kc value in %/°C
 uint16_t ti = 0;   // Parameter value for I action in seconds
@@ -1968,10 +1971,10 @@ uint8_t  ts = 0;   // Parameter value for sample time [sec.]
 uint32_t ki;       // Internal value for I action
 uint32_t kd;       // Internal value for D action
 int32_t  pp;       // debug
-int16_t  xk_1;     // x[k-1]
-int16_t  xk_2;     // x[k-2]
+int16_t  yk_1;     // y[k-1]
+int16_t  yk_2;     // y[k-2]
 
-void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t xk)
+void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk)
 /*------------------------------------------------------------------
   Purpose  : This function initialises the Takahashi Type C PID
              controller.
@@ -1979,7 +1982,7 @@ void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t xk)
              ti: Ti parameter value in seconds ; controls I-action
              td: Td parameter value in seconds ; controls D-action
              ts: Ts parameter sample-time of pid-controller in seconds
-             xk: actual temperature value
+             yk: actual temperature value
 
                    Kc.Ts
              ki =  -----   (for I-term)
@@ -1997,42 +2000,41 @@ void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t xk)
    if (ts == 0) kd = 0;
    else         kd = (((uint32_t)kc * td) / ts);
    
-   xk_2 = xk_1 = xk; // init. previous samples to current temperature
+   yk_2 = yk_1 = yk; // init. previous samples to current temperature
 } // init_pid()
 
-void pid_reg(int16_t xk, int16_t *yk, uint16_t tset)
+void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset)
 /*------------------------------------------------------------------
   Purpose  : This function implements the Takahashi Type C PID
              controller: the P and D term are no longer dependent
-             on the set-point, only on PV.
-             The D term is NOT low-pass filtered.
+             on the setpoint, only on PV.
              This function should be called once every TS seconds.
   Variables:
-        xk : The input variable x[k] (= measured temperature in E-1 °C)
-       *yk : The output variable y[k] [-1000..+1000] in E-1 %
-      tset : The setpoint value for the temperature in E-1 °C
+        yk : The input variable y[k] (= measured temperature in E-1 °C)
+       *uk : The pid-output variable u[k] [-1000..+1000] in E-1 %
+      tset : The setpoint value w[k] for the temperature in E-1 °C
   Returns  : No values are returned
   ------------------------------------------------------------------*/
 {
-    //--------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------
     // Takahashi Type C PID controller:
     //
-    // e[k] = w[k] - x[k]
+    // e[k] = w[k] - y[k]
     //                                    Kc.Ts        Kc.Td
-    // y[k] = y[k-1] + Kc.(x[k-1]-x[k]) + -----.e[k] + -----.(2.x[k-1]-x[k]-x[k-2])
+    // u[k] = u[k-1] + Kc.(y[k-1]-y[k]) + -----.e[k] + -----.(2.y[k-1]-y[k]-y[k-2])
     //                                      Ti           Ts
     //
-    //--------------------------------------------------------------------------------
-    pp   = (uint32_t)kc * (xk_1 - xk);     // Kc.(x[k-1]-x[k])
-    pp  += ki * (tset - xk);               // (Kc.Ts/Ti).e[k]
-    pp  += kd * ((xk_1 << 1) - xk - xk_2); // (Kc.Td/Ts).(2.x[k-1]-x[k]-x[k-2])
-    *yk += (int16_t)pp;
-    // limit y[k] to GMA_HLIM and GMA_LLIM
-    if (*yk > ( 1000))      *yk = ( 1000);
-    else if (*yk < (-1000)) *yk = (-1000);
+    //-----------------------------------------------------------------------------
+    pp   = (uint32_t)kc * (yk_1 - yk);     // Kc.(y[k-1]-y[k])
+    pp  += ki * (tset - yk);               // (Kc.Ts/Ti).e[k]
+    pp  += kd * ((yk_1 << 1) - yk - yk_2); // (Kc.Td/Ts).(2.y[k-1]-y[k]-y[k-2])
+    *uk += (int16_t)pp;
+    // limit u[k] to GMA_HLIM and GMA_LLIM
+    if (*uk > ( 1000))      *uk = ( 1000);
+    else if (*uk < (-1000)) *uk = (-1000);
 
-    xk_2  = xk_1; // x[k-2] = x[k-1]
-    xk_1  = xk;   // x[k-1] = x[k]
-} // pid_reg()
+    yk_2  = yk_1; // y[k-2] = y[k-1]
+    yk_1  = yk;   // y[k-1] = y[k]
+} // pid_ctrl()
 
 

@@ -1,22 +1,23 @@
 ###############################################################################
 #
-# IAR ELF Linker V2.20.1.176 for STM8                     08/Nov/2016  00:04:03
+# IAR ELF Linker V2.20.1.176 for STM8                     08/Nov/2016  23:25:08
 # Copyright 2010-2015 IAR Systems AB.
 #
 #    Output file  =  
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Exe\stc1000p.out
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Exe\stc1000p.out
 #    Map file     =  
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\List\stc1000p.map
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\List\stc1000p.map
 #    Command line =  
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Obj\adc.o
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Obj\eep.o
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Obj\pid.o
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Obj\scheduler.o
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Obj\stc1000p.o
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Obj\stc1000p_lib.o
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Obj\adc.o
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Obj\eep.o
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Obj\pid.o
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Obj\scheduler.o
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Obj\stc1000p.o
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Obj\stc1000p_lib.o
 #        --redirect _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb -o
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Exe\stc1000p.out --map
-#        D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\List\stc1000p.map
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Exe\stc1000p.out
+#        --map
+#        D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\List\stc1000p.map
 #        --config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        7.3\stm8\config\lnkstm8s003f3.icf" --config_def _CSTACK_SIZE=0x100
 #        --config_def _HEAP_SIZE=0x100 --entry __iar_program_start --debug_lib
@@ -334,7 +335,7 @@ Copy (__iar_copy_init2)
     Module                 ro code  ro data  rw data  rw data
                                                        (abs)
     ------                 -------  -------  -------  -------
-D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Obj: [1]
+D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Obj: [1]
     adc.o                      301      128                 6
     eep.o                      123                          2
     pid.o                      308                23
@@ -620,8 +621,8 @@ minutes                 0x0000c3    0x1  Data  Gb  stc1000p_lib.o [1]
 mpx_nr                  0x0000b9    0x1  Data  Gb  stc1000p.o [1]
 multiplexer             0x00927f   0xca  Code  Gb  stc1000p.o [1]
 pid_control             0x008c41  0x15c  Code  Gb  stc1000p_lib.o [1]
+pid_ctrl                0x009571   0xa0  Code  Gb  pid.o [1]
 pid_out                 0x0000ac    0x2  Data  Gb  stc1000p_lib.o [1]
-pid_reg                 0x009571   0xa0  Code  Gb  pid.o [1]
 pid_to_time             0x009854   0x7c  Code  Gb  stc1000p.o [1]
 portb                   0x0000bb    0x1  Data  Gb  stc1000p.o [1]
 portc                   0x0000bc    0x1  Data  Gb  stc1000p.o [1]
@@ -654,11 +655,11 @@ ti                      0x000092    0x2  Data  Gb  pid.o [1]
 ts                      0x0000b2    0x1  Data  Gb  pid.o [1]
 update_profile          0x008ee6  0x148  Code  Gb  stc1000p_lib.o [1]
 value_to_led            0x009175  0x10a  Code  Gb  stc1000p_lib.o [1]
-xk_1                    0x000096    0x2  Data  Gb  pid.o [1]
-xk_2                    0x000098    0x2  Data  Gb  pid.o [1]
+yk_1                    0x000096    0x2  Data  Gb  pid.o [1]
+yk_2                    0x000098    0x2  Data  Gb  pid.o [1]
 
 
-[1] = D:\Dropbox\Programming\IAR\stc1000p_dev\Debug\Obj
+[1] = D:\Dropbox\Programming\Github\stc1000_stm8\src\Debug\Obj
 [2] = command line
 [3] = dbgstm8smd.a
 [4] = dlstm8smn.a

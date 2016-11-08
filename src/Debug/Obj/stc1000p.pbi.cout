@@ -1,4 +1,4 @@
-"D:\Dropbox\Programming\IAR\stc1000p_dev\stc1000p.c"
+"D:\Dropbox\Programming\Github\stc1000_stm8\src\stc1000p.c"
 -std=c99
 -ferror-limit=100
 -I

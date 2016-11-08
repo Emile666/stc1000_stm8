@@ -1,4 +1,4 @@
-#line 1 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\eep.c"
+#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\eep.c"
 /*==================================================================
   File Name    : eep.c
   Author       : Emile
@@ -23,7 +23,7 @@
   $Log: $
   ==================================================================
 */ 
-#line 1 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\eep.h"
+#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\eep.h"
 /*==================================================================
   File Name    : eep.h
   Author       : Emile
@@ -49,7 +49,7 @@
 
 
 
-#line 1 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\stc1000p.h"
+#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 /*==================================================================
   File Name    : stc1000p.h
   Author       : Mats Staffansson / Emile
@@ -3270,7 +3270,7 @@ __near __no_init volatile  unsigned char DM_ENFCTR @ 0x7F9A;;
 /*----------------------------------------------
  *      End of file
  *--------------------------------------------*/
-#line 60 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\stc1000p.h"
+#line 60 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
 /* stdint.h standard header */
 /* Copyright 2003-2010 IAR Systems AB.  */
@@ -5164,7 +5164,7 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 61 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\stc1000p.h"
+#line 61 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
      
 /* Define STC-1000+ version number (XYY, X=major, YY=minor) */
 /* Also, keep track of last version that has changes in EEPROM layout */
@@ -5191,11 +5191,11 @@ V5.04:0576 */
 
 
 
-#line 98 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\stc1000p.h"
+#line 98 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
      
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 136 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\stc1000p.h"
+#line 136 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 
 typedef union
 {
@@ -5244,7 +5244,7 @@ void std_task(void);
 void ctrl_task(void);
 void prfl_task(void);
 
-#line 27 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\eep.h"
+#line 27 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\eep.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
 /* stdint.h standard header */
 /* Copyright 2003-2010 IAR Systems AB.  */
@@ -5256,7 +5256,7 @@ void prfl_task(void);
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 28 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\eep.h"
+#line 28 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\eep.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\intrinsics.h"
 /**************************************************
  *
@@ -5315,7 +5315,7 @@ typedef unsigned char __istate_t;
 
 #pragma language=restore
 
-#line 29 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\eep.h"
+#line 29 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\eep.h"
 
 // EEPROM base address within STM8 uC
 
@@ -5324,7 +5324,7 @@ typedef unsigned char __istate_t;
 uint16_t eeprom_read_config(uint8_t eeprom_address);
 void     eeprom_write_config(uint8_t eeprom_address,uint16_t data);
 
-#line 26 "D:\\Dropbox\\Programming\\IAR\\stc1000p_dev\\eep.c"
+#line 26 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\eep.c"
 
 /*-----------------------------------------------------------------------------
   Purpose  : This function reads a (16-bit) value from the STM8 EEPROM.
