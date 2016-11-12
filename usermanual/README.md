@@ -147,7 +147,7 @@ The PID-output also controls both the heating and the cooling relays. The way to
 **PID control example**: suppose that *hysteresis* is set to 50 (5 %) and *hysteresis 2* is set to 100 (10 %). When the pid-output percentage exceeds 100 (10 %), the heating relay is switched on. When the pid-output drops below 50 (5 %), the heating relay is switched off again.
 Suppose that the pid-output further drops and becomes negative. If it becomes less than -100 (-10 %), the cooling relay is switched on. When the pid-output then increases again, the cooling relay is switched off again when it crosses -5 % (-50).
 
-Note that the S3 output also outputs the PWM signal when the PID-controller output is less than 0. So -100 (-10 %) is seen as a duty-cycle of 10 %. You can use the relay to indicate whether you are cooling or heating.
+Note that the *S3 output* also outputs the PWM signal when the PID-controller output is less than 0. So -100 (-10 %) is seen as a duty-cycle of 10 %. You can use the relay to indicate whether you are cooling or heating.
 
 ## Running profiles
 
@@ -199,9 +199,10 @@ To enable use of the second temp probe in the thermostat logic (i.e. to enable *
 
 ## PID-output for connection to a Solid-State Relay (SSR)
 
-The PID-output signal is available at the rear of the STC-1000, but it is not wired yet. I soldered some output pins to this, so you can connect a SSR to this.
+The PID-output signal is available at the rear of the STC-1000, but it is not wired yet. Best thing is to remove the existing temperature probe connector and re-solder a 5-pin terminal block with a pitch of 5 mm (Mouser part nr. 523-ELM051200). In the picture I improvised with a 3-pin and 2-pin terminal block. 
+Now it is possible to connect a 2nd temperature probe AND an SSR to this.
 ![S3 output](img/s3_output.jpg)<br>
-* The S3 output port (left black pin is GND (0 V), right black-pin is the S3 output*
+*The S3 output port (From left to right: 2nd temp probe, +5V, 1st temp probe, GND, SSR-output)*
 
 Although the microcontroller has sufficient capability to drive a SSR directly, there's a resistor mounted in series with the output pin. It is labeled as C5, but it is clearly a resistor with a value of 5.1 kOhms. This could be too high to drive a SSR directly,
 better is to use an additional transistor (and resistor) in order to drive a SSR. Use the following schematic to connect a SSR properly.
