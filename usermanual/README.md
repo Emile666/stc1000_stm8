@@ -199,17 +199,17 @@ To enable use of the second temp probe in the thermostat logic (i.e. to enable *
 
 ## PID-output for connection to a Solid-State Relay (SSR)
 
-The PID-output signal is available at the rear of the STC-1000, but it is not wired yet. Best thing is to remove the existing temperature probe connector and re-solder a 5-pin terminal block with a pitch of 5 mm (Mouser part nr. 523-ELM051200). In the picture I improvised with a 3-pin and 2-pin terminal block. 
+The PID-output signal is available at the rear of the STC-1000, but it is not wired yet. Best thing is to remove the existing temperature probe connector and re-solder a 5-pin terminal block with a pitch of 5 mm (Mouser part nr. 523-ELM051200). In the picture below I improvised with a 3-pin and 2-pin terminal block. 
 Now it is possible to connect a 2nd temperature probe AND an SSR to this.
 ![S3 output](img/s3_output.jpg)<br>
-*The S3 output port (From left to right: 2nd temp probe, +5V, 1st temp probe, GND, SSR-output)*
+*The S3 output port (From left to right: 2nd temp probe, +5V, 1st temp probe, GND, to SSR)*
 
-Although the microcontroller has sufficient capability to drive a SSR directly, there's a resistor mounted in series with the output pin. It is labeled as C5, but it is clearly a resistor with a value of 5.1 kOhms. This could be too high to drive a SSR directly,
-better is to use an additional transistor (and resistor) in order to drive a SSR. Use the following schematic to connect a SSR properly.
+Although the microcontroller has sufficient capability to drive an SSR directly, there's a resistor mounted in series with the output pin. It is labeled as C5, but it is clearly a resistor with a value of 5.1 kOhms. This could be too high to drive an SSR directly,
+better is to use an additional transistor (and resistor) in order to drive an SSR. Use the following schematic to connect an SSR properly.
 ![S3 transistor](img/s3_interface.png)<br>
-*Schematic how to wire the S3 output to a SSR*
+*Schematic how to wire the S3 output to an SSR*
 
-The +5V can be taken from the temperature sensor connector. The middle pin is the +5V. If you wire it like this, you don't need to change the resistor within the STC-1000. Only solder these 2 pins and you have a pid-output that connects properly to a SSR.
+The +5V can be taken from the temperature sensor connector. The middle pin is the +5V. If you wire it like this, you don't need to change the resistor within the STC-1000. Only solder these 2 pins and you have a pid-output that connects properly to an SSR.
 I used a 220 Ohms resistor. This give you approximately 10 mA (the LED within the SSR typically uses 3V, so there's 2 V left). If you need more/less, change the resistor appropriately.
  
 ## Additional features

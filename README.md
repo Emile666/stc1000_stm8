@@ -60,8 +60,8 @@ backplane that holds both relays (able to switch 12A at 230VAC), the power-suppl
 ![frontpanel](img/schematics_frontpanel.png)<br>
 *Eagle schematic of the Frontpanel*
 
-Two interesting feature are shown in this schematic:
-- The **S1** and **S2** lines. It looks likes this is an I2C interface. Interesting feature for those of you willing to do some more hacking! With the current hardware, it is only used for multiplexing the 7-segment display. It is not used in this firmware version, these lines are solely for multiplexing the 7-segment displays.
+Two interesting features are shown in this schematic:
+- The **S1** and **S2** lines. It looks likes this is an I2C interface. Interesting feature for those of you willing to do some more hacking! It is not used in this firmware version, these lines are solely for multiplexing the 7-segment displays.
 - The **S3** line. Now this is interesting, it is the only hardware pin *NOT* used. The new firmware uses it to switch an SSR (with a slow PWM signal) controlled by a PID-controller. But I guess it can be used for other purposes as well.
 
 ![backplane](img/schematics_backplane.png)<br>
