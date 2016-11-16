@@ -46,6 +46,7 @@ uint8_t   mpx_nr = 0;        // Used in multiplexer() function
 // When in SWIM Debug Mode, PD1/SWIM needs to be disabled (= no IO)
 uint8_t   portd_leds;        // Contains define PORTD_LEDS
 uint8_t   portb, portc, portd, b;// Needed for save_display_state() and restore_display_state()
+int16_t   pwr_on_tmr = 1000;     // Needed for 7-segment display test
 
 // External variables, defined in other files
 extern led_e_t led_e;                 // value of extra LEDs
@@ -117,29 +118,29 @@ void multiplexer(void)
             PC_ODR |= (led_10.raw & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_10.raw << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~CC_10;    // Enable  common-cathode for 10s
-            mpx_nr++;
+            mpx_nr = 1;
             break;
         case 1: // output 1s digit
             PC_ODR |= (led_1.raw & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_1.raw << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~CC_1;     // Enable  common-cathode for 1s
-            mpx_nr++;
+            mpx_nr = 2;
             break;
         case 2: // output 01s digit
             PC_ODR |= (led_01.raw & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_01.raw << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~CC_01;    // Enable common-cathode for 0.1s
-            mpx_nr++;
+            mpx_nr = 3;
             break;
         case 3: // outputs special digits
             PC_ODR |= (led_e.raw & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_e.raw << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~CC_e;     // Enable common-cathode for extras
+        default: // FALL-THROUGH (less code-size)
             mpx_nr = 0;
             break;
-        default:
-            mpx_nr = 0;
-            break;
+            //mpx_nr = 0;
+            //break;
     } // switch            
 } // multiplexer()
 
@@ -158,7 +159,13 @@ __interrupt void TIM2_UPD_OVF_IRQHandler(void)
 	led_10.raw = LED_O;
 	led_1.raw  = led_01.raw = LED_F;
         led_e.raw  = LED_OFF;
+        pwr_on_tmr = 1000; // 1 second
     } // if
+    else if (pwr_on_tmr > 0)
+    {	// 7-segment display test for 1 second
+        pwr_on_tmr--;
+        led_10.raw = led_1.raw  = led_01.raw = led_e.raw  = LED_ON;
+    } // else if
     multiplexer();    // Run multiplexer for Display and Keys
     TIM2_SR1_UIF = 0; // Reset the interrupt otherwise it will fire again straight away.
 } // TIM2_UPD_OVF_IRQHandler()
@@ -191,27 +198,6 @@ void initialise_system_clock(void)
     CLK_SWCR_SWEN  = 1;           //  Enable switching.
     while (CLK_SWCR_SWBSY != 0);  //  Pause while the clock switch is busy.
 } // initialise_system_clock()
-
-/*-----------------------------------------------------------------------------
-  Purpose  : This routine initialises Timer 2 to the default state.
-  Variables: -
-  Returns  : -
-  ---------------------------------------------------------------------------*/
-void initialise_timer2(void)
-{
-    TIM2_CR1   = 0;  // Turn everything TIM2 related off.
-    TIM2_IER   = 0;
-    TIM2_SR2   = 0;
-    TIM2_CCER1 = TIM2_CCER2 = 0;
-    TIM2_CCMR1 = TIM2_CCMR2 = TIM2_CCMR3 = 0;
-    TIM2_CNTRH = TIM2_CNTRL = 0;
-    TIM2_PSCR  = 0;
-    TIM2_ARRH  = TIM2_ARRL  = 0;
-    TIM2_CCR1H = TIM2_CCR1L = 0;
-    TIM2_CCR2H = TIM2_CCR2L = 0;
-    TIM2_CCR3H = TIM2_CCR3L = 0;
-    TIM2_SR1   = 0;
-} // initialise_timer2()
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine initialises Timer 2 to generate a 1 kHz interrupt.
@@ -469,7 +455,6 @@ int main(void)
     __disable_interrupt();
     initialise_system_clock(); // Set system-clock to 16 MHz
     setup_output_ports();      // Init. needed output-ports for LED and keys
-    initialise_timer2();       // Initialise Timer 2 
     setup_timer2();            // Set Timer 2 to 1 kHz
     pwr_on = eeprom_read_config(EEADR_POWER_ON); // check pwr_on flag
     

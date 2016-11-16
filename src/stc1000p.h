@@ -98,41 +98,42 @@
      
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#define LED_OFF	0x00
-#define LED_0	0xE7
-#define LED_1	0x03
-#define LED_2	0xD6
-#define LED_3	0x97
-#define LED_4	0x33
-#define LED_5	0xB5
-#define LED_6	0xF5
-#define LED_7	0x07
-#define LED_8	0xF7
-#define LED_9	0xB7
-#define LED_A	0x77
-#define LED_a	0xD7
-#define LED_b	0xF1
-#define LED_C	0xE4
-#define LED_c	0xD0
-#define LED_d	0xD3
-#define LED_e	0xF6
-#define LED_E	0xF4
-#define LED_F	0x74
-#define LED_H	0x73
-#define LED_h	0x71
-#define LED_I	0x03
-#define LED_J	0xC3
-#define LED_L	0xE0
-#define LED_n	0x51	
-#define LED_O	0xE7
-#define LED_o	0xD1
-#define LED_P	0x76
-#define LED_r	0x50	
-#define LED_S	0xB5
-#define LED_t	0xF0
-#define LED_U	0xE3
-#define LED_u	0xC1
-#define LED_y	0xB3
+#define LED_OFF	(0x00)
+#define LED_ON  (0xFF)
+#define LED_0	(0xE7)
+#define LED_1	(0x03)
+#define LED_2	(0xD6)
+#define LED_3	(0x97)
+#define LED_4	(0x33)
+#define LED_5	(0xB5)
+#define LED_6	(0xF5)
+#define LED_7	(0x07)
+#define LED_8	(0xF7)
+#define LED_9	(0xB7)
+#define LED_A	(0x77)
+#define LED_a	(0xD7)
+#define LED_b	(0xF1)
+#define LED_C	(0xE4)
+#define LED_c	(0xD0)
+#define LED_d	(0xD3)
+#define LED_e	(0xF6)
+#define LED_E	(0xF4)
+#define LED_F	(0x74)
+#define LED_H	(0x73)
+#define LED_h	(0x71)
+#define LED_I	(0x03)
+#define LED_J	(0xC3)
+#define LED_L	(0xE0)
+#define LED_n	(0x51)	
+#define LED_O	(0xE7)
+#define LED_o	(0xD1)
+#define LED_P	(0x76)
+#define LED_r	(0x50)	
+#define LED_S	(0xB5)
+#define LED_t	(0xF0)
+#define LED_U	(0xE3)
+#define LED_u	(0xC1)
+#define LED_y	(0xB3)
 
 typedef union
 {

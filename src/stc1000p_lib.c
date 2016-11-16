@@ -63,7 +63,8 @@ uint8_t  menu_item     = 0;     // Current menu-item: [0..NO_OF_PROFILES]
 uint8_t  config_item   = 0;     // Current index within profile or parameter menu
 uint8_t  m_countdown   = 0;     // Timer used within menu_fsm()
 uint8_t  _buttons      = 0;     // Current and previous value of button states
-int      config_value;          // Current value of menu-item
+int16_t  config_value;          // Current value of menu-item
+int8_t   key_held_tmr;          // Timer for value change acceleration
 uint8_t  sensor2_selected = 0;  // DOWN button pressed < 3 sec. shows 2nd temperature / pid_output
 int16_t  setpoint;              // local copy of SP variable
 uint16_t curr_dur = 0;          // local counter for temperature duration
@@ -226,11 +227,11 @@ void value_to_led(int value, uint8_t decimal)
 void update_profile(void)
 {
   uint8_t  profile_no = eeprom_read_config(EEADR_MENU_ITEM(rn));
-  uint8_t  curr_step;
-  uint8_t  profile_step_eeaddr;
-  uint16_t profile_step_dur;
-  int16_t  profile_next_step_sp;
-  int16_t  profile_step_sp;
+  uint8_t  curr_step;            // Current step number within a profile
+  uint8_t  profile_step_eeaddr;  // Address index in eeprom for step nr in profile
+  uint16_t profile_step_dur;     // Duration of current step
+  int16_t  profile_next_step_sp; // Setpoint value of next step in profile
+  int16_t  profile_step_sp;      // Setpoint value of current step in profile
   uint16_t t;
   int32_t  sp;
   uint8_t  i;
@@ -264,8 +265,8 @@ void update_profile(void)
           curr_dur = 0; // Reset duration
 	  curr_step++;  // Update step
 	  eeprom_write_config(EEADR_MENU_ITEM(St), curr_step);
-      } 
-      else if(eeprom_read_config(EEADR_MENU_ITEM(rP))) 
+      } // if
+      else if (eeprom_read_config(EEADR_MENU_ITEM(rP))) 
       {  // Is ramping enabled?
          profile_step_sp = eeprom_read_config(profile_step_eeaddr);
 	 t  = curr_dur << 6;
@@ -466,6 +467,7 @@ void menu_fsm(void)
        case MENU_SHOW_VERSION: // Show STC1000p version number
             value_to_led(STC1000P_VERSION,LEDS_INT);
 	    led_10.decimal = 1;
+	    led_1.decimal  = 1;
 	    led_e.e.deg    = 0;
 	    led_e.e.c      = 0;
 	    if(!BTN_HELD(BTN_UP | BTN_DOWN)) menustate = MENU_IDLE;
@@ -569,7 +571,7 @@ void menu_fsm(void)
             {   // Timeout, go back to idle state
                 menustate = MENU_IDLE;
 	    } else if(BTN_RELEASED(BTN_PWR))
-            {
+            {   // Go back
                 menustate = MENU_SHOW_MENU_ITEM;
             } else if(BTN_RELEASED(BTN_UP))
             {
@@ -629,15 +631,10 @@ void menu_fsm(void)
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_VALUE:
             if(menu_item < MENU_ITEM_NO)
-            {
-                if(config_item & 0x1)
-                {   // duration, display as integer
-                    value_to_led(config_value,LEDS_INT);
-                } else { // temperature, display in 0.1
-                    value_to_led(config_value,LEDS_TEMP);
-                } // else
-            } else /* if(menu_item == MENU_ITEM_NO) */ 
-            {
+            {   // Display duration as integer, temperature in 0.1
+                value_to_led(config_value, (config_item & 0x1) ? LEDS_INT : LEDS_TEMP);
+            } else 
+            {   /* menu_item == MENU_ITEM_NO */ 
                 type = menu[config_item].type;
                 if(MENU_TYPE_IS_TEMPERATURE(type))
                 {   // temperature, display in 0.1
@@ -649,22 +646,22 @@ void menu_fsm(void)
                     value_to_led(config_value,LEDS_INT);
                 } // else
             } // else
-            m_countdown = TMR_NO_KEY_TIMEOUT;
-            menustate   = MENU_SET_CONFIG_VALUE;
+            m_countdown  = TMR_NO_KEY_TIMEOUT;
+            menustate    = MENU_SET_CONFIG_VALUE;
             break;
        //--------------------------------------------------------------------         
        case MENU_SET_CONFIG_VALUE:
             adr = MI_CI_TO_EEADR(menu_item, config_item);
-            if(m_countdown == 0)
+            if (m_countdown == 0)
             {
                 menustate = MENU_IDLE;
-            } else if(BTN_RELEASED(BTN_PWR))
+            } else if (BTN_RELEASED(BTN_PWR))
             {
                 menustate = MENU_SHOW_CONFIG_ITEM;
             } else if(BTN_HELD_OR_RELEASED(BTN_UP)) 
             {
                 config_value++;
-                if(config_value > 1000)
+                if ((config_value > 1000) || (--key_held_tmr < 0))
                 {
                     config_value += 9;
                 } // if
@@ -673,17 +670,13 @@ void menu_fsm(void)
             } else if(BTN_HELD_OR_RELEASED(BTN_DOWN)) 
             {
                 config_value--;
-                if(config_value > 1000)
+                if ((config_value > 1000) || (--key_held_tmr < 0))
                 {
                     config_value -= 9;
                 } // if
             chk_cfg_acc_label: // label for goto
                 config_value = check_config_value(config_value, adr);
-                //if(PR6 > 30) // PR6 is the Prescaler for Timer6 ???
-                //{
-                //    PR6 -= 8;
-                //} // if
-                menustate = MENU_SHOW_CONFIG_VALUE;
+                menustate    = MENU_SHOW_CONFIG_VALUE;
             } else if(BTN_RELEASED(BTN_S))
             {
                 if(menu_item == MENU_ITEM_NO)
@@ -716,8 +709,8 @@ void menu_fsm(void)
                 eeprom_write_config(adr, config_value);
                 menustate = MENU_SHOW_CONFIG_ITEM;
             } else 
-            {
-                // PR6 = 250; // restore to default value
+            {   // reset timer to default value
+                key_held_tmr = TMR_KEY_ACC; 
             } // else
             break; // MENU_SET_CONFIG_VALUE
        //--------------------------------------------------------------------         

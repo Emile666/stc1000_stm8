@@ -5309,7 +5309,7 @@ V5.04:0576 */
      
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 136 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 137 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 
 typedef union
 {
@@ -5467,6 +5467,18 @@ void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset);
 
 
 
+//---------------------------------------------------------------------------
+// Basic defines for EEPROM config addresses
+// One profile consists of several temp. time pairs and a final temperature
+// When changing NO_OF_PROFILES and/or NO_OF_TT_PAIRS, DO NOT FORGET (!!!) to
+// change eedata[] in stc1000p_lib.c
+//---------------------------------------------------------------------------
+
+
+
+
+
+
 //-----------------------------------------------------------------------------
 // Enum to specify the types of the parameters in the menu.
 // Note that this list needs to be ordered by how they should be presented 
@@ -5516,10 +5528,10 @@ enum e_item_type
 // Hc   Kc parameter for PID controller in %/°C          0..9999 
 // ti   Ti parameter for PID controller in seconds       0..9999 
 // td   Td parameter for PID controller in seconds       0..9999 
-// ts   Ts parameter for PID controller in seconds       0..100, 0=disable PID controller = thermostat control
+// ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
-#line 135 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 147 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 
 
@@ -5531,17 +5543,9 @@ enum menu_enum
 }; // menu_enum
 
 //---------------------------------------------------------------------------
-// Defines for EEPROM config addresses
+// Macros for calculation of EEPROM addresses
 // One profile consists of several temp. time pairs and a final temperature
-// When changing NO_OF_PROFILES and/or NO_OF_TT_PAIRS, DO NOT FORGET (!!!) to
-// change eedata[] in stc1000p_lib.c
 //---------------------------------------------------------------------------
-
-
-
-
-
-
 
 
 
@@ -5585,6 +5589,7 @@ enum menu_enum
 
 
 
+
 /* Menu struct */
 struct s_menu 
 {
@@ -5610,10 +5615,10 @@ enum menu_states
     MENU_POWER_DOWN_WAIT,     // Power-down mode, display is off
     MENU_SHOW_MENU_ITEM,      // Show name of menu-item / profile
     MENU_SET_MENU_ITEM,       // Navigate through menu-items / profile
-    MENU_SHOW_CONFIG_ITEM,    // Show value of menu-item / profile-item
-    MENU_SET_CONFIG_ITEM,     // Change value of menu-item / profile-item
-    MENU_SHOW_CONFIG_VALUE,   // 
-    MENU_SET_CONFIG_VALUE,    // 
+    MENU_SHOW_CONFIG_ITEM,    // Show name of menu-item / profile-item
+    MENU_SET_CONFIG_ITEM,     // Change menu-item / profile-item
+    MENU_SHOW_CONFIG_VALUE,   // Show value of menu-item / profile-item
+    MENU_SET_CONFIG_VALUE,    // Change value of menu-item / profile-item
 }; // menu_states
 
 // Function Prototypes
@@ -5630,7 +5635,7 @@ void     pid_control(void);
 #line 32 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.c"
 
 // LED character lookup table (0-9)
-const uint8_t led_lookup[] = {0xE7,0x03,0xD6,0x97,0x33,0xB5,0xF5,0x07,0xF7,0xB7};
+const uint8_t led_lookup[] = {(0xE7),(0x03),(0xD6),(0x97),(0x33),(0xB5),(0xF5),(0x07),(0xF7),(0xB7)};
 
 //----------------------------------------------------------------------------
 // These values are stored directly into EEPROM
@@ -5644,7 +5649,7 @@ __root __eeprom const int eedata[] =
    160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250,// 48, 40, 0, 0, 0, 0, 0, 0, // Pr3 (SP0, dh0, ..., dh8, SP9)
    //160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr4 (SP0, dh0, ..., dh8, SP9)
    //160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr5 (SP0, dh0, ..., dh8, SP9)
-   (200), (50), (100), 3, -2, 0, 0, 0, 5, 2, 0, 0, 0, 1, 80, 280, 20, 0, 6, 1 // Last one is for POWER_ON
+   (200), (50), (100), 3, -2, 0, 0, 0, 5, 2, 1, 0, 0, 1, 80, 280, 20, 0, (4), 1 // Last one is for POWER_ON
 }; // eedata[]
 
 // Global variables to hold LED data (for multiplexing purposes)
@@ -5662,7 +5667,8 @@ uint8_t  menu_item     = 0;     // Current menu-item: [0..NO_OF_PROFILES]
 uint8_t  config_item   = 0;     // Current index within profile or parameter menu
 uint8_t  m_countdown   = 0;     // Timer used within menu_fsm()
 uint8_t  _buttons      = 0;     // Current and previous value of button states
-int      config_value;          // Current value of menu-item
+int16_t  config_value;          // Current value of menu-item
+int8_t   key_held_tmr;          // Timer for value change acceleration
 uint8_t  sensor2_selected = 0;  // DOWN button pressed < 3 sec. shows 2nd temperature / pid_output
 int16_t  setpoint;              // local copy of SP variable
 uint16_t curr_dur = 0;          // local counter for temperature duration
@@ -5682,7 +5688,7 @@ extern uint8_t  ts;        // Parameter value for sample time [sec.]
 // This contains the definition of the menu-items for the parameters menu
 const struct s_menu menu[] = 
 {
-    { 0xB5, 0x76, 0x00, t_temperature }, { 0x71, 0xB3, 0x00, t_hyst_1 }, { 0x71, 0xB3, 0xD6, t_hyst_2 }, { 0xF0, 0xD0, 0x00, t_tempdiff }, { 0xF0, 0xD0, 0xD6, t_tempdiff }, { 0xB5, 0x77, 0x00, t_sp_alarm }, { 0xB5, 0xF0, 0x00, t_step }, { 0xD3, 0x71, 0x00, t_duration }, { 0xD0, 0xD3, 0x00, t_delay }, { 0x71, 0xD3, 0x00, t_delay }, { 0x50, 0x76, 0x00, t_boolean }, { 0xE4, 0x74, 0x00, t_boolean }, { 0x76, 0xF1, 0xD6, t_boolean }, { 0x73, 0x50, 0xB5, t_boolean }, { 0x73, 0xD0, 0x00, t_parameter }, { 0xF0, 0x03, 0x00, t_parameter }, { 0xF0, 0xD3, 0x00, t_parameter }, { 0xF0, 0xB5, 0x00, t_parameter }, { 0x50, 0x51, 0x00, t_runmode },
+    { (0xB5), (0x76), (0x00), t_temperature }, { (0x71), (0xB3), (0x00), t_hyst_1 }, { (0x71), (0xB3), (0xD6), t_hyst_2 }, { (0xF0), (0xD0), (0x00), t_tempdiff }, { (0xF0), (0xD0), (0xD6), t_tempdiff }, { (0xB5), (0x77), (0x00), t_sp_alarm }, { (0xB5), (0xF0), (0x00), t_step }, { (0xD3), (0x71), (0x00), t_duration }, { (0xD0), (0xD3), (0x00), t_delay }, { (0x71), (0xD3), (0x00), t_delay }, { (0x50), (0x76), (0x00), t_boolean }, { (0xE4), (0x74), (0x00), t_boolean }, { (0x76), (0xF1), (0xD6), t_boolean }, { (0x73), (0x50), (0xB5), t_boolean }, { (0x73), (0xD0), (0x00), t_parameter }, { (0xF0), (0x03), (0x00), t_parameter }, { (0xF0), (0xD3), (0x00), t_parameter }, { (0xF0), (0xB5), (0x00), t_parameter }, { (0x50), (0x51), (0x00), t_runmode },
 }; // menu[]
 
 
@@ -5720,26 +5726,26 @@ void prx_to_led(uint8_t run_mode, uint8_t is_menu)
     led_e.e.point    = 0;
     if(run_mode < (4))
     {   // one of the profiles
-	led_10.raw = 0x76;
-	led_1.raw  = 0x50;
+	led_10.raw = (0x76);
+	led_1.raw  = (0x50);
 	led_01.raw = led_lookup[run_mode];
     } else { // parameter menu
 	if (is_menu)
         {   // within menu
-	    led_10.raw = 0xB5;
-	    led_1.raw  = 0xF4;
-	    led_01.raw = 0xF0;
+	    led_10.raw = (0xB5);
+	    led_1.raw  = (0xF4);
+	    led_01.raw = (0xF0);
 	} else if (ts == 0) 
         { // Thermostat Mode
-	    led_10.raw = 0xF0; 
-	    led_1.raw  = 0x71;
-	    led_01.raw = 0x00;
+	    led_10.raw = (0xF0); 
+	    led_1.raw  = (0x71);
+	    led_01.raw = (0x00);
 	} // else if
         else 
         {   // PID controller mode
-	    led_10.raw = 0x76; 
-	    led_1.raw  = 0x03;
-	    led_01.raw = 0xD3;
+	    led_10.raw = (0x76); 
+	    led_1.raw  = (0x03);
+	    led_01.raw = (0xD3);
         } // else
     } // else
 } // prx_to_led()
@@ -5794,9 +5800,9 @@ void value_to_led(int value, uint8_t decimal)
 	   } // for
 	   led_10.raw = led_lookup[i & 0x0f];
 	} else {
-	   led_10.raw = 0x00; // Turn off led if zero (loose leading zeros)
+	   led_10.raw = (0x00); // Turn off led if zero (loose leading zeros)
 	} // else
-	if (value >= 10 || decimal || led_10.raw != 0x00)
+	if (value >= 10 || decimal || led_10.raw != (0x00))
         {  // If decimal, we want 1 leading zero
 	   for(i = 0; value >= 10; i++)
            {
@@ -5808,7 +5814,7 @@ void value_to_led(int value, uint8_t decimal)
 	      led_1.decimal = 1;
 	   } // if
 	} else {
-	   led_1.raw = 0x00; // Turn off led if zero (loose leading zeros)
+	   led_1.raw = (0x00); // Turn off led if zero (loose leading zeros)
 	} // else
 	led_01.raw = led_lookup[(uint8_t)value];
 } // value_to_led()
@@ -5825,11 +5831,11 @@ void value_to_led(int value, uint8_t decimal)
 void update_profile(void)
 {
   uint8_t  profile_no = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)));
-  uint8_t  curr_step;
-  uint8_t  profile_step_eeaddr;
-  uint16_t profile_step_dur;
-  int16_t  profile_next_step_sp;
-  int16_t  profile_step_sp;
+  uint8_t  curr_step;            // Current step number within a profile
+  uint8_t  profile_step_eeaddr;  // Address index in eeprom for step nr in profile
+  uint16_t profile_step_dur;     // Duration of current step
+  int16_t  profile_next_step_sp; // Setpoint value of next step in profile
+  int16_t  profile_step_sp;      // Setpoint value of current step in profile
   uint16_t t;
   int32_t  sp;
   uint8_t  i;
@@ -5863,8 +5869,8 @@ void update_profile(void)
           curr_dur = 0; // Reset duration
 	  curr_step++;  // Update step
 	  eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (St)), curr_step);
-      } 
-      else if(eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rP)))) 
+      } // if
+      else if (eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rP)))) 
       {  // Is ramping enabled?
          profile_step_sp = eeprom_read_config(profile_step_eeaddr);
 	 t  = curr_dur << 6;
@@ -6065,6 +6071,7 @@ void menu_fsm(void)
        case MENU_SHOW_VERSION: // Show STC1000p version number
             value_to_led((200),(0));
 	    led_10.decimal = 1;
+	    led_1.decimal  = 1;
 	    led_e.e.deg    = 0;
 	    led_e.e.c      = 0;
 	    if(!((_buttons & ((0x88) | (0x44))) == ((0x88) | (0x44)))) menustate = MENU_IDLE;
@@ -6146,11 +6153,11 @@ void menu_fsm(void)
             {
                 if(config_item & 0x1) 
                 {   
-                    led_10.raw = 0xD3; // duration: 2nd value of a profile-step
-                    led_1.raw  = 0x71;
+                    led_10.raw = (0xD3); // duration: 2nd value of a profile-step
+                    led_1.raw  = (0x71);
                 } else {
-                    led_10.raw = 0xB5; // setpoint: 1st value of a profile-step
-                    led_1.raw  = 0x76;
+                    led_10.raw = (0xB5); // setpoint: 1st value of a profile-step
+                    led_1.raw  = (0x76);
                 } // else
                 led_01.raw = led_lookup[(config_item >> 1)];
 	    } else /* if (menu_item == 6) */
@@ -6168,7 +6175,7 @@ void menu_fsm(void)
             {   // Timeout, go back to idle state
                 menustate = MENU_IDLE;
 	    } else if(((_buttons & ((0x22))) == (((0x22)) & 0xf0)))
-            {
+            {   // Go back
                 menustate = MENU_SHOW_MENU_ITEM;
             } else if(((_buttons & ((0x88))) == (((0x88)) & 0xf0)))
             {
@@ -6228,15 +6235,10 @@ void menu_fsm(void)
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_VALUE:
             if(menu_item < (4))
-            {
-                if(config_item & 0x1)
-                {   // duration, display as integer
-                    value_to_led(config_value,(0));
-                } else { // temperature, display in 0.1
-                    value_to_led(config_value,(1));
-                } // else
-            } else /* if(menu_item == MENU_ITEM_NO) */ 
-            {
+            {   // Display duration as integer, temperature in 0.1
+                value_to_led(config_value, (config_item & 0x1) ? (0) : (1));
+            } else 
+            {   /* menu_item == MENU_ITEM_NO */ 
                 type = menu[config_item].type;
                 if(((type) <= t_sp_alarm))
                 {   // temperature, display in 0.1
@@ -6248,22 +6250,22 @@ void menu_fsm(void)
                     value_to_led(config_value,(0));
                 } // else
             } // else
-            m_countdown = (150);
-            menustate   = MENU_SET_CONFIG_VALUE;
+            m_countdown  = (150);
+            menustate    = MENU_SET_CONFIG_VALUE;
             break;
        //--------------------------------------------------------------------         
        case MENU_SET_CONFIG_VALUE:
             adr = ((menu_item)*(2*((5))+1) + (config_item));
-            if(m_countdown == 0)
+            if (m_countdown == 0)
             {
                 menustate = MENU_IDLE;
-            } else if(((_buttons & ((0x22))) == (((0x22)) & 0xf0)))
+            } else if (((_buttons & ((0x22))) == (((0x22)) & 0xf0)))
             {
                 menustate = MENU_SHOW_CONFIG_ITEM;
             } else if(((_buttons & ((0x88)) & 0xf0))) 
             {
                 config_value++;
-                if(config_value > 1000)
+                if ((config_value > 1000) || (--key_held_tmr < 0))
                 {
                     config_value += 9;
                 } // if
@@ -6272,17 +6274,13 @@ void menu_fsm(void)
             } else if(((_buttons & ((0x44)) & 0xf0))) 
             {
                 config_value--;
-                if(config_value > 1000)
+                if ((config_value > 1000) || (--key_held_tmr < 0))
                 {
                     config_value -= 9;
                 } // if
             chk_cfg_acc_label: // label for goto
                 config_value = check_config_value(config_value, adr);
-                //if(PR6 > 30) // PR6 is the Prescaler for Timer6 ???
-                //{
-                //    PR6 -= 8;
-                //} // if
-                menustate = MENU_SHOW_CONFIG_VALUE;
+                menustate    = MENU_SHOW_CONFIG_VALUE;
             } else if(((_buttons & ((0x11))) == (((0x11)) & 0xf0)))
             {
                 if(menu_item == (4))
@@ -6315,8 +6313,8 @@ void menu_fsm(void)
                 eeprom_write_config(adr, config_value);
                 menustate = MENU_SHOW_CONFIG_ITEM;
             } else 
-            {
-                // PR6 = 250; // restore to default value
+            {   // reset timer to default value
+                key_held_tmr = (20); 
             } // else
             break; // MENU_SET_CONFIG_VALUE
        //--------------------------------------------------------------------         

@@ -5231,7 +5231,7 @@ V5.04:0576 */
      
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 136 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 137 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 
 typedef union
 {
@@ -5464,6 +5464,18 @@ void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset);
 
 
 
+//---------------------------------------------------------------------------
+// Basic defines for EEPROM config addresses
+// One profile consists of several temp. time pairs and a final temperature
+// When changing NO_OF_PROFILES and/or NO_OF_TT_PAIRS, DO NOT FORGET (!!!) to
+// change eedata[] in stc1000p_lib.c
+//---------------------------------------------------------------------------
+
+
+
+
+
+
 //-----------------------------------------------------------------------------
 // Enum to specify the types of the parameters in the menu.
 // Note that this list needs to be ordered by how they should be presented 
@@ -5513,10 +5525,10 @@ enum e_item_type
 // Hc   Kc parameter for PID controller in %/°C          0..9999 
 // ti   Ti parameter for PID controller in seconds       0..9999 
 // td   Td parameter for PID controller in seconds       0..9999 
-// ts   Ts parameter for PID controller in seconds       0..100, 0=disable PID controller = thermostat control
+// ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
-#line 135 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 147 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 
 
@@ -5528,17 +5540,9 @@ enum menu_enum
 }; // menu_enum
 
 //---------------------------------------------------------------------------
-// Defines for EEPROM config addresses
+// Macros for calculation of EEPROM addresses
 // One profile consists of several temp. time pairs and a final temperature
-// When changing NO_OF_PROFILES and/or NO_OF_TT_PAIRS, DO NOT FORGET (!!!) to
-// change eedata[] in stc1000p_lib.c
 //---------------------------------------------------------------------------
-
-
-
-
-
-
 
 
 
@@ -5582,6 +5586,7 @@ enum menu_enum
 
 
 
+
 /* Menu struct */
 struct s_menu 
 {
@@ -5607,10 +5612,10 @@ enum menu_states
     MENU_POWER_DOWN_WAIT,     // Power-down mode, display is off
     MENU_SHOW_MENU_ITEM,      // Show name of menu-item / profile
     MENU_SET_MENU_ITEM,       // Navigate through menu-items / profile
-    MENU_SHOW_CONFIG_ITEM,    // Show value of menu-item / profile-item
-    MENU_SET_CONFIG_ITEM,     // Change value of menu-item / profile-item
-    MENU_SHOW_CONFIG_VALUE,   // 
-    MENU_SET_CONFIG_VALUE,    // 
+    MENU_SHOW_CONFIG_ITEM,    // Show name of menu-item / profile-item
+    MENU_SET_CONFIG_ITEM,     // Change menu-item / profile-item
+    MENU_SHOW_CONFIG_VALUE,   // Show value of menu-item / profile-item
+    MENU_SET_CONFIG_VALUE,    // Change value of menu-item / profile-item
 }; // menu_states
 
 // Function Prototypes
@@ -6039,6 +6044,7 @@ uint8_t   mpx_nr = 0;        // Used in multiplexer() function
 // When in SWIM Debug Mode, PD1/SWIM needs to be disabled (= no IO)
 uint8_t   portd_leds;        // Contains define PORTD_LEDS
 uint8_t   portb, portc, portd, b;// Needed for save_display_state() and restore_display_state()
+int16_t   pwr_on_tmr = 1000;     // Needed for 7-segment display test
 
 // External variables, defined in other files
 extern led_e_t led_e;                 // value of extra LEDs
@@ -6110,29 +6116,29 @@ void multiplexer(void)
             PC_ODR |= (led_10.raw & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_10.raw << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~(0x20);    // Enable  common-cathode for 10s
-            mpx_nr++;
+            mpx_nr = 1;
             break;
         case 1: // output 1s digit
             PC_ODR |= (led_1.raw & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_1.raw << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~(0x10);     // Enable  common-cathode for 1s
-            mpx_nr++;
+            mpx_nr = 2;
             break;
         case 2: // output 01s digit
             PC_ODR |= (led_01.raw & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_01.raw << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~(0x20);    // Enable common-cathode for 0.1s
-            mpx_nr++;
+            mpx_nr = 3;
             break;
         case 3: // outputs special digits
             PC_ODR |= (led_e.raw & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_e.raw << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~(0x10);     // Enable common-cathode for extras
+        default: // FALL-THROUGH (less code-size)
             mpx_nr = 0;
             break;
-        default:
-            mpx_nr = 0;
-            break;
+            //mpx_nr = 0;
+            //break;
     } // switch            
 } // multiplexer()
 
@@ -6148,10 +6154,16 @@ __interrupt void TIM2_UPD_OVF_IRQHandler(void)
     scheduler_isr();  // Run scheduler interrupt function
     if (!pwr_on)
     {   // Display OFF on dispay
-	led_10.raw = 0xE7;
-	led_1.raw  = led_01.raw = 0x74;
-        led_e.raw  = 0x00;
+	led_10.raw = (0xE7);
+	led_1.raw  = led_01.raw = (0x74);
+        led_e.raw  = (0x00);
+        pwr_on_tmr = 1000; // 1 second
     } // if
+    else if (pwr_on_tmr > 0)
+    {	// 7-segment display test for 1 second
+        pwr_on_tmr--;
+        led_10.raw = led_1.raw  = led_01.raw = led_e.raw  = (0xFF);
+    } // else if
     multiplexer();    // Run multiplexer for Display and Keys
     TIM2_SR1_bit . UIF = 0; // Reset the interrupt otherwise it will fire again straight away.
 } // TIM2_UPD_OVF_IRQHandler()
@@ -6184,27 +6196,6 @@ void initialise_system_clock(void)
     CLK_SWCR_bit . SWEN  = 1;           //  Enable switching.
     while (CLK_SWCR_bit . SWBSY != 0);  //  Pause while the clock switch is busy.
 } // initialise_system_clock()
-
-/*-----------------------------------------------------------------------------
-  Purpose  : This routine initialises Timer 2 to the default state.
-  Variables: -
-  Returns  : -
-  ---------------------------------------------------------------------------*/
-void initialise_timer2(void)
-{
-    TIM2_CR1   = 0;  // Turn everything TIM2 related off.
-    TIM2_IER   = 0;
-    TIM2_SR2   = 0;
-    TIM2_CCER1 = TIM2_CCER2 = 0;
-    TIM2_CCMR1 = TIM2_CCMR2 = TIM2_CCMR3 = 0;
-    TIM2_CNTRH = TIM2_CNTRL = 0;
-    TIM2_PSCR  = 0;
-    TIM2_ARRH  = TIM2_ARRL  = 0;
-    TIM2_CCR1H = TIM2_CCR1L = 0;
-    TIM2_CCR2H = TIM2_CCR2L = 0;
-    TIM2_CCR3H = TIM2_CCR3L = 0;
-    TIM2_SR1   = 0;
-} // initialise_timer2()
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine initialises Timer 2 to generate a 1 kHz interrupt.
@@ -6365,9 +6356,9 @@ void ctrl_task(void)
        (PA_ODR &= ~((0x02) | (0x04))); // disable the output relays
        if (menu_is_idle)
        {  // Make it less anoying to nagivate menu during alarm
-          led_10.raw = 0x77;
-	  led_1.raw  = 0xE0;
-	  led_e.raw  = led_01.raw = 0x00;
+          led_10.raw = (0x77);
+	  led_1.raw  = (0xE0);
+	  led_e.raw  = led_01.raw = (0x00);
        } // if
        cooling_delay = heating_delay = 60;
    } else {
@@ -6407,9 +6398,9 @@ void ctrl_task(void)
        {
            if ((PD_IDR & (0x40)) && show_sa_alarm)
            {
-               led_10.raw = 0xB5;
-	       led_1.raw  = 0x77;
-	       led_01.raw = 0x00;
+               led_10.raw = (0xB5);
+	       led_1.raw  = (0x77);
+	       led_01.raw = (0x00);
            } else {
                //led_e.e.point  = sensor2_selected; // does not work
                switch (sensor2_selected)
@@ -6462,7 +6453,6 @@ int main(void)
     __disable_interrupt();
     initialise_system_clock(); // Set system-clock to 16 MHz
     setup_output_ports();      // Init. needed output-ports for LED and keys
-    initialise_timer2();       // Initialise Timer 2 
     setup_timer2();            // Set Timer 2 to 1 kHz
     pwr_on = eeprom_read_config(((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)) + 1)); // check pwr_on flag
     

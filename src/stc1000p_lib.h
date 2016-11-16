@@ -60,6 +60,18 @@
 #define DEFAULT_hy	   (50)
 #define DEFAULT_hy2	  (100)
 
+//---------------------------------------------------------------------------
+// Basic defines for EEPROM config addresses
+// One profile consists of several temp. time pairs and a final temperature
+// When changing NO_OF_PROFILES and/or NO_OF_TT_PAIRS, DO NOT FORGET (!!!) to
+// change eedata[] in stc1000p_lib.c
+//---------------------------------------------------------------------------
+#define NO_OF_PROFILES	 (4)
+#define NO_OF_TT_PAIRS   (5)
+#define PROFILE_SIZE     (2*(NO_OF_TT_PAIRS)+1)
+#define MENU_ITEM_NO	 NO_OF_PROFILES
+#define THERMOSTAT_MODE  NO_OF_PROFILES
+
 //-----------------------------------------------------------------------------
 // Enum to specify the types of the parameters in the menu.
 // Note that this list needs to be ordered by how they should be presented 
@@ -109,7 +121,7 @@ enum e_item_type
 // Hc   Kc parameter for PID controller in %/°C          0..9999 
 // ti   Ti parameter for PID controller in seconds       0..9999 
 // td   Td parameter for PID controller in seconds       0..9999 
-// ts   Ts parameter for PID controller in seconds       0..100, 0=disable PID controller = thermostat control
+// ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
 #define MENU_DATA(_) \
@@ -123,7 +135,7 @@ enum e_item_type
 	_(dh, 	LED_d, 	LED_h, 	LED_OFF, t_duration,	0)		\
 	_(cd, 	LED_c, 	LED_d, 	LED_OFF, t_delay,	5)		\
 	_(hd, 	LED_h, 	LED_d, 	LED_OFF, t_delay,	2)		\
-	_(rP, 	LED_r, 	LED_P, 	LED_OFF, t_boolean,	0)		\
+	_(rP, 	LED_r, 	LED_P, 	LED_OFF, t_boolean,	1)		\
 	_(CF, 	LED_C, 	LED_F, 	LED_OFF, t_boolean,	0)		\
 	_(Pb2, 	LED_P, 	LED_b, 	LED_2, 	 t_boolean,	0)		\
 	_(HrS, 	LED_H, 	LED_r, 	LED_S, 	 t_boolean,	1)		\
@@ -131,7 +143,7 @@ enum e_item_type
 	_(Ti, 	LED_t, 	LED_I, 	LED_OFF, t_parameter,  280)		\
 	_(Td, 	LED_t, 	LED_d, 	LED_OFF, t_parameter,   20)		\
 	_(Ts, 	LED_t, 	LED_S, 	LED_OFF, t_parameter,    0)		\
-	_(rn, 	LED_r, 	LED_n, 	LED_OFF, t_runmode,	6)
+	_(rn, 	LED_r, 	LED_n, 	LED_OFF, t_runmode,    NO_OF_PROFILES)
 
 #define ENUM_VALUES(name,led10ch,led1ch,led01ch,type,default_value) name,
 #define EEPROM_DEFAULTS(name,led10ch,led1ch,led01ch,type,default_value) default_value,
@@ -143,17 +155,9 @@ enum menu_enum
 }; // menu_enum
 
 //---------------------------------------------------------------------------
-// Defines for EEPROM config addresses
+// Macros for calculation of EEPROM addresses
 // One profile consists of several temp. time pairs and a final temperature
-// When changing NO_OF_PROFILES and/or NO_OF_TT_PAIRS, DO NOT FORGET (!!!) to
-// change eedata[] in stc1000p_lib.c
 //---------------------------------------------------------------------------
-#define NO_OF_PROFILES	 (4)
-#define NO_OF_TT_PAIRS   (5)
-#define PROFILE_SIZE     (2*(NO_OF_TT_PAIRS)+1)
-#define MENU_ITEM_NO	 NO_OF_PROFILES
-#define THERMOSTAT_MODE  NO_OF_PROFILES
-
 #define EEADR_PROFILE_SETPOINT(profile, step)	(((profile)*PROFILE_SIZE) + ((step)<<1))
 #define EEADR_PROFILE_DURATION(profile, step)	EEADR_PROFILE_SETPOINT(profile, step) + 1
 #define EEADR_MENU				EEADR_PROFILE_SETPOINT(NO_OF_PROFILES, 0)
@@ -196,6 +200,7 @@ enum menu_enum
 #define TMR_POWERDOWN          (30)
 #define TMR_SHOW_PROFILE_ITEM  (15)
 #define TMR_NO_KEY_TIMEOUT    (150)
+#define TMR_KEY_ACC            (20)
 
 /* Menu struct */
 struct s_menu 
@@ -222,10 +227,10 @@ enum menu_states
     MENU_POWER_DOWN_WAIT,     // Power-down mode, display is off
     MENU_SHOW_MENU_ITEM,      // Show name of menu-item / profile
     MENU_SET_MENU_ITEM,       // Navigate through menu-items / profile
-    MENU_SHOW_CONFIG_ITEM,    // Show value of menu-item / profile-item
-    MENU_SET_CONFIG_ITEM,     // Change value of menu-item / profile-item
-    MENU_SHOW_CONFIG_VALUE,   // 
-    MENU_SET_CONFIG_VALUE,    // 
+    MENU_SHOW_CONFIG_ITEM,    // Show name of menu-item / profile-item
+    MENU_SET_CONFIG_ITEM,     // Change menu-item / profile-item
+    MENU_SHOW_CONFIG_VALUE,   // Show value of menu-item / profile-item
+    MENU_SET_CONFIG_VALUE,    // Change value of menu-item / profile-item
 }; // menu_states
 
 // Function Prototypes

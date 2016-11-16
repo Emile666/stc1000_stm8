@@ -1,4 +1,4 @@
-﻿STC-1000+/STM8 USER MANUAL<br>
+﻿STC-1000p-STM8 USER MANUAL<br>
 =====================
 
 Mats Staffansson / Emile
@@ -17,7 +17,7 @@ Mats Staffansson / Emile
 * PID-output signal (slow PWM, T=12.5 sec) present at **S3 output** for connection to a Solid-State Relay (SSR)
 * Standard thermostat functionality available when PID-controller is disabled (**TS** parameter set to 0)
 * Second temperature probe functionality selectable with **Pb2** parameter
-* Up to 4 profiles with up to 6 setpoints (6 profiles with 10 setpoints if the STM8S003F3 is replaced with a STM8S103FS uC)
+* Up to 4 profiles with up to 6 setpoints (6 profiles with 10 setpoints if the STM8S003F3 is replaced with a STM8S103FS µC)
 * Each setpoint can be held for 1-999 hours (i.e. up to ~41 days) or 1-999 minutes (i.e. up to ~16 hours).
 * Approximative ramping
 * Somewhat intuitive menus for configuring
@@ -26,7 +26,7 @@ Mats Staffansson / Emile
 * User definable alarm when temperature is out of or within range
 * Easy displaying of setpoint, thermostat/PID-mode, actual temperature (default), 2nd temperature and PID-output (%)
 
-# Using the STC-1000+ firmware
+# Using the STC-1000p-STM8 firmware
 
 ## Navigation and menus
 
@@ -60,7 +60,7 @@ Pr0-3 submenus have the following items:
 *Table 3: Profile sub-menu items*
 
 You can change all the setpoints and durations associated with that profile from here. When running the programmed profile, *SP0* will be the initial setpoint, it will be held for *dh0* hours (unless ramping is used). 
-After that *SP1* will be used as setpoint for dh1 hours. The profile will stop running when a duration (*dh*) of 0 hours OR last step is reached (consider *dh5* implicitly 0). When the profile has ended, STC-1000+ will automatically switch to thermostat mode with the last reached setpoint. (So I guess you could also consider a *dh* value of 0 as infinite hours).
+After that *SP1* will be used as setpoint for dh1 hours. The profile will stop running when a duration (*dh*) of 0 hours OR last step is reached (consider *dh5* implicitly 0). When the profile has ended, STC-1000p-STM8 will automatically switch to thermostat mode with the last reached setpoint. (So I guess you could also consider a *dh* value of 0 as infinite hours).
 
 The settings menu has the following items:
 
@@ -87,7 +87,7 @@ The settings menu has the following items:
 |rn|Set run mode|Pr0 to Pr5 and th|
 *Table 4: Settings sub-menu items*
 
-**Setpoint**, well... The desired temperature to keep. The way STC-1000+ firmware works, setpoint is *always* the value the thermostat or the PID-controller strives towards, even when running a profile. What the profile does is simply setting the setpoint at given times.
+**Setpoint**, well... The desired temperature to keep. The way STC-1000p-STM8 firmware works, setpoint is *always* the value the thermostat or the PID-controller strives towards, even when running a profile. What the profile does is simply setting the setpoint at given times.
 
 **Hysteresis**: the function depends whether or not the PID-controller is activated. When the PID-controller is NOT active (**Ts** = 0), the thermostat controls the temperature. This parameter then controls the allowable temperature range around the setpoint where the thermostat will not change state. For example, if temperature is greater than setpoint + hysteresis AND the time passed since last cooling cycle is greater than cooling delay, then cooling relay will be engaged. Once the temperature reaches setpoint again, cooling relay will be disengaged.
 If the PID-controller is active (**Ts** > 0) it forms the lower-limit of a hysteresis (together with **hysteresis 2**) that converts the PID-output percentage into an on-off signal for the heating/cooling relays.
@@ -95,13 +95,13 @@ If the PID-controller is active (**Ts** > 0) it forms the lower-limit of a hyste
 **Hysteresis 2**, the function depends whether or not the PID-controller is activated. When the PID-controller is NOT active (**Ts** = 0), the thermostat controls the temperature. This parameter then controls the allowable temperature range around the setpoint for temp probe 2, if it is enabled (**Pb2** = 1). For example, if temperature 2 is less than **SP - hy2**, the cooling relay will cut out even if **SP - hy** has not been reached for temperature. Also, cooling will not be allowed again, until temperature 2 exceeds **SP - 0.5 \* hy2** (that is, it has regained at least half the hysteresis).
 If the PID-controller is active (**Ts** > 0) it forms the lower-limit of a hysteresis (together with **hysteresis**) that converts the PID-output percentage into an on-off signal for the heating/cooling relays.
 
-**Temperature correction**, will be added to the temperature sensor, this allows the user to calibrate the temperature reading. It is best to calibrate with a precision resistor of 10 k Ohms (1% tolerance). Replace the temperature sensor with such a resistor, let the STC-1000 run for at-least half an hour and adjust this parameter such that the temperature display is set to 25.0 °C.
+**Temperature correction**, will be added to the temperature sensor, this allows the user to calibrate the temperature reading. It is best to calibrate with a precision resistor of 10 k Ohms (1% tolerance). Replace the temperature sensor with such a resistor, let the STC-1000p-STM8 run for at-least half an hour and adjust this parameter such that the temperature display is set to 25.0 °C.
 
 **Temperature correction 2**, same as *temperature correction*, but for the second temperature probe. If you remove the existing 2-pin terminal-block and replace it with a 5-pin terminal-block (see below for details), you can connect a second temperature sensor. The 1st temperature sensor is connected to pins 2 and 3 (seen from the left), the 2nd temperature sensor can now be connected between 1 and 2. Enable this 2nd sensor with the **Pb2** parameter.
 
 **Setpoint alarm**, if setpoint alarm is greater than 0.0, then the alarm will sound once temperature differs from *SP* by more than *SA* degrees (this can be useful to warn against malfunctions, such as fridge door not closed or probe not attached to carboy). If *SA* is less than 0.0, then the alarm will sound if the temperature does **NOT** differ by more than (-) *SA* degrees (this could be used as an indication that wort has finally reached pitching temp). If *SA* is set to 0.0, the alarm will be disabled. If the alarm is tripped, then the buzzer will sound and the display will flash between temperature display and showing "SA", it will not however disengage the outputs and the unit will continue to work as normal. Please note, that care needs to be taken when running a profile (especially when not using ramping or with steep ramps) to allow for a sufficiently large margin, or the alarm could be tripped when setpoint changes.
 
-**Current profile step** and **current profile duration**, allows 'jumping' in the profile. Step and duration are updated automatically when running the profile, but can also be set manually at any time. Note that profile step and profile duration are the variables directly used to keep track of progress in a profile. Little or no validation is made of what values are entered. It is up to the user to know what he/she is doing by changing these values. Changing these values will not take effect until next point in profile is calculated, which could be as much as one hour. Every hour, current duration, *dh* (and if next step is reached, also current step, *St*) is updated with new value(s). That means in case of a power outage, STC-1000+ will pick up (to within the hour) from where it left off. Current profile step and current profile duration are only available in the menu when a profile is currently running.
+**Current profile step** and **current profile duration**, allows 'jumping' in the profile. Step and duration are updated automatically when running the profile, but can also be set manually at any time. Note that profile step and profile duration are the variables directly used to keep track of progress in a profile. Little or no validation is made of what values are entered. It is up to the user to know what he/she is doing by changing these values. Changing these values will not take effect until next point in profile is calculated, which could be as much as one hour. Every hour, current duration, *dh* (and if next step is reached, also current step, *St*) is updated with new value(s). That means in case of a power outage, STC-1000p-STM8 will pick up (to within the hour) from where it left off. Current profile step and current profile duration are only available in the menu when a profile is currently running.
 
 **Cooling** and **heating delay** is the minimum 'off time' for each relay, to spare the compressor and relays from short cycling. If the the temperature is too high or too low, but the delay has not yet been met, the corresponding LED (heating/cooling) will blink, indicating that the controller is waiting to for the delay to pass before it will start heating or cooling. When the controller is powered on, the initial delay (for both heating and cooling) will **always** be approximately 1 minute, regardless of the settings. That is because even if your system could tolerate no heating or cooling delays during normal control (i.e. *cd* and/or *hd* set to zero), it would be undesirable for the relay to rapidly turn on and off in the event of a power outage causing mains power to fluctuate. Both cooling and heating delays are loaded when either cooling/heating relays switched off. So, for instance if you set cooling delay to 60 minutes and setpoint is reached, turning cooling relay off, it will be approximately one hour until cooling relay will be allowed to switch on again, even if you change your mind and change the setting in EEPROM (i.e. it will not affect the current cycle).
 
@@ -132,8 +132,8 @@ When mode is set to thermostat (the **Ts** parameter needs to be set to 0), setp
 
 ## PID-Control mode
 
-When the **Ts** parameter is set to a value > 0, the PID-controller is enabled and the thermostat-control is disabled. The PID-controller uses a sophisticated algorithm (a Takahashi Type C velocity algorithm) where the new output value is based upon the previous output value. The derivation of the algorithm for this controller is given in the document PID_Controller_Calculus.pdf.
-The PID-controller is controlled with the *proportional gain*, *integral time-constant* and the *differential time-constant*. They all work closely together. For more information on how to select optimum settings for a PID-controller, please refer to http://www.vandelogt.nl/uk_regelen_pid.php
+When the **Ts** parameter is set to a value > 0, the PID-controller is enabled and the thermostat-control is disabled. The PID-controller uses a sophisticated algorithm (a Takahashi Type C velocity algorithm) where the new output value is based upon the previous output value. The derivation of the algorithm for this controller is given in the .pdf document [PID Controller Calculus](./PID_Controller_Calculus.pdf).
+The PID-controller is controlled with the *proportional gain*, *integral time-constant*, *differential time-constant* and the *Sample-Time*. They all work closely together. For more information on how to select optimum settings for a PID-controller, please refer to http://www.vandelogt.nl/uk_regelen_pid.php
 
 The pid-output is a percentage between -100.0 and +100.0 %. It is in E-1 %, so a value of 123 actually means 12.3 %. This value can be seen by pressing the PWR button twice (one press shows the 2nd temperature, the 2nd press shows the pid-output percentage). When this value is greater than 0, it indicates that
 the actual temperature is too low and heating should be applied. When this value is negative, the temperature is too high and cooling should be applied. The pid-output percentage is available at the **S3 output** as a slow PWM signal (period-time is 12.5 seconds), with the duty-cycle corresponding with the PID-output percentage.
@@ -170,7 +170,7 @@ Unfortunately, due to hardware limitations, true ramping (or true interpolation)
 
 Each step is divided into (at most) 64 substeps and on each substep, setpoint is updated by linear interpolation. The substeps only occur on one hour marks, so if the duration of the step is less than 64 hours, not all substeps will be used, if the duration is greater than 64 hours, setpoint will not be updated on every one hour mark, for example if duration is 192 hours (that is 8 days), setpoint will be updated every third hour).
 
-Note, that in order to keep a constant temperature with ramping enabled, an extra setpoint with the same value will be needed (STC-1000+ will attempt to ramp between all setpoints, but if the setpoints are the same, then the setpoint will remain constant during the step).
+Note, that in order to keep a constant temperature with ramping enabled, an extra setpoint with the same value will be needed (STC-1000p-STM8 will attempt to ramp between all setpoints, but if the setpoints are the same, then the setpoint will remain constant during the step).
 
 You can think of the ramping as being true, even if this approximation is being used, the only caveat is, if you need a long ramp (over several days or weeks) and require it to be smoother. Then you may need to split it over several steps.
 
@@ -195,7 +195,7 @@ To enable use of the second temp probe in the thermostat logic (i.e. to enable *
 
 ## PID-output for connection to a Solid-State Relay (SSR)
 
-The PID-output signal is available at the rear of the STC-1000, but it is not populated yet. Best thing to do is to remove the existing temperature probe connector and re-solder a 5-pin terminal block with a pitch of 5 mm (Mouser part nr. 523-ELM051200). In the picture below I improvised with a 3-pin and 2-pin terminal block (I didn't have a 5-pin block yet). 
+The PID-output signal is available at the rear of the STC-1000p-STM8, but it is not populated yet. Best thing to do is to remove the existing temperature probe connector and re-solder a 5-pin terminal block with a pitch of 5 mm (Mouser part nr. 523-ELM051200). In the picture below I improvised with a 3-pin and 2-pin terminal block (I didn't have a 5-pin block yet). 
 Now it is possible to connect a 2nd temperature probe AND an SSR to this.
 
 ![S3 output](img/s3_output.jpg)<br>
@@ -206,7 +206,7 @@ Although the microcontroller has sufficient capability to drive an SSR directly,
 ![S3 transistor](img/s3_interface.png)<br>
 *Schematic how to wire the S3 output to an SSR*
 
-The +5V can be taken from the newly soldered 5-pin terminal block. It is pin 2 from the left. If you wire it like this, you don't need to change the resistor within the STC-1000. Solder the 5-pin terminal-block and you have a pid-output that connects properly to an SSR. I used a 220 Ohms resistor. This give you approximately 10 mA (the LED within the SSR typically uses 3V, so there's 2 V left). If you need more/less, change the resistor appropriately.
+The +5V can be taken from the newly soldered 5-pin terminal block. It is pin 2 from the left. If you wire it like this, you don't need to change the resistor within the STC-1000p-STM8. Solder the 5-pin terminal-block and you have a pid-output that connects properly to an SSR. I used a 220 Ohms resistor. This give you approximately 10 mA (the LED within the SSR typically uses 3V, so there's 2 V left). If you need more/less, change the resistor appropriately.
  
 ## Additional features
 
@@ -224,13 +224,15 @@ By pressing and holding 'up' and 'down' button simultaneously when temperature i
 
 # Development
 
-STC-1000+-STM8 is written in C and compiled using IAR STM8 embedded workbench v2.20.2.
+STC-1000p-STM8 is written in C and compiled using IAR STM8 embedded workbench v2.20.2.
 
 ## Useful tips for development
 
 * You will need the STM8S003F3 reference-manual (the datasheet merely lists the hardware related issues).
 
-* The IAR STM8 Integrated Development Environment (IDE) has a code-size limit of 8 Kbytes. However, this is sufficient for our STM8 uC, since it has 8 Kbytes of Flash memory.
+* The IAR STM8 Integrated Development Environment (IDE) has a code-size limit of 8 Kbytes. However, this is sufficient for our STM8 µC, since it only has 8 Kbytes of Flash memory.
+
+* The IAR IDE organises the source-files in projects (.ewp) and workspaces (.eww). Use only 1 project per workspace. The default workspace file for STC-1000p-STM8 is stc1000p_dev.eww.
 
 * A separate scheduler (non pre-emptive) has been added to address all timing issues. See the source files scheduler.c and scheduler.h
 
@@ -239,11 +241,11 @@ STC-1000+-STM8 is written in C and compiled using IAR STM8 embedded workbench v2
 * The eeprom of the STM8S003F3 only has 128 bytes on-board. Therefore only 4 profiles (instead of 6) with a maximum of 5 temperature time-pairs (instead of 9) are used. If you are willing to desolder this chip, you can replace it
 with a **STM8S103F3** device, which has 640 bytes on-board. Setting the defines **NO_OF_PROFILES** and **NO_OF_TT_PAIRS** and proper initialisation of eedata[] (in stc1000plib.c) is sufficient to enable this.
 
-* The processor type can be set using Project->Options...->General Options->Target->Device. This is necessary when you replace the stock STM8S003F3 uC.
+* The processor type can be set using Project -> Options... -> General Options -> Target -> Device. This is necessary when you replace the stock STM8S003F3 µC.
 
-* If you want to add preprocessor defines (like Mats did), you can add these in Project->Options...->C/C++ Compiler->Preprocessor->Defined Symbols: (one per line). Currently I don't have any preprocessor directives in this version (but probably will for newer versions).
+* If you want to add preprocessor defines (like Mats did), you can add these in Project -> Options... -> C/C++ Compiler -> Preprocessor -> Defined Symbols: (one per line). Currently I don't have any preprocessor directives in this version (but probably will for newer versions).
 
-* HEX files (currently stored in subdir Debug/Exe) can be uploaded directly to STC-1000 with ST-Link v2, but I haven't figured out how to do this yet. The default route with IAR, Project->Rebuild All, then Ctrl-D (debug) also uploads the .hex file. But it would be nice to upload a hex file directly without using IAR.
+* HEX files (currently stored in subdir Debug/Exe) can be uploaded directly to the STC-1000 hardware with ST-Link v2, but I haven't figured out how to do this yet. The default route with IAR, Project->Rebuild All, then Ctrl-D (debug) also uploads the .hex file. But it would be nice to upload a hex file directly without using IAR.
 
 # Other resources
 
@@ -251,5 +253,5 @@ Project home at [Github](https://github.com/Emile666/stc1000_stm8/)
 
 # Acknowledgements
 
-Many thanks to Mats Staffansson (https://github.com/matsstaff/stc1000p) for initial development of a STC1000+ on the A400_P hardware (containing a **PIC16F1828** microcontroller). The **STM8S003F3** device is a bit more advanced and I was intrigued by the idea of doing the same as Mats has done. In the end I ended with a few more features than he had (and also fewer, since he had more different firmwares).
+Many thanks to Mats Staffansson (https://github.com/matsstaff/stc1000p) for initial development of a STC1000p on the A400_P hardware (containing a **PIC16F1828** microcontroller). The **STM8S003F3** device is a bit more advanced and I was intrigued by the idea of doing the same as Mats has done. In the end I ended with a few more features than he had (and also fewer, since he had more different firmwares).
 
