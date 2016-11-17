@@ -1,4 +1,4 @@
-STC-1000p-STM8
+﻿STC-1000p-STM8
 ==========
 
 This version of the STC-1000p (STC-1000p-STM8) is heavily based on the beautiful work from Mats Staffansson (https://github.com/matsstaff/stc1000p), where he creates an open-source implementation of firmware(s) for the STC-1000 dual stage thermostat.
@@ -19,13 +19,14 @@ For those of you willing to do some de-soldering (see text below): you can repla
 ![stc-1000-top](img/stc1000_top.jpg)<br>
 *The top of the STC-1000 device. Note the label '0602 05 R QC'*
 
+If you happen to have an STC-1000 device without the label, you could have the newer hardware revision (**WR-032 v2**). It is almost the same, but has a few changes. Read more about this [here](./WR-032-v2-2016-4-7.md).
+
 Questions?
 ----------
 Please don't open github issues for general questions. Only open an issue if you discovered an actual bug or have a (realistic) feature request (or better yet, send a pull request).
 
 Quick start
 -----------
-
 You'd need one of those fancy coloured ST-Link V2 USB adapter (which are very cheap to find on ebay) and of-course a STC-1000 with a STM8. Mine has a label '0602 05 R QC' on top, the Printed Circuit-Board (PCB) itself has a mark 'WR-032'. Furthermore you need
 the IAR development environment for STM8, which can be downloaded free of charge. Use the code-size limited version. After having installed this, the drivers for the ST-Link USB adapter are also installed.
 ![st-link-v2](img/st_link_v2.png)<br>
@@ -33,16 +34,19 @@ the IAR development environment for STM8, which can be downloaded free of charge
 
 The frontpanel PCB already has a 4-pin connector (labeled with SIG, RST, VCC and GND). Solder some pins to this and connect the ST-Link adapter (use GND-GND, RST-RST and SWIM-SIG. VCC is not needed). This is all you need to reprogram the device! 
 Power-up the STC-1000 and connect the ST-Link V2 USB to it. 
-If you have downloaded the project- and source-files, open the workspace in IAR (File -> Open -> Workspace... -> stc1000p_dev.eww), do a Project -> Rebuild All and then press Ctrl-D. This opens the debugger and transfers the code to the microcontroller. The first time you do this, a message pops up stating that
-protection bits are set and these need to be cleared. If you do this (necessary if you want to reprogram the µC), the program present is erased (with no way of getting this back!). Press Ctrl-Shift-D to Stop Debugging. Remove the wires, re-cycle power and you are good to go!
 
 ![swim-interface](img/swim_interface.jpg)<br>
-*The programming Interface. Note that you have to solder the 4-pins in place!*
+*The Programming Interface. Note that you have to solder the 4-pins in place!*
 
+- If you have downloaded the project- and source-files, open the workspace in IAR (File -> Open -> Workspace... -> stc1000p_dev.eww), then do a Project -> Rebuild All.
+- The µC has Read-Only-Protection (ROP) enabled and this needs to be disabled before the new firmware can be uploaded. Click on ST-LINK -> Option Bytes... The following dialog box opens:
+![rop-protection](img/Disable_ROP.png)<br>
+*The Read-Only-Protection dialog box. Press OK to continue*
+- If ROP protection is disabled (and your stock program has been erased, with no way of getting this back), press Ctrl-D. This opens the debugger and transfers the code to the microcontroller. 
+- Press Ctrl-Shift-D to Stop Debugging. Remove the wires, re-cycle power and you are good to go!
 
 Introduction (taken from https://github.com/matsstaff/stc1000p)
 ----------------------------------------------------------
-
 The STC-1000 is a dual stage (that is, it can control heating *and* cooling) thermostat that is pretty affordable. It is microcontroller operated, that means there is a sort of 'computer on a chip' that reads the temperature of the probe, turns the relays on and off, reads the state of the buttons and updates the display. 
 To do all this, the microcontroller needs to be programmed to perform these tasks. The program is stored in non volatile (flash) memory that is retained when there is no power. The microcontroller can be reprogrammed (flashed) with a new program (firmware), that can other or additional tasks. 
 To do that, a new firmware is needed and you need a programmer that can send it to the microcontroller the way it expects it. The STC-1000\-STM8 project provides both these things (and a few additional things as well).
@@ -61,7 +65,7 @@ I reversed engineered both the frontpanel PCB as well as the backplane PCB. The 
 *Eagle schematic of the Frontpanel PCB*
 
 Two interesting features are shown in this schematic:
-- The **S1** and **S2** lines. It looks likes this is an I2C interface. Interesting feature for those of you willing to do some more hacking! It is not used in this firmware version, these lines are solely for multiplexing the 7-segment displays.
+- The **S1** and **S2** lines. It looks likes this is an **I<sup>2</sup>C** interface. Interesting feature for those of you willing to do some more hacking! It is not used in this firmware version, these lines are solely for multiplexing the 7-segment displays.
 - The **S3** line. Now this is interesting, it is the only hardware pin *NOT* used. The new firmware uses it to switch an SSR (with a slow PWM signal) controlled by a PID-controller. But I guess it can be used for other purposes as well.
 
 ![backplane](img/schematics_backplane.png)<br>

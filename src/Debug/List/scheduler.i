@@ -2280,7 +2280,7 @@ void    list_all_tasks(_Bool rs232_udp);
 
 #line 25 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.c"
 
-task_struct task_list[(5)]; // struct with all tasks
+task_struct task_list[(4)]; // struct with all tasks
 uint8_t     max_tasks = 0;
 
 /*-----------------------------------------------------------------------------
@@ -2352,7 +2352,7 @@ uint8_t add_task(void (*task_ptr)(), char *Name, uint16_t delay, uint16_t period
 	uint16_t temp1 = (uint16_t)(delay  * (1000L) / 1000);
 	uint16_t temp2 = (uint16_t)(period * (1000L) / 1000);
 
-	if (max_tasks >= (5))
+	if (max_tasks >= (4))
 		return (5);
 		
 	//go through the active tasks

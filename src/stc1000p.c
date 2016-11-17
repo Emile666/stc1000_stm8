@@ -180,7 +180,7 @@ void initialise_system_clock(void)
 {
     CLK_ICKR       = 0;           //  Reset the Internal Clock Register.
     CLK_ICKR_HSIEN = 1;           //  Enable the HSI.
-    CLK_ECKR       = 0;           //  Disable the external clock.
+    //CLK_ECKR       = 0;           //  Disable the external clock.
     while (CLK_ICKR_HSIRDY == 0); //  Wait for the HSI to be ready for use.
     CLK_CKDIVR     = 0;           //  Ensure the clocks are running at full speed.
  
@@ -188,10 +188,10 @@ void initialise_system_clock(void)
     // Because fMASTER is now at 16 MHz, we need to set the ADC-prescaler to 4.
     ADC_CR1_SPSEL  = 0x02;        //  Set prescaler to 4, fADC = 4 MHz
     
-    CLK_PCKENR1    = 0xff;        //  Enable all peripheral clocks.
-    CLK_PCKENR2    = 0xff;        //  Ditto.
-    CLK_CCOR       = 0;           //  Turn off CCO.
-    CLK_HSITRIMR   = 0;           //  Turn off any HSIU trimming.
+    //CLK_PCKENR1    = 0xff;        //  Enable all peripheral clocks.
+    //CLK_PCKENR2    = 0xff;        //  Ditto.
+    //CLK_CCOR       = 0;           //  Turn off CCO.
+    //CLK_HSITRIMR   = 0;           //  Turn off any HSIU trimming.
     CLK_SWIMCCR    = 0;           //  Set SWIM to run at clock / 2.
     CLK_SWR        = 0xe1;        //  Use HSI as the clock source.
     CLK_SWCR       = 0;           //  Reset the clock switch control register.

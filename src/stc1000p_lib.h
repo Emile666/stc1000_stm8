@@ -63,11 +63,18 @@
 //---------------------------------------------------------------------------
 // Basic defines for EEPROM config addresses
 // One profile consists of several temp. time pairs and a final temperature
-// When changing NO_OF_PROFILES and/or NO_OF_TT_PAIRS, DO NOT FORGET (!!!) to
-// change eedata[] in stc1000p_lib.c
+//
+// Do NOT Forget to set:
+// 1) proper #include in stc1000p.h: <iostm8s003f3.h> or <iostm8s103f3.h>
+// 2) Project -> Options -> Target -> Device to STM8S003F3 or STM8S103F3
 //---------------------------------------------------------------------------
+#ifdef __IOSTM8S103F3_H__
+#define NO_OF_PROFILES	 (6)
+#define NO_OF_TT_PAIRS   (9)
+#else
 #define NO_OF_PROFILES	 (4)
 #define NO_OF_TT_PAIRS   (5)
+#endif
 #define PROFILE_SIZE     (2*(NO_OF_TT_PAIRS)+1)
 #define MENU_ITEM_NO	 NO_OF_PROFILES
 #define THERMOSTAT_MODE  NO_OF_PROFILES

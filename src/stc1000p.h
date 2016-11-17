@@ -55,8 +55,9 @@
 #ifndef __STC1000P_H__
 #define __STC1000P_H__
 
-// Replace with #include <iostm8s003f3.h> for STC1000 PCB
-#include <iostm8s103f3.h>
+// #include <iostm8s003f3.h> for stock STC1000 PCB
+#include <iostm8s003f3.h>
+//#include <iostm8s103f3.h>
 #include <stdint.h>
      
 /* Define STC-1000+ version number (XYY, X=major, YY=minor) */

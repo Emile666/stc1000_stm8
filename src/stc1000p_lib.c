@@ -35,16 +35,24 @@ const uint8_t led_lookup[] = {LED_0,LED_1,LED_2,LED_3,LED_4,LED_5,LED_6,LED_7,LE
 
 //----------------------------------------------------------------------------
 // These values are stored directly into EEPROM
-// Change this when you change NO_OF_PROFILES and/or NO_OF_TT_PAIRS!!
 //----------------------------------------------------------------------------
 __root __eeprom const int eedata[] = 
 {
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250,// 48, 40, 0, 0, 0, 0, 0, 0, // Pr0 (SP0, dh0, ..., dh8, SP9)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250,// 48, 40, 0, 0, 0, 0, 0, 0, // Pr1 (SP0, dh0, ..., dh8, SP9)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250,// 48, 40, 0, 0, 0, 0, 0, 0, // Pr2 (SP0, dh0, ..., dh8, SP9)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250,// 48, 40, 0, 0, 0, 0, 0, 0, // Pr3 (SP0, dh0, ..., dh8, SP9)
-   //160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr4 (SP0, dh0, ..., dh8, SP9)
-   //160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr5 (SP0, dh0, ..., dh8, SP9)
+#ifdef __IOSTM8S103F3_H__
+    // STM8S103F3 with 640 bytes EEPROM
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr0 (SP0, dh0, ..., dh8, SP9)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr1 (SP0, dh0, ..., dh8, SP9)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr2 (SP0, dh0, ..., dh8, SP9)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr3 (SP0, dh0, ..., dh8, SP9)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr4 (SP0, dh0, ..., dh8, SP9)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr5 (SP0, dh0, ..., dh8, SP9)
+#else
+    // STM8S003F3 with 128 bytes EEPROM (stock STC1000 IC)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr0 (SP0, dh0, ..., dh4, SP5)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr1 (SP0, dh0, ..., dh4, SP5)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr2 (SP0, dh0, ..., dh4, SP5)
+   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr3 (SP0, dh0, ..., dh4, SP5)
+#endif
    MENU_DATA(EEPROM_DEFAULTS) 1 // Last one is for POWER_ON
 }; // eedata[]
 
@@ -159,26 +167,20 @@ void value_to_led(int value, uint8_t decimal)
 {
 	uint8_t i;
 
-	if (value < 0) 
+	led_e.e.negative = 0;
+        if (value < 0) 
         {  // Handle negative values
 	   led_e.e.negative = 1;
 	   value            = -value;
 	} // if
-        else 
-        {
-	   led_e.e.negative = 0;
-	} // else
 
+	led_e.e.deg = 0; // ° symbol
+        led_e.e.c   = 0; // Celsius symbol
 	if(decimal == 1)
         {  // this is a temperature
 	   led_e.e.deg = 1;
-	   if (fahrenheit)
-                led_e.e.c   = 0;
-	   else led_e.e.c   = 1; // Celsius symbol
-	} else {
-	   led_e.e.deg = 0; // ° symbol
-	   led_e.e.c   = 0; // Celsius symbol
-	} // else
+           if (!fahrenheit) led_e.e.c = 1; // Celsius symbol
+	} // if
 
 	// If temperature >= 100 we must loose a decimal...
 	if (value >= 1000) 

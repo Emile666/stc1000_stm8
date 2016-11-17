@@ -27,7 +27,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define MAX_TASKS	  (5)
+#define MAX_TASKS	  (4)
 #define MAX_MSEC      (60000)
 #define TICKS_PER_SEC (1000L)
 #define NAME_LEN         (12) 

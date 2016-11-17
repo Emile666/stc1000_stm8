@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-664100407
+Checksum=-1202149594
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -49,6 +49,8 @@ Placement=_ 738 379 1183 662
 LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
+[Breakpoints]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -56,8 +58,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Breakpoints]
-Count=0
 [Aliases]
 Count=0
 SuppressDialog=0
