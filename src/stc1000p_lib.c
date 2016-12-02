@@ -57,8 +57,8 @@ __root __eeprom const int eedata[] =
 }; // eedata[]
 
 // Global variables to hold LED data (for multiplexing purposes)
-led_e_t led_e = {0x00};         // value of extra LEDs
-led_t   led_10, led_1, led_01;  // values of 10s, 1s and 0.1s
+uint8_t led_e = {0x00};         // value of extra LEDs
+uint8_t led_10, led_1, led_01;  // values of 10s, 1s and 0.1s
 
 uint16_t cooling_delay = 60;    // Initial cooling delay
 uint16_t heating_delay = 60;    // Initial heating delay
@@ -124,32 +124,30 @@ uint16_t divu10(uint16_t n)
   ---------------------------------------------------------------------------*/
 void prx_to_led(uint8_t run_mode, uint8_t is_menu)
 {
-    led_e.e.negative = 0;
-    led_e.e.deg      = 0;
-    led_e.e.c        = 0;
-    led_e.e.point    = 0;
+    // clear negative, deg, c and point indicators
+    led_e &= ~(LED_NEG | LED_DEGR | LED_CELS | LED_POINT);  
     if(run_mode < NO_OF_PROFILES)
     {   // one of the profiles
-	led_10.raw = LED_P;
-	led_1.raw  = LED_r;
-	led_01.raw = led_lookup[run_mode];
+	led_10 = LED_P;
+	led_1  = LED_r;
+	led_01 = led_lookup[run_mode];
     } else { // parameter menu
 	if (is_menu)
         {   // within menu
-	    led_10.raw = LED_S;
-	    led_1.raw  = LED_E;
-	    led_01.raw = LED_t;
+	    led_10 = LED_S;
+	    led_1  = LED_E;
+	    led_01 = LED_t;
 	} else if (ts == 0) 
         { // Thermostat Mode
-	    led_10.raw = LED_t; 
-	    led_1.raw  = LED_h;
-	    led_01.raw = LED_OFF;
+	    led_10 = LED_t; 
+	    led_1  = LED_h;
+	    led_01 = LED_OFF;
 	} // else if
         else 
         {   // PID controller mode
-	    led_10.raw = LED_P; 
-	    led_1.raw  = LED_I;
-	    led_01.raw = LED_d;
+	    led_10 = LED_P; 
+	    led_1  = LED_I;
+	    led_01 = LED_d;
         } // else
     } // else
 } // prx_to_led()
@@ -167,19 +165,17 @@ void value_to_led(int value, uint8_t decimal)
 {
 	uint8_t i;
 
-	led_e.e.negative = 0;
+	led_e &= ~(LED_NEG | LED_DEGR | LED_CELS); // clear negative, ° and Celsius symbols
         if (value < 0) 
         {  // Handle negative values
-	   led_e.e.negative = 1;
-	   value            = -value;
+           led_e |= LED_NEG;
+	   value  = -value;
 	} // if
 
-	led_e.e.deg = 0; // ° symbol
-        led_e.e.c   = 0; // Celsius symbol
-	if(decimal == 1)
+        if(decimal == 1)
         {  // this is a temperature
-	   led_e.e.deg = 1;
-           if (!fahrenheit) led_e.e.c = 1; // Celsius symbol
+	   led_e |= LED_DEGR;
+           if (!fahrenheit) led_e |= LED_CELS; // Celsius symbol
 	} // if
 
 	// If temperature >= 100 we must loose a decimal...
@@ -196,25 +192,25 @@ void value_to_led(int value, uint8_t decimal)
            {
 	      value -= 100;
 	   } // for
-	   led_10.raw = led_lookup[i & 0x0f];
+	   led_10 = led_lookup[i & 0x0f];
 	} else {
-	   led_10.raw = LED_OFF; // Turn off led if zero (loose leading zeros)
+	   led_10 = LED_OFF; // Turn off led if zero (loose leading zeros)
 	} // else
-	if (value >= 10 || decimal || led_10.raw != LED_OFF)
+	if (value >= 10 || decimal || led_10 != LED_OFF)
         {  // If decimal, we want 1 leading zero
 	   for(i = 0; value >= 10; i++)
            {
 	      value -= 10;
 	   } // for
-	   led_1.raw = led_lookup[i];
+	   led_1 = led_lookup[i];
 	   if (decimal)
            {
-	      led_1.decimal = 1;
+	      led_1 |= LED_DECIMAL;
 	   } // if
 	} else {
-	   led_1.raw = LED_OFF; // Turn off led if zero (loose leading zeros)
+	   led_1 = LED_OFF; // Turn off led if zero (loose leading zeros)
 	} // else
-	led_01.raw = led_lookup[(uint8_t)value];
+	led_01 = led_lookup[(uint8_t)value];
 } // value_to_led()
 
 /*-----------------------------------------------------------------------------
@@ -468,10 +464,9 @@ void menu_fsm(void)
        //--------------------------------------------------------------------         
        case MENU_SHOW_VERSION: // Show STC1000p version number
             value_to_led(STC1000P_VERSION,LEDS_INT);
-	    led_10.decimal = 1;
-	    led_1.decimal  = 1;
-	    led_e.e.deg    = 0;
-	    led_e.e.c      = 0;
+	    led_10 |= LED_DECIMAL;
+            led_1  |= LED_DECIMAL;
+	    led_e  &= ~(LED_DEGR | LED_CELS); // clear ° and Celsius symbols
 	    if(!BTN_HELD(BTN_UP | BTN_DOWN)) menustate = MENU_IDLE;
 	    break;
        //--------------------------------------------------------------------         
@@ -544,25 +539,24 @@ void menu_fsm(void)
             break; // MENU_SET_MENU_ITEM
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_ITEM: // S-button is released
-	    led_e.e.negative = 0;
-	    led_e.e.deg      = 0;
-	    led_e.e.c        = 0;
+	    led_e &= ~(LED_NEG | LED_DEGR | LED_CELS); // clear negative, ° and Celsius symbols
+
 	    if(menu_item < MENU_ITEM_NO)
             {
                 if(config_item & 0x1) 
                 {   
-                    led_10.raw = LED_d; // duration: 2nd value of a profile-step
-                    led_1.raw  = LED_h;
+                    led_10 = LED_d; // duration: 2nd value of a profile-step
+                    led_1  = LED_h;
                 } else {
-                    led_10.raw = LED_S; // setpoint: 1st value of a profile-step
-                    led_1.raw  = LED_P;
+                    led_10 = LED_S; // setpoint: 1st value of a profile-step
+                    led_1  = LED_P;
                 } // else
-                led_01.raw = led_lookup[(config_item >> 1)];
+                led_01 = led_lookup[(config_item >> 1)];
 	    } else /* if (menu_item == 6) */
             {   // show parameter name
-                led_10.raw = menu[config_item].led_c_10;
-                led_1.raw  = menu[config_item].led_c_1;
-                led_01.raw = menu[config_item].led_c_01;
+                led_10 = menu[config_item].led_c_10;
+                led_1  = menu[config_item].led_c_1;
+                led_01 = menu[config_item].led_c_01;
 	    } // else
 	    m_countdown = TMR_NO_KEY_TIMEOUT;
 	    menustate   = MENU_SET_CONFIG_ITEM;
@@ -636,7 +630,7 @@ void menu_fsm(void)
             {   // Display duration as integer, temperature in 0.1
                 value_to_led(config_value, (config_item & 0x1) ? LEDS_INT : LEDS_TEMP);
             } else 
-            {   /* menu_item == MENU_ITEM_NO */ 
+            {   // menu_item == MENU_ITEM_NO
                 type = menu[config_item].type;
                 if(MENU_TYPE_IS_TEMPERATURE(type))
                 {   // temperature, display in 0.1
@@ -724,25 +718,6 @@ void menu_fsm(void)
 } // button_menu_fsm()
 
 /*-----------------------------------------------------------------------------
-  Purpose  : This routine initialises the heating and cooling delays.
-  Variables: -
-  Returns  : -
-  ---------------------------------------------------------------------------*/
-void init_temp_delays(void)
-{
-    if (!minutes) setpoint = eeprom_read_config(EEADR_MENU_ITEM(SP));
-    hysteresis  = eeprom_read_config(EEADR_MENU_ITEM(hy));
-    hysteresis2 = eeprom_read_config(EEADR_MENU_ITEM(hy2));
-
-    if(cooling_delay) cooling_delay--;
-    if(heating_delay) heating_delay--;
-
-    // Set LED outputs
-    led_e.e.cool = COOL_STATUS; // Cooling
-    led_e.e.heat = HEAT_STATUS; // Heating
-} // init_temp_delays()
-
-/*-----------------------------------------------------------------------------
   Purpose  : This routine converts a menu item in minutes to a value in seconds.
   Variables: -
   Returns  : -
@@ -755,6 +730,53 @@ uint16_t min_to_sec(enum menu_enum x)
     retv = retv - (retv >> 4); // 64 - 4 = 60
     return retv;
 } // min_to_sec()
+
+/*-----------------------------------------------------------------------------
+  Purpose  : This routine initialises the heating and cooling delays.
+  Variables: -
+  Returns  : -
+  ---------------------------------------------------------------------------*/
+void init_temp_delays(void)
+{
+    if (!minutes) setpoint = eeprom_read_config(EEADR_MENU_ITEM(SP));
+    hysteresis  = eeprom_read_config(EEADR_MENU_ITEM(hy));
+    hysteresis2 = eeprom_read_config(EEADR_MENU_ITEM(hy2));
+
+    if (cooling_delay) cooling_delay--;
+    if (heating_delay) heating_delay--;
+} // init_temp_delays()
+
+/*-----------------------------------------------------------------------------
+  Purpose  : This routine switches the cooling relay and the LED indicator.
+  Variables: -
+  Returns  : -
+  ---------------------------------------------------------------------------*/
+void enable_cooling(void)
+{
+     if (cooling_delay) 
+         led_e ^= LED_COOL; // Flash to indicate cooling delay
+     else
+     {   // time-out
+         COOL_ON; // Enable Cooling
+         led_e |= LED_COOL;
+     } // else
+} // enable_cooling()
+
+/*-----------------------------------------------------------------------------
+  Purpose  : This routine switches the heating relay and the LED indicator.
+  Variables: -
+  Returns  : -
+  ---------------------------------------------------------------------------*/
+void enable_heating(void)
+{
+     if (heating_delay) 
+         led_e ^= LED_HEAT; // Flash to indicate heating delay
+     else
+     {   // time-out
+         HEAT_ON; // Enable Cooling
+         led_e |= LED_HEAT;
+     } // else
+} // enable_heating()
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine controls the temperature setpoints. It should be 
@@ -774,21 +796,17 @@ void temperature_control(void)
         cooling_delay = min_to_sec(cd);
         heating_delay = min_to_sec(hd);
 	RELAYS_OFF; // Disable Cooling and Heating relays
+        led_e &= ~(LED_HEAT | LED_COOL); // disable both LEDs
     } // if
-    else if(!HEAT_STATUS && !COOL_STATUS) 
+    else if (!HEAT_STATUS && !COOL_STATUS) 
     {
 	hysteresis2 >>= 2; // Divide hysteresis2 by 2
 	if ((temp_ntc1 > setpoint + hysteresis) && (!probe2 || (temp_ntc2 >= setpoint - hysteresis2))) 
-        {
-	    if (cooling_delay) // Flash to indicate cooling delay
-	         led_e.e.cool = led_e.e.cool ^ (cooling_delay & 0x1); 
-	    else COOL_ON; // Enable Cooling
-	} else if ((temp_ntc1 < setpoint - hysteresis) && (probe2 || (temp_ntc2 <= setpoint + hysteresis2))) 
-        {
-	    if (heating_delay) // Flash to indicate heating delay 
-	         led_e.e.heat = led_e.e.heat ^ (heating_delay & 0x1); 
-	    else HEAT_ON; // Enable Heating
-	} // else if
+             enable_cooling(); // switch cooling relay
+        else led_e &= ~LED_COOL;
+	if ((temp_ntc1 < setpoint - hysteresis) && (probe2 || (temp_ntc2 <= setpoint + hysteresis2))) 
+	    enable_heating(); // switch heating relay
+	else led_e &= ~LED_HEAT;
     } // else if
 } // temperature_control()
 
@@ -824,24 +842,22 @@ void pid_control(void)
     if (!pwr_on || (HEAT_STATUS && (pid_out <= hysteresis)))
     {   // heating and pid-output drops below hysteresis limit in E-1 %
         heating_delay = min_to_sec(hd);
-	HEAT_OFF; // Disable Heating
+	HEAT_OFF;           // Disable Heating
+        led_e &= ~LED_HEAT; // Disable LED indicator
     } // if    
     else if (!HEAT_STATUS && (pid_out >= hysteresis2))
     {   // pwr_on && !heating && pid output exceeds hysteresis limit in E-1 %
-        if (heating_delay) // Flash to indicate heating delay
-	     led_e.e.heat = led_e.e.heat ^ (heating_delay & 0x1); 
-	else HEAT_ON; // Enable Heating
+	enable_heating(); // switch heating relay
     } // else if
     // --------- Logic for COOLING -----------------------------------
     if (!pwr_on || (COOL_STATUS && (pid_out >= -hysteresis)))
     {   // cooling and pid-output exceeds upper hysteresis limit in E-1 %
         cooling_delay = min_to_sec(cd);
 	COOL_OFF; // Disable cooling
+        led_e &= ~LED_COOL; // Disable LED indicator
     } // if    
     else if (!COOL_STATUS && (pid_out <= -hysteresis2))
     {   // pwr_on && !cooling && pid-output drops below hysteresis limit in E-1 %
-        if (cooling_delay) // Flash to indicate cooling delay
-	     led_e.e.cool = led_e.e.cool ^ (cooling_delay & 0x1); 
-	else COOL_ON; // Enable Cooling
+	enable_cooling(); // switch cooling relay
     } // else if
 } // pid_control()

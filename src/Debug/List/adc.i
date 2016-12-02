@@ -5228,39 +5228,7 @@ V5.04:0576 */
 //  D   E   F   G   dp  A   B   C
 #line 138 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 
-typedef union
-{
-    uint8_t raw;
-    struct
-    {
-        unsigned          : 8; // Alignment for IAR compiler
-        unsigned heat     : 1; // Heating LED (c)
-        unsigned set      : 1; // Set LED (b)
-        unsigned cool     : 1; // Cooling LED (a)
-        unsigned          : 1; // Not Connected (dp)
-        unsigned point    : 1; // Not Connected (g)
-        unsigned c        : 1; // Celsius (f)
-        unsigned deg      : 1; // Degree symbol (e)
-        unsigned negative : 1; // Negative sign (d)
-    } e;
-} led_e_t;
-
-typedef union
-{
-    struct
-    {
-        unsigned         : 8; // Alignment for IAR compiler
-        unsigned seg_c   : 1; // PD1
-        unsigned seg_b   : 1; // PD2
-        unsigned seg_a   : 1; // PD3
-        unsigned decimal : 1; // PC3
-        unsigned seg_g   : 1; // PC4
-        unsigned seg_f   : 1; // PC5
-        unsigned seg_e   : 1; // PC6
-        unsigned seg_d   : 1; // PC7
-    };
-    uint8_t raw;
-} led_t;
+#line 147 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 
 // Function prototypes
 void save_display_state(void);

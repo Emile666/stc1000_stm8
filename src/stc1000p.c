@@ -49,8 +49,8 @@ uint8_t   portb, portc, portd, b;// Needed for save_display_state() and restore_
 int16_t   pwr_on_tmr = 1000;     // Needed for 7-segment display test
 
 // External variables, defined in other files
-extern led_e_t led_e;                 // value of extra LEDs
-extern led_t   led_10, led_1, led_01; // values of 10s, 1s and 0.1s
+extern uint8_t led_e;                 // value of extra LEDs
+extern uint8_t led_10, led_1, led_01; // values of 10s, 1s and 0.1s
 extern bool    pwr_on;           // True = power ON, False = power OFF
 extern uint8_t sensor2_selected; // DOWN button pressed < 3 sec. shows 2nd temperature / pid_output
 extern bool    minutes;          // timing control: false = hours, true = minutes
@@ -115,26 +115,26 @@ void multiplexer(void)
     switch (mpx_nr)
     {
         case 0: // output 10s digit
-            PC_ODR |= (led_10.raw & PORTC_LEDS);        // Update PC7..PC3
-            PD_ODR |= ((led_10.raw << 1) & portd_leds); // Update PD3..PD1
+            PC_ODR |= (led_10 & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR |= ((led_10 << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~CC_10;    // Enable  common-cathode for 10s
             mpx_nr = 1;
             break;
         case 1: // output 1s digit
-            PC_ODR |= (led_1.raw & PORTC_LEDS);        // Update PC7..PC3
-            PD_ODR |= ((led_1.raw << 1) & portd_leds); // Update PD3..PD1
+            PC_ODR |= (led_1 & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR |= ((led_1 << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~CC_1;     // Enable  common-cathode for 1s
             mpx_nr = 2;
             break;
         case 2: // output 01s digit
-            PC_ODR |= (led_01.raw & PORTC_LEDS);        // Update PC7..PC3
-            PD_ODR |= ((led_01.raw << 1) & portd_leds); // Update PD3..PD1
+            PC_ODR |= (led_01 & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR |= ((led_01 << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~CC_01;    // Enable common-cathode for 0.1s
             mpx_nr = 3;
             break;
         case 3: // outputs special digits
-            PC_ODR |= (led_e.raw & PORTC_LEDS);        // Update PC7..PC3
-            PD_ODR |= ((led_e.raw << 1) & portd_leds); // Update PD3..PD1
+            PC_ODR |= (led_e & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR |= ((led_e << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~CC_e;     // Enable common-cathode for extras
         default: // FALL-THROUGH (less code-size)
             mpx_nr = 0;
@@ -156,15 +156,15 @@ __interrupt void TIM2_UPD_OVF_IRQHandler(void)
     scheduler_isr();  // Run scheduler interrupt function
     if (!pwr_on)
     {   // Display OFF on dispay
-	led_10.raw = LED_O;
-	led_1.raw  = led_01.raw = LED_F;
-        led_e.raw  = LED_OFF;
+	led_10     = LED_O;
+	led_1      = led_01 = LED_F;
+        led_e      = LED_OFF;
         pwr_on_tmr = 1000; // 1 second
     } // if
     else if (pwr_on_tmr > 0)
     {	// 7-segment display test for 1 second
         pwr_on_tmr--;
-        led_10.raw = led_1.raw  = led_01.raw = led_e.raw  = LED_ON;
+        led_10 = led_1 = led_01 = led_e = LED_ON;
     } // else if
     multiplexer();    // Run multiplexer for Display and Keys
     TIM2_SR1_UIF = 0; // Reset the interrupt otherwise it will fire again straight away.
@@ -180,18 +180,12 @@ void initialise_system_clock(void)
 {
     CLK_ICKR       = 0;           //  Reset the Internal Clock Register.
     CLK_ICKR_HSIEN = 1;           //  Enable the HSI.
-    //CLK_ECKR       = 0;           //  Disable the external clock.
     while (CLK_ICKR_HSIRDY == 0); //  Wait for the HSI to be ready for use.
     CLK_CKDIVR     = 0;           //  Ensure the clocks are running at full speed.
  
     // The datasheet lists that the max. ADC clock is equal to 6 MHz (4 MHz when on 3.3V).
     // Because fMASTER is now at 16 MHz, we need to set the ADC-prescaler to 4.
     ADC_CR1_SPSEL  = 0x02;        //  Set prescaler to 4, fADC = 4 MHz
-    
-    //CLK_PCKENR1    = 0xff;        //  Enable all peripheral clocks.
-    //CLK_PCKENR2    = 0xff;        //  Ditto.
-    //CLK_CCOR       = 0;           //  Turn off CCO.
-    //CLK_HSITRIMR   = 0;           //  Turn off any HSIU trimming.
     CLK_SWIMCCR    = 0;           //  Set SWIM to run at clock / 2.
     CLK_SWR        = 0xe1;        //  Use HSI as the clock source.
     CLK_SWCR       = 0;           //  Reset the clock switch control register.
@@ -347,7 +341,7 @@ void ctrl_task(void)
          minutes = false; // control-timing is in hours 
     else minutes = true;  // control-timing is in minutes
 
-    // Start with updating the alarm
+   // Start with updating the alarm
    // cache whether the 2nd probe is enabled or not.
       if (eeprom_read_config(EEADR_MENU_ITEM(Pb2))) 
         probe2 = true;
@@ -358,17 +352,17 @@ void ctrl_task(void)
        RELAYS_OFF; // disable the output relays
        if (menu_is_idle)
        {  // Make it less anoying to nagivate menu during alarm
-          led_10.raw = LED_A;
-	  led_1.raw  = LED_L;
-	  led_e.raw  = led_01.raw = LED_OFF;
+          led_10 = LED_A;
+	  led_1  = LED_L;
+	  led_e  = led_01 = LED_OFF;
        } // if
        cooling_delay = heating_delay = 60;
    } else {
        ALARM_OFF; // reset the piezo buzzer
        if(((uint8_t)eeprom_read_config(EEADR_MENU_ITEM(rn))) < THERMOSTAT_MODE)
-            led_e.e.set = 1; // Indicate profile mode
-       else led_e.e.set = 0;
-
+            led_e |=  LED_SET; // Indicate profile mode
+       else led_e &= ~LED_SET;
+ 
        ts = eeprom_read_config(EEADR_MENU_ITEM(Ts)); // Read Ts [seconds]
        sa = eeprom_read_config(EEADR_MENU_ITEM(SA)); // Show Alarm parameter
        if (sa)
@@ -400,16 +394,20 @@ void ctrl_task(void)
        {
            if ((PD_IDR & ALARM) && show_sa_alarm)
            {
-               led_10.raw = LED_S;
-	       led_1.raw  = LED_A;
-	       led_01.raw = LED_OFF;
+               led_10 = LED_S;
+	       led_1  = LED_A;
+	       led_01 = LED_OFF;
            } else {
-               //led_e.e.point  = sensor2_selected; // does not work
+               led_e &= ~LED_POINT; // LED in middle, does not seem to work
                switch (sensor2_selected)
                {
-                   case 0: value_to_led(temp_ntc1,LEDS_TEMP); break;
-                   case 1: value_to_led(temp_ntc2,LEDS_TEMP); break;
-                   case 2: value_to_led(pid_out  ,LEDS_INT) ; break;
+                   case 0: value_to_led(temp_ntc1,LEDS_TEMP); 
+                           break;
+                   case 1: value_to_led(temp_ntc2,LEDS_TEMP); 
+                           led_e |= LED_POINT;
+                           break;
+                   case 2: value_to_led(pid_out  ,LEDS_INT) ; 
+                           break;
                } // switch
            } // else
            show_sa_alarm = !show_sa_alarm;
@@ -459,10 +457,10 @@ int main(void)
     pwr_on = eeprom_read_config(EEADR_POWER_ON); // check pwr_on flag
     
     // Initialise all tasks for the scheduler
-    add_task(adc_task ,"ADC  task",  0,  500); // every 500 msec.
-    add_task(std_task ,"STD  task", 50,  100); // every 100 msec.
-    add_task(ctrl_task,"CTRL task",200, 1000); // every second
-    add_task(prfl_task,"PRFL task",300,60000); // every minute / hour
+    add_task(adc_task ,"ADC",  0,  500); // every 500 msec.
+    add_task(std_task ,"STD", 50,  100); // every 100 msec.
+    add_task(ctrl_task,"CTL",200, 1000); // every second
+    add_task(prfl_task,"PRF",300,60000); // every minute / hour
     __enable_interrupt();
 
     while (1)

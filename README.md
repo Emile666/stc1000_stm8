@@ -27,8 +27,8 @@ Please don't open github issues for general questions. Only open an issue if you
 
 Quick start
 -----------
-You'd need one of those fancy coloured ST-Link V2 USB adapter (which are very cheap to find on ebay) and of-course a STC-1000 with a STM8. Mine has a label '0602 05 R QC' on top, the Printed Circuit-Board (PCB) itself has a mark 'WR-032'. Furthermore you need
-the IAR development environment for STM8, which can be downloaded free of charge. Use the code-size limited version. After having installed this, the drivers for the ST-Link USB adapter are also installed.
+You'd need one of those fancy coloured ST-Link V2 USB adapter (which are very cheap to find on ebay) and of-course an STC-1000 with a STM8. Mine has a label '0602 05 R QC' on top, the Printed Circuit-Board (PCB) itself has a mark 'WR-032'.
+ 
 ![st-link-v2](img/st_link_v2.png)<br>
 *The ST-Link V2 USB adapter*
 
@@ -38,6 +38,21 @@ Power-up the STC-1000 and connect the ST-Link V2 USB to it.
 ![swim-interface](img/swim_interface.jpg)<br>
 *The Programming Interface. Note that you have to solder the 4-pins in place!*
 
+Method 1: Just program it with ST Visual Programmer
+-------------------------
+This is the best method if you just want to flash the STC-1000 with the software provided and you don't want to change any software functionality.
+
+- Download the ST Visual Programmer (STVP) software, unpack the .zip file and install it. This file can be downloaded free of charge from the ST website (st.com). Just search for 'STVP-STM8', the file to download is called en.stvp-stm8.zip.
+- Run the STVP program, then click on Project -> Open..., select the **stvp_stm8s003f3_4pr_5tt.stp** file and open it. This file is located in src\Debug\Exe. You can safely ignore the 'address out of range' warnings, this is not a problem. Both the *Program Memory* tab and the *Data Memory* tabs are now filled with the data from the .hex file. Check that these tabs are indeed filled with data.
+- Now find the button that says "Program all tabs" or click Program->All Tabs. This will program the microcontroller with the new functionality.
+
+Note: there's also a project and .hex file for the **STM8S103F3** microcontroller (with 6 profiles and 9 temperature-time pairs). Use this version when you have replaced the stock microcontroller (see text below).
+
+Method 2: Program and install complete development environment
+-------------------------
+This is the best method for anyone wanting to flash the STC-1000 and be able to make changes to the software.
+
+- Download and install the IAR development environment for STM8 from the IAR website, which can be downloaded free of charge. Use the code-size limited version. After having installed this, the drivers for the ST-Link USB adapter are also installed.
 - If you have downloaded the project- and source-files, open the workspace in IAR (File -> Open -> Workspace... -> stc1000p_dev.eww), then do a Project -> Rebuild All.
 - The µC has Read-Only-Protection (ROP) enabled and this needs to be disabled before the new firmware can be uploaded. Click on ST-LINK -> Option Bytes... The following dialog box opens:
 ![rop-protection](img/Disable_ROP.png)<br>
@@ -91,6 +106,9 @@ Next: use the hot-air to heat-up the pins on one side of the µC. Use a sharp kn
 
 If you don't have access to a hot-air rework station, here's a tip from Mats himself: one can can simply thread a thin wire under the legs on one side of the IC, fix one end of the wire and heat the legs with a soldering iron (starting at the other end) while keeping the wire under tension. As the solder melts, you pull the wire under the leg/pad, freeing them.
 
+![uC removed](img/stm8s_removed.jpg)<br>
+*This is how it looks after the microcontroller is removed*
+
 Then: apply solder paste to the solder-pads of the µC and position the **STM8S103F3P6** µC exactly above the pads. Note the orientation of the device (there's a small circle denoting pin 1), you don't want to solder it upside-down! Position the µC exactly above the solder-pads, make sure the position is correct for all pins and use the hot-air station again to solder the new IC. Let is cool down again. It would be wise at this point to connect the ST-Link V2 USB device to the programming connector and see if you can connect to the device. If all is well, solder both PCB boards back together. If not, check all solder-joints to see if one or more pins are not connected properly.
 
 Updates
@@ -98,5 +116,6 @@ Updates
 
 |Date|Release|Description|
 |----|-------|-----------|
-|2016-10-27|v1.00|First release, copied from https://github.com/matsstaff/stc1000p
+|2016-12-02|v1.10|reduced code-size by removing unions and bit-fields. Added description how to flash firmware with STVP program. Description added for v2 hardware.|
+|2016-10-27|v1.00|First release, copied from https://github.com/matsstaff/stc1000p |
 
