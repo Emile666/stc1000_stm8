@@ -32,18 +32,19 @@
 */
 #include "pid.h"
 
-uint16_t kc = 0;   // Parameter value for Kc value in %/°C
+int16_t  kc = 0;   // Parameter value for Kc value in %/°C
 uint16_t ti = 0;   // Parameter value for I action in seconds
 uint16_t td = 0;   // Parameter value for D action in seconds
 // Init ts to 0 to disable pid-control and enable thermostat control
 uint8_t  ts = 0;   // Parameter value for sample time [sec.]
-uint32_t ki;       // Internal value for I action
-uint32_t kd;       // Internal value for D action
+int32_t  ki;       // Internal value for I action
+int32_t  kd;       // Internal value for D action
 int32_t  pp;       // debug
 int16_t  yk_1;     // y[k-1]
 int16_t  yk_2;     // y[k-2]
+bool     reverse_acting; // if Kc < 0, cooling-loop mode is enabled
 
-void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk)
+void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk)
 /*------------------------------------------------------------------
   Purpose  : This function initialises the Takahashi Type C PID
              controller.
@@ -64,15 +65,23 @@ void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk)
   Returns  : No values are returned
   ------------------------------------------------------------------*/
 {
+   int32_t kcc = kc; // local copy of kc
+   
+   reverse_acting = false;
+   if (kcc < 0) 
+   {
+       kcc = -kcc;
+       reverse_acting = true;
+   } // if
    if (ti == 0) ki = 0;
-   else         ki = (((uint32_t)kc * ts) / ti);
+   else         ki = (((int32_t)kcc * ts) / ti);
    if (ts == 0) kd = 0;
-   else         kd = (((uint32_t)kc * td) / ts);
+   else         kd = (((int32_t)kcc * td) / ts);
    
    yk_2 = yk_1 = yk; // init. previous samples to current temperature
 } // init_pid()
 
-void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset)
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset)
 /*------------------------------------------------------------------
   Purpose  : This function implements the Takahashi Type C PID
              controller: the P and D term are no longer dependent
@@ -94,10 +103,11 @@ void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset)
     //                                      Ti           Ts
     //
     //-----------------------------------------------------------------------------
-    pp   = (uint32_t)kc * (yk_1 - yk);               // Kc.(y[k-1]-y[k])
-    pp  += (uint32_t)ki * (tset - yk);               // (Kc.Ts/Ti).e[k]
-    pp  += (uint32_t)kd * ((yk_1 << 1) - yk - yk_2); // (Kc.Td/Ts).(2.y[k-1]-y[k]-y[k-2])
-    *uk += (int16_t)pp;
+    pp   = (int32_t)kc * (yk_1 - yk);      //  Kc.(y[k-1]-y[k])
+    pp  += ki * (tset - yk);               // (Kc.Ts/Ti).e[k]
+    pp  += kd * ((yk_1 << 1) - yk - yk_2); // (Kc.Td/Ts).(2.y[k-1]-y[k]-y[k-2])
+    if (reverse_acting) pp = -pp;          // cooling loop!
+    *uk += (int16_t)pp;                    // u[k] = u[k-1] + ...
     // limit u[k] to GMA_HLIM and GMA_LLIM
     if (*uk > GMA_HLIM)      *uk = GMA_HLIM;
     else if (*uk < GMA_LLIM) *uk = GMA_LLIM;

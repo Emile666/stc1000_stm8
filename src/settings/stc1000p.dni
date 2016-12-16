@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=316258983
+Checksum=-1445190613
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -57,7 +57,8 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
-Count=0
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\stc1000p_lib.c}.350.17" 1 0 0 0 "" 0 ""
+Count=1
 [Aliases]
 Count=0
 SuppressDialog=0

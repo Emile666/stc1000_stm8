@@ -1948,33 +1948,63 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
 #line 26 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdbool.h"
+/* stdbool.h header */
+/* Copyright 2003-2010 IAR Systems AB.  */
+
+/* NOTE: IAR Extensions must be enabled in order to use the bool type! */
+
+
+
+
+
+  #pragma system_include
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
+ * Consult your license regarding permissions and restrictions.
+V5.04:0576 */
+#line 27 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.h"
 
 // PID controller upper & lower limit [E-1 %]
-// Set GMA_LLIM to 0 if PID should only control heating
-// Set GMA_LLIM to -1000 if PID should also control cooling
 
 
 
 //--------------------
 // Function Prototypes
 //--------------------
-void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk);
-void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset);
+void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 
 #line 34 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.c"
 
-uint16_t kc = 0;   // Parameter value for Kc value in %/°C
+int16_t  kc = 0;   // Parameter value for Kc value in %/°C
 uint16_t ti = 0;   // Parameter value for I action in seconds
 uint16_t td = 0;   // Parameter value for D action in seconds
 // Init ts to 0 to disable pid-control and enable thermostat control
 uint8_t  ts = 0;   // Parameter value for sample time [sec.]
-uint32_t ki;       // Internal value for I action
-uint32_t kd;       // Internal value for D action
+int32_t  ki;       // Internal value for I action
+int32_t  kd;       // Internal value for D action
 int32_t  pp;       // debug
 int16_t  yk_1;     // y[k-1]
 int16_t  yk_2;     // y[k-2]
+_Bool     reverse_acting; // if Kc < 0, cooling-loop mode is enabled
 
-void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk)
+void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk)
 /*------------------------------------------------------------------
   Purpose  : This function initialises the Takahashi Type C PID
              controller.
@@ -1995,15 +2025,23 @@ void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk)
   Returns  : No values are returned
   ------------------------------------------------------------------*/
 {
+   int32_t kcc = kc; // local copy of kc
+   
+   reverse_acting = 0;
+   if (kcc < 0) 
+   {
+       kcc = -kcc;
+       reverse_acting = 1;
+   } // if
    if (ti == 0) ki = 0;
-   else         ki = (((uint32_t)kc * ts) / ti);
+   else         ki = (((int32_t)kcc * ts) / ti);
    if (ts == 0) kd = 0;
-   else         kd = (((uint32_t)kc * td) / ts);
+   else         kd = (((int32_t)kcc * td) / ts);
    
    yk_2 = yk_1 = yk; // init. previous samples to current temperature
 } // init_pid()
 
-void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset)
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset)
 /*------------------------------------------------------------------
   Purpose  : This function implements the Takahashi Type C PID
              controller: the P and D term are no longer dependent
@@ -2025,13 +2063,14 @@ void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset)
     //                                      Ti           Ts
     //
     //-----------------------------------------------------------------------------
-    pp   = (uint32_t)kc * (yk_1 - yk);               // Kc.(y[k-1]-y[k])
-    pp  += (uint32_t)ki * (tset - yk);               // (Kc.Ts/Ti).e[k]
-    pp  += (uint32_t)kd * ((yk_1 << 1) - yk - yk_2); // (Kc.Td/Ts).(2.y[k-1]-y[k]-y[k-2])
-    *uk += (int16_t)pp;
+    pp   = (int32_t)kc * (yk_1 - yk);      //  Kc.(y[k-1]-y[k])
+    pp  += ki * (tset - yk);               // (Kc.Ts/Ti).e[k]
+    pp  += kd * ((yk_1 << 1) - yk - yk_2); // (Kc.Td/Ts).(2.y[k-1]-y[k]-y[k-2])
+    if (reverse_acting) pp = -pp;          // cooling loop!
+    *uk += (int16_t)pp;                    // u[k] = u[k-1] + ...
     // limit u[k] to GMA_HLIM and GMA_LLIM
-    if (*uk > ( 1000))      *uk = ( 1000);
-    else if (*uk < (-1000)) *uk = (-1000);
+    if (*uk > (1000))      *uk = (1000);
+    else if (*uk < (0)) *uk = (0);
 
     yk_2  = yk_1; // y[k-2] = y[k-1]
     yk_1  = yk;   // y[k-1] = y[k]

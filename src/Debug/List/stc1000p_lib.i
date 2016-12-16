@@ -5399,17 +5399,16 @@ void     eeprom_write_config(uint8_t eeprom_address,uint16_t data);
 V5.04:0576 */
 #line 26 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.h"
 
+
 // PID controller upper & lower limit [E-1 %]
-// Set GMA_LLIM to 0 if PID should only control heating
-// Set GMA_LLIM to -1000 if PID should also control cooling
 
 
 
 //--------------------
 // Function Prototypes
 //--------------------
-void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk);
-void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset);
+void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 
 #line 38 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
 
@@ -5479,7 +5478,7 @@ enum e_item_type
 // CF	Set Celsius of Fahrenheit temperature display    0 = Celsius, 1 = Fahrenheit
 // Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on
 // HrS	Control and Times in minutes or hours	         0 = minutes, 1 = hours
-// Hc   Kc parameter for PID controller in %/°C          0..9999 
+// Hc   Kc parameter for PID controller in %/°C          -9999..9999, >0: heating loop, <0: cooling loop 
 // ti   Ti parameter for PID controller in seconds       0..9999 
 // td   Td parameter for PID controller in seconds       0..9999 
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
@@ -5634,7 +5633,7 @@ int16_t  hysteresis2;           // th-mode: hysteresis for 2nd temp probe ; pid-
 extern _Bool     probe2;    // cached flag indicating whether 2nd probe is active
 extern int16_t  temp_ntc1; // The temperature in E-1 °C from NTC probe 1
 extern int16_t  temp_ntc2; // The temperature in E-1 °C from NTC probe 2
-extern uint16_t kc;        // Parameter value for Kc value in %/°C
+extern int16_t  kc;        // Parameter value for Kc value in %/°C
 extern uint16_t ti;        // Parameter value for I action in seconds
 extern uint16_t td;        // Parameter value for D action in seconds
 extern uint8_t  ts;        // Parameter value for sample time [sec.]
@@ -5897,6 +5896,10 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
 	} else if (type == t_parameter)
 	    {
 		t_max = 9999;
+                if (eeadr == (((((4))*(2*((5))+1)) + ((0)<<1)) + (Hc))) 
+                {   // Kc parameter for PID: enable heating and cooling-loop
+                    t_min = -9999; 
+                } // if
 	} else if (type == t_boolean)
         {   // the control variables
 	    t_max = 1;
@@ -6389,25 +6392,26 @@ void pid_control(void)
         pid_tmr = 0;
     } // if
     // --------- Logic for HEATING -----------------------------------
-    if (!pwr_on || (((PA_IDR & (0x02)) == (0x02)) && (pid_out <= hysteresis)))
+/*    if (!pwr_on || (HEAT_STATUS && (pid_out <= hysteresis)))
     {   // heating and pid-output drops below hysteresis limit in E-1 %
         heating_delay = min_to_sec(hd);
-	(PA_ODR &= ~(0x02));           // Disable Heating
-        led_e &= ~(0x01); // Disable LED indicator
+	HEAT_OFF;           // Disable Heating
+        led_e &= ~LED_HEAT; // Disable LED indicator
     } // if    
-    else if (!((PA_IDR & (0x02)) == (0x02)) && (pid_out >= hysteresis2))
+    else if (!HEAT_STATUS && (pid_out >= hysteresis2))
     {   // pwr_on && !heating && pid output exceeds hysteresis limit in E-1 %
 	enable_heating(); // switch heating relay
     } // else if
     // --------- Logic for COOLING -----------------------------------
-    if (!pwr_on || (((PA_IDR & (0x04)) == (0x04)) && (pid_out >= -hysteresis)))
+    if (!pwr_on || (COOL_STATUS && (pid_out >= -hysteresis)))
     {   // cooling and pid-output exceeds upper hysteresis limit in E-1 %
         cooling_delay = min_to_sec(cd);
-	(PA_ODR &= ~(0x04)); // Disable cooling
-        led_e &= ~(0x04); // Disable LED indicator
+	COOL_OFF; // Disable cooling
+        led_e &= ~LED_COOL; // Disable LED indicator
     } // if    
-    else if (!((PA_IDR & (0x04)) == (0x04)) && (pid_out <= -hysteresis2))
+    else if (!COOL_STATUS && (pid_out <= -hysteresis2))
     {   // pwr_on && !cooling && pid-output drops below hysteresis limit in E-1 %
 	enable_cooling(); // switch cooling relay
     } // else if
+*/
 } // pid_control()

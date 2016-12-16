@@ -23,17 +23,16 @@
 #ifndef PID_REG_H
 #define PID_REG_H
 #include <stdint.h>
+#include <stdbool.h>
 
 // PID controller upper & lower limit [E-1 %]
-// Set GMA_LLIM to 0 if PID should only control heating
-// Set GMA_LLIM to -1000 if PID should also control cooling
-#define GMA_HLIM ( 1000)
-#define GMA_LLIM (-1000)
+#define GMA_HLIM (1000)
+#define GMA_LLIM (0)
 
 //--------------------
 // Function Prototypes
 //--------------------
-void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk);
-void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset);
+void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 
 #endif

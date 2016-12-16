@@ -8,12 +8,14 @@ Mats Staffansson / Emile
 # Changelog
 
 2016-11-04:	First version of STC-1000p for STM8<br>
+2016-12-05: Direct- (heating-loop) or reverse-acting (cooling-loop) PID now selectable with **Hc** parameter
 
 # Features
 
 * Fahrenheit or Celsius display selectable with **CF** parameter
 * Minutes or hours time-base selectable with **Hrs** parameter
 * PID-controller selectable with adjustable **Kc**, **Ti**, **Td** and **Ts** parameters
+* PID-output polarity selectable with **Kc** parameter. Forward-acting (heating-loop) or reverse-acting (cooling-loop)
 * PID-output signal (slow PWM, T=12.5 sec) present at **S3 output** for connection to a Solid-State Relay (SSR)
 * Standard thermostat functionality available when PID-controller is disabled (**TS** parameter set to 0)
 * Second temperature probe functionality selectable with **Pb2** parameter
@@ -80,7 +82,7 @@ The settings menu has the following items:
 |cF|Celsius or Fahrenheit display|0 = Celsius, 1 = Fahrenheit|
 |Pb2|Enable second temp probe for use in thermostat control|0 = off, 1 = on|
 |HrS|Select Hours or Minutes time-base|0 = minutes, 1 = hours|
-|Hc|Kc parameter for PID-controller in %/°C|0 to 9999|
+|Hc|Kc parameter for PID-controller in %/°C|-9999 to 9999|
 |Ti|Ti parameter for PID-controller in seconds|0 to 9999|
 |Td|Td parameter for PID-controller in seconds|0 to 9999|
 |Ts|Ts parameter for PID-controller in seconds|0 to 9999|
@@ -115,7 +117,7 @@ The delay can be used to prevent oscillation (hunting). For example, setting an 
 
 **Hours or Minutes** can be used to select between a time-mode in hours or minutes. Typically the minutes time-mode is selected when you want to control a brewing-session. When controlling a fermentation in a climate controlled chamber, you typically select hours.
 
-**Hc**, this is the proportional gain for the PID controller. See below for a more detailed explanation.
+**Hc**, this is the proportional gain for the PID controller. It also selects the PID-mode: **forward-acting** (**Hc** > 0) or **reverse-acting** (**Hc** < 0). See below for a more detailed explanation.
 
 **Ti**, this is the integral time-constant in seconds for the PID controller. See below for a more detailed explanation.
 
@@ -126,25 +128,29 @@ The delay can be used to prevent oscillation (hunting). For example, setting an 
 **Run mode**, selecting *Pr0* to *Pr3* (*Pr5* with an STM8S103F3) will start the corresponding profile running from step 0, duration 0. Selecting *th* (when **Ts** = 0) or *PId* (when **Ts** > 0) will switch to thermostat/PID mode, the last setpoint from the previously running profile will be retained as the current setpoint when switching from a profile to thermostat/PID mode.
 
 
-## Thermostat mode
+## Thermostat mode (**Ts** = 0)
 
-When mode is set to thermostat (the **Ts** parameter needs to be set to 0), setpoint, *SP*, will not change and the controller will aim to keep the temperature to within the range of *SP* ± *hy*. Much like how the normal STC-1000 firmware works. The thermostat control runs once every second.
+When mode is set to thermostat (the **Ts** parameter needs to be set to 0), setpoint, *SP*, will not change and the controller will aim to keep the temperature to within the range of *SP* ± *hy*. Much like how the normal STC-1000 firmware works. The thermostat control runs once every second. The PID-controller output with the **S3 output** (for connection to a SSR) is disabled in this case.
 
-## PID-Control mode
+## PID-Control mode (**Ts** > 0)
 
-When the **Ts** parameter is set to a value > 0, the PID-controller is enabled and the thermostat-control is disabled. The PID-controller uses a sophisticated algorithm (a Takahashi Type C velocity algorithm) where the new output value is based upon the previous output value. The derivation of the algorithm for this controller is given in the .pdf document [PID Controller Calculus](./PID_Controller_Calculus.pdf).
+When the **Ts** parameter is set to a value > 0, the PID-controller is enabled and thermostat-control is disabled. Both the heating and the cooling relays are switched off in this mode. The PID-controller uses a sophisticated algorithm (a Takahashi Type C velocity algorithm) where the new output value is based upon the previous output value. The derivation of the algorithm for this controller is given in the .pdf document [PID Controller Calculus](./PID_Controller_Calculus.pdf).
 The PID-controller is controlled with the *proportional gain*, *integral time-constant*, *differential time-constant* and the *Sample-Time*. They all work closely together. For more information on how to select optimum settings for a PID-controller, please refer to http://www.vandelogt.nl/uk_regelen_pid.php
 
-The pid-output is a percentage between -100.0 and +100.0 %. It is in E-1 %, so a value of 123 actually means 12.3 %. This value can be seen by pressing the PWR button twice (one press shows the 2nd temperature, the 2nd press shows the pid-output percentage). When this value is greater than 0, it indicates that
-the actual temperature is too low and heating should be applied. When this value is negative, the temperature is too high and cooling should be applied. The pid-output percentage is available at the **S3 output** as a slow PWM signal (period-time is 12.5 seconds), with the duty-cycle corresponding with the PID-output percentage.
-For example: if the pid-output is equal to 200 (20.0 %), the **S3 output** is low (0 V) for 2.5 seconds and high (+5 V) for 10 seconds.This repeats continuously until another pid-output percentage is calculated.
+The pid-output is a percentage between 0.0 and +100.0 %. It is in E-1 %, so a value of 123 actually means 12.3 %. This value can be seen by pressing the PWR button twice (one press shows the 2nd temperature, the 2nd press shows the pid-output percentage). This is where the polarity of the **Hc** parameter comes into play. Set **Hc** to a positive value for a so-called **direct-acting** process loop. This means that when the PID-output increases, the temperature (which is the process variable, or PV) also eventually increases. Of course, a true process is usually a complex transfer function that includes time delays. Here, we are only interested in the direction of change of the process variable in response to a PID-output change. Most process loops will be **direct-acting**, such as a temperature loop. An increase in the heat applied increases the temperature. Accordingly, direct-acting loops are sometimes called heating loops.
 
-The PID-output also controls both the heating and the cooling relays. The way to do this is with the **hysteresis** and **hysteresis 2** parameters.
+![Direct-Acting](img/direct_acting.png)<br>
+*A Direct-Acting process control loop*
 
-**PID control example**: suppose that **hysteresis** is set to 50 (5 %) and **hysteresis 2** is set to 100 (10 %). When the pid-output percentage exceeds 100 (10 %), the heating relay is switched on. When the pid-output drops below 50 (5 %), the heating relay is switched off again.
-Suppose that the pid-output further drops and becomes negative. If it becomes less than -100 (-10 %), the cooling relay is switched on. When the pid-output then increases again, the cooling relay is switched off again when it crosses -5 % (-50).
+If the **Hc** parameter is set to a negative value, a so-called **reverse-acting** process loop is selected. A **reverse-acting** loop is one in which the process has a negative gain, as shown below. An increase in the control output results in a decrease in temperature. This is commonly found in refrigeration controls, where an increase in the cooling input causes a decrease in the process variable (the temperature). Accordingly, reverse-acting loops are sometimes called cooling loops.
 
-Note that the **S3 output** also outputs the PWM signal when the PID-controller output is less than 0. So -100 (-10 %) is seen as a duty-cycle of 10 %. You can use the relay to indicate whether you are cooling or heating.
+![Reverse-Acting](img/reverse_acting.png)<br>
+*A Reverse-Acting process control loop*
+
+**Source:** the above text and both images are copied from (and slightly adapted) from the DL05 Micro PLC User Manual, which has an excellent chapter (chapter 8) on PID-control.
+
+The pid-output percentage is available at the **S3 output** as a slow PWM signal (period-time is 12.5 seconds), with the duty-cycle corresponding with the PID-output percentage.
+For example: if the pid-output is equal to 200 (20.0 %), the **S3 output** is low (0 V) for 2.5 seconds and high (+5 V) for 10 seconds. This repeats continuously until another pid-output percentage is calculated. The Heating LED (when **Hc** is > 0) or the Cooling LED (when **Hc** is < 0) blinks at the same rate, so you can always see if the SSR is switched on.
 
 ## Running profiles
 
@@ -241,11 +247,11 @@ STC-1000p-STM8 is written in C and compiled using IAR STM8 embedded workbench v2
 * The eeprom of the STM8S003F3 only has 128 bytes on-board. Therefore only 4 profiles (instead of 6) with a maximum of 5 temperature time-pairs (instead of 9) are used. If you are willing to desolder this chip, you can replace it
 with a **STM8S103F3** device, which has 640 bytes on-board. Setting the defines **NO_OF_PROFILES** and **NO_OF_TT_PAIRS** and proper initialisation of eedata[] (in stc1000plib.c) is sufficient to enable this.
 
-* The processor type can be set using Project -> Options... -> General Options -> Target -> Device. This is necessary when you replace the stock STM8S003F3 µC.
+* The processor type can be set using Project -> Options... -> General Options -> Target -> Device. This is necessary when you replace the stock **STM8S003F3** µC.
 
 * If you want to add preprocessor defines (like Mats did), you can add these in Project -> Options... -> C/C++ Compiler -> Preprocessor -> Defined Symbols: (one per line). Currently I don't have any preprocessor directives in this version (but probably will for newer versions).
 
-* HEX files (currently stored in subdir Debug/Exe) can be uploaded directly to the STC-1000 hardware with ST-Link v2, but I haven't figured out how to do this yet. The default route with IAR, Project->Rebuild All, then Ctrl-D (debug) also uploads the .hex file. But it would be nice to upload a hex file directly without using IAR.
+* HEX files (currently stored in subdir Debug/Exe) can be uploaded directly to the STC-1000 hardware with ST-Link v2 with the STVP program. The default route with IAR, Project->Rebuild All, then Ctrl-D (debug) also uploads the .hex file.
 
 # Other resources
 

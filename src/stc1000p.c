@@ -59,6 +59,7 @@ extern bool    fahrenheit;       // false = Celsius, true = Fahrenheit
 extern uint16_t cooling_delay;   // Initial cooling delay
 extern uint16_t heating_delay;   // Initial heating delay
 extern int16_t  setpoint;        // local copy of SP variable
+extern int16_t  kc;              // Parameter value for Kc value in %/°C
 extern uint8_t  ts;              // Parameter value for sample time [sec.]
 extern int16_t  pid_out;         // Output from PID controller in E-1 %
 
@@ -159,10 +160,10 @@ __interrupt void TIM2_UPD_OVF_IRQHandler(void)
 	led_10     = LED_O;
 	led_1      = led_01 = LED_F;
         led_e      = LED_OFF;
-        pwr_on_tmr = 1000; // 1 second
+        pwr_on_tmr = 2000; // 2 seconds
     } // if
     else if (pwr_on_tmr > 0)
-    {	// 7-segment display test for 1 second
+    {	// 7-segment display test for 2 seconds
         pwr_on_tmr--;
         led_10 = led_1 = led_01 = led_e = LED_ON;
     } // else if
@@ -283,30 +284,38 @@ void pid_to_time(void)
     static uint8_t std_ptt = 1; // state [on, off]
     static uint8_t ltmr    = 0; // #times to set S3 to 0
     static uint8_t htmr    = 0; // #times to set S3 to 1
-    uint16_t x;                 // temp. variable
+    uint8_t x;                  // temp. variable
      
-    x   = (pid_out < 0) ? -pid_out : pid_out;
-    x >>= 3; // divide by 8 to give 1.25 * pid_out
+    x = (uint8_t)(pid_out >> 3); // divide by 8 to give 1.25 * pid_out
     
     switch (std_ptt)
     {
         case 0: // OFF
-            if (ltmr == 0)
+            if (ts == 0) std_ptt = 2;
+            else if (ltmr == 0)
             {   // End of low-time
-                htmr = (uint8_t)x; // htmr = 1.25 * pid_out
+                htmr = x; // htmr = 1.25 * pid_out
                 if ((htmr > 0) && pwr_on) std_ptt = 1;
             } // if
             else ltmr--; // decrease timer
             S3_OFF;      // S3 output = 0
+            led_e &= ~(LED_HEAT | LED_COOL); // disable both LEDs
             break;
         case 1: // ON
-            if (htmr == 0)
+            if (ts == 0) std_ptt = 2;
+            else if (htmr == 0)
             {   // End of high-time
-                ltmr = (uint8_t)(125 - x); // ltmr = 1.25 * (100 - pid_out)
+                ltmr = 125 - x; // ltmr = 1.25 * (100 - pid_out)
                 if ((ltmr > 0) || !pwr_on) std_ptt = 0;
             } // if
             else htmr--; // decrease timer
             S3_ON;       // S3 output = 1
+            if (kc > 0) led_e |= LED_HEAT; // Heating loop active
+            else        led_e |= LED_COOL; // Cooling loop active
+            break;
+        case 2: // DISABLED
+            S3_OFF; // S3 output = 0;
+            if (ts > 0) std_ptt = 1;
             break;
     } // switch
 } // pid_to_time()
@@ -389,7 +398,11 @@ void ctrl_task(void)
            temperature_control();  // Run thermostat
            pid_out = 0;            // Disable PID-output
        } // if
-       else pid_control();         // Run PID controller
+       else 
+       {
+           pid_control();          // Run PID controller
+           RELAYS_OFF;             // Disable relays
+       } // else
        if (menu_is_idle)           // show temperature if menu is idle
        {
            if ((PD_IDR & ALARM) && show_sa_alarm)

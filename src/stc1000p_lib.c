@@ -84,7 +84,7 @@ int16_t  hysteresis2;           // th-mode: hysteresis for 2nd temp probe ; pid-
 extern bool     probe2;    // cached flag indicating whether 2nd probe is active
 extern int16_t  temp_ntc1; // The temperature in E-1 °C from NTC probe 1
 extern int16_t  temp_ntc2; // The temperature in E-1 °C from NTC probe 2
-extern uint16_t kc;        // Parameter value for Kc value in %/°C
+extern int16_t  kc;        // Parameter value for Kc value in %/°C
 extern uint16_t ti;        // Parameter value for I action in seconds
 extern uint16_t td;        // Parameter value for D action in seconds
 extern uint8_t  ts;        // Parameter value for sample time [sec.]
@@ -347,6 +347,10 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
 	} else if (type == t_parameter)
 	    {
 		t_max = 9999;
+                if (eeadr == EEADR_MENU_ITEM(Hc)) 
+                {   // Kc parameter for PID: enable heating and cooling-loop
+                    t_min = -9999; 
+                } // if
 	} else if (type == t_boolean)
         {   // the control variables
 	    t_max = 1;
@@ -839,7 +843,7 @@ void pid_control(void)
         pid_tmr = 0;
     } // if
     // --------- Logic for HEATING -----------------------------------
-    if (!pwr_on || (HEAT_STATUS && (pid_out <= hysteresis)))
+/*    if (!pwr_on || (HEAT_STATUS && (pid_out <= hysteresis)))
     {   // heating and pid-output drops below hysteresis limit in E-1 %
         heating_delay = min_to_sec(hd);
 	HEAT_OFF;           // Disable Heating
@@ -860,4 +864,5 @@ void pid_control(void)
     {   // pwr_on && !cooling && pid-output drops below hysteresis limit in E-1 %
 	enable_cooling(); // switch cooling relay
     } // else if
+*/
 } // pid_control()

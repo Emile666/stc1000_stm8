@@ -125,7 +125,7 @@ enum e_item_type
 // CF	Set Celsius of Fahrenheit temperature display    0 = Celsius, 1 = Fahrenheit
 // Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on
 // HrS	Control and Times in minutes or hours	         0 = minutes, 1 = hours
-// Hc   Kc parameter for PID controller in %/°C          0..9999 
+// Hc   Kc parameter for PID controller in %/°C          -9999..9999, >0: heating loop, <0: cooling loop 
 // ti   Ti parameter for PID controller in seconds       0..9999 
 // td   Td parameter for PID controller in seconds       0..9999 
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control

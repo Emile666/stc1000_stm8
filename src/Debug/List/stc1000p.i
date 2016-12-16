@@ -5396,17 +5396,16 @@ void     eeprom_write_config(uint8_t eeprom_address,uint16_t data);
 V5.04:0576 */
 #line 26 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.h"
 
+
 // PID controller upper & lower limit [E-1 %]
-// Set GMA_LLIM to 0 if PID should only control heating
-// Set GMA_LLIM to -1000 if PID should also control cooling
 
 
 
 //--------------------
 // Function Prototypes
 //--------------------
-void init_pid(uint16_t kc, uint16_t ti, uint16_t td, uint8_t ts, uint16_t yk);
-void pid_ctrl(int16_t yk, int16_t *uk, uint16_t tset);
+void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 
 #line 38 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
 
@@ -5476,7 +5475,7 @@ enum e_item_type
 // CF	Set Celsius of Fahrenheit temperature display    0 = Celsius, 1 = Fahrenheit
 // Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on
 // HrS	Control and Times in minutes or hours	         0 = minutes, 1 = hours
-// Hc   Kc parameter for PID controller in %/°C          0..9999 
+// Hc   Kc parameter for PID controller in %/°C          -9999..9999, >0: heating loop, <0: cooling loop 
 // ti   Ti parameter for PID controller in seconds       0..9999 
 // td   Td parameter for PID controller in seconds       0..9999 
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
@@ -6011,6 +6010,7 @@ extern _Bool    fahrenheit;       // false = Celsius, true = Fahrenheit
 extern uint16_t cooling_delay;   // Initial cooling delay
 extern uint16_t heating_delay;   // Initial heating delay
 extern int16_t  setpoint;        // local copy of SP variable
+extern int16_t  kc;              // Parameter value for Kc value in %/°C
 extern uint8_t  ts;              // Parameter value for sample time [sec.]
 extern int16_t  pid_out;         // Output from PID controller in E-1 %
 
@@ -6111,10 +6111,10 @@ __interrupt void TIM2_UPD_OVF_IRQHandler(void)
 	led_10     = (0xE7);
 	led_1      = led_01 = (0x74);
         led_e      = (0x00);
-        pwr_on_tmr = 1000; // 1 second
+        pwr_on_tmr = 2000; // 2 seconds
     } // if
     else if (pwr_on_tmr > 0)
-    {	// 7-segment display test for 1 second
+    {	// 7-segment display test for 2 seconds
         pwr_on_tmr--;
         led_10 = led_1 = led_01 = led_e = (0xFF);
     } // else if
@@ -6235,30 +6235,38 @@ void pid_to_time(void)
     static uint8_t std_ptt = 1; // state [on, off]
     static uint8_t ltmr    = 0; // #times to set S3 to 0
     static uint8_t htmr    = 0; // #times to set S3 to 1
-    uint16_t x;                 // temp. variable
+    uint8_t x;                  // temp. variable
      
-    x   = (pid_out < 0) ? -pid_out : pid_out;
-    x >>= 3; // divide by 8 to give 1.25 * pid_out
+    x = (uint8_t)(pid_out >> 3); // divide by 8 to give 1.25 * pid_out
     
     switch (std_ptt)
     {
         case 0: // OFF
-            if (ltmr == 0)
+            if (ts == 0) std_ptt = 2;
+            else if (ltmr == 0)
             {   // End of low-time
-                htmr = (uint8_t)x; // htmr = 1.25 * pid_out
+                htmr = x; // htmr = 1.25 * pid_out
                 if ((htmr > 0) && pwr_on) std_ptt = 1;
             } // if
             else ltmr--; // decrease timer
             (PA_ODR &= ~(0x08));      // S3 output = 0
+            led_e &= ~((0x01) | (0x04)); // disable both LEDs
             break;
         case 1: // ON
-            if (htmr == 0)
+            if (ts == 0) std_ptt = 2;
+            else if (htmr == 0)
             {   // End of high-time
-                ltmr = (uint8_t)(125 - x); // ltmr = 1.25 * (100 - pid_out)
+                ltmr = 125 - x; // ltmr = 1.25 * (100 - pid_out)
                 if ((ltmr > 0) || !pwr_on) std_ptt = 0;
             } // if
             else htmr--; // decrease timer
             (PA_ODR |= (0x08));       // S3 output = 1
+            if (kc > 0) led_e |= (0x01); // Heating loop active
+            else        led_e |= (0x04); // Cooling loop active
+            break;
+        case 2: // DISABLED
+            (PA_ODR &= ~(0x08)); // S3 output = 0;
+            if (ts > 0) std_ptt = 1;
             break;
     } // switch
 } // pid_to_time()
@@ -6341,7 +6349,11 @@ void ctrl_task(void)
            temperature_control();  // Run thermostat
            pid_out = 0;            // Disable PID-output
        } // if
-       else pid_control();         // Run PID controller
+       else 
+       {
+           pid_control();          // Run PID controller
+           (PA_ODR &= ~((0x02) | (0x04)));             // Disable relays
+       } // else
        if (menu_is_idle)           // show temperature if menu is idle
        {
            if ((PD_IDR & (0x40)) && show_sa_alarm)
