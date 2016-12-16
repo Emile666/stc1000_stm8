@@ -5215,13 +5215,13 @@ V5.04:0576 */
 
 
 
-#line 99 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 100 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
      
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 138 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 139 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 
-#line 147 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 148 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
 
 // Function prototypes
 void save_display_state(void);
@@ -5987,7 +5987,8 @@ int16_t  ad_to_temp(uint16_t adfilter, _Bool *err);
 _Bool      ad_err1 = 0; // used for adc range checking
 _Bool      ad_err2 = 0; // used for adc range checking
 _Bool      probe2  = 0; // cached flag indicating whether 2nd probe is active
-_Bool      show_sa_alarm = 0;
+_Bool      show_sa_alarm = 0; // true = display alarm
+_Bool      sound_alarm   = 0; // true = sound alarm
 _Bool      ad_ch   = 0; // used in adc_task()
 uint16_t  ad_ntc1 = (512L << (6));
 uint16_t  ad_ntc2 = (512L << (6));
@@ -6063,31 +6064,35 @@ void multiplexer(void)
     PD_ODR    &= ~portd_leds;    // Clear LEDs
     PB_ODR    |= ((0x20) | (0x10)); // Disable common-cathode for 10s and 1s
     PD_ODR    |= ((0x20) | (0x10)); // Disable common-cathode for 0.1s and extras
-    
+   
     switch (mpx_nr)
     {
         case 0: // output 10s digit
             PC_ODR |= (led_10 & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_10 << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~(0x20);    // Enable  common-cathode for 10s
+            if (sound_alarm) (PD_ODR |= (0x40));
             mpx_nr = 1;
             break;
         case 1: // output 1s digit
             PC_ODR |= (led_1 & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_1 << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~(0x10);     // Enable  common-cathode for 1s
+            (PD_ODR &= ~(0x40));
             mpx_nr = 2;
             break;
         case 2: // output 01s digit
             PC_ODR |= (led_01 & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_01 << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~(0x20);    // Enable common-cathode for 0.1s
+            if (sound_alarm) (PD_ODR |= (0x40));
             mpx_nr = 3;
             break;
         case 3: // outputs special digits
             PC_ODR |= (led_e & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_e << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~(0x10);     // Enable common-cathode for extras
+            (PD_ODR &= ~(0x40));
         default: // FALL-THROUGH (less code-size)
             mpx_nr = 0;
             break;
@@ -6308,17 +6313,19 @@ void ctrl_task(void)
    else probe2 = 0;
    if (ad_err1 || (ad_err2 && probe2))
    {
-       (PA_ODR |= (0x40));   // enable the piezo buzzer
+       sound_alarm = 1;
        (PA_ODR &= ~((0x02) | (0x04))); // disable the output relays
        if (menu_is_idle)
        {  // Make it less anoying to nagivate menu during alarm
           led_10 = (0x77);
 	  led_1  = (0xE0);
-	  led_e  = led_01 = (0x00);
+          if (ad_err1) led_01 = (0x03);
+          else         led_01 = (0xD6);
+	  led_e = (0x00);
        } // if
        cooling_delay = heating_delay = 60;
    } else {
-       (PA_ODR &= ~(0x40)); // reset the piezo buzzer
+       sound_alarm = 0; // reset the piezo buzzer
        if(((uint8_t)eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)))) < (4))
             led_e |=  (0x02); // Indicate profile mode
        else led_e &= ~(0x02);
@@ -6335,13 +6342,9 @@ void ctrl_task(void)
 	   if (sa < 0)
            {
   	      sa = -sa;
-              if (diff <= sa)
-                   (PA_ODR |= (0x40));  // enable the piezo buzzer
-              else (PA_ODR &= ~(0x40)); // reset the piezo buzzer
+              sound_alarm = (diff <= sa); // enable buzzer if diff is small
 	   } else {
-              if (diff >= sa)
-                   (PA_ODR |= (0x40));  // enable the piezo buzzer
-              else (PA_ODR &= ~(0x40)); // reset the piezo buzzer
+              sound_alarm = (diff >= sa); // enable buzzer if diff is large
 	   } // if
        } // if
        if (ts == 0)                // PID Ts parameter is 0?
@@ -6356,11 +6359,11 @@ void ctrl_task(void)
        } // else
        if (menu_is_idle)           // show temperature if menu is idle
        {
-           if ((PD_IDR & (0x40)) && show_sa_alarm)
+           if (sound_alarm && show_sa_alarm)
            {
-               led_10 = (0xB5);
-	       led_1  = (0x77);
-	       led_01 = (0x00);
+               led_10 = (0x77);
+	       led_1  = (0xE0);
+	       led_01 = (0xD3);
            } else {
                led_e &= ~(0x10); // LED in middle, does not seem to work
                switch (sensor2_selected)

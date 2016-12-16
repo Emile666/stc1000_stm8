@@ -36,7 +36,8 @@
 bool      ad_err1 = false; // used for adc range checking
 bool      ad_err2 = false; // used for adc range checking
 bool      probe2  = false; // cached flag indicating whether 2nd probe is active
-bool      show_sa_alarm = false;
+bool      show_sa_alarm = false; // true = display alarm
+bool      sound_alarm   = false; // true = sound alarm
 bool      ad_ch   = false; // used in adc_task()
 uint16_t  ad_ntc1 = (512L << FILTER_SHIFT);
 uint16_t  ad_ntc2 = (512L << FILTER_SHIFT);
@@ -112,31 +113,35 @@ void multiplexer(void)
     PD_ODR    &= ~portd_leds;    // Clear LEDs
     PB_ODR    |= (CC_10 | CC_1); // Disable common-cathode for 10s and 1s
     PD_ODR    |= (CC_01 | CC_e); // Disable common-cathode for 0.1s and extras
-    
+   
     switch (mpx_nr)
     {
         case 0: // output 10s digit
             PC_ODR |= (led_10 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_10 << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~CC_10;    // Enable  common-cathode for 10s
+            if (sound_alarm) ALARM_ON;
             mpx_nr = 1;
             break;
         case 1: // output 1s digit
             PC_ODR |= (led_1 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_1 << 1) & portd_leds); // Update PD3..PD1
             PB_ODR &= ~CC_1;     // Enable  common-cathode for 1s
+            ALARM_OFF;
             mpx_nr = 2;
             break;
         case 2: // output 01s digit
             PC_ODR |= (led_01 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_01 << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~CC_01;    // Enable common-cathode for 0.1s
+            if (sound_alarm) ALARM_ON;
             mpx_nr = 3;
             break;
         case 3: // outputs special digits
             PC_ODR |= (led_e & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_e << 1) & portd_leds); // Update PD3..PD1
             PD_ODR &= ~CC_e;     // Enable common-cathode for extras
+            ALARM_OFF;
         default: // FALL-THROUGH (less code-size)
             mpx_nr = 0;
             break;
@@ -357,17 +362,19 @@ void ctrl_task(void)
    else probe2 = false;
    if (ad_err1 || (ad_err2 && probe2))
    {
-       ALARM_ON;   // enable the piezo buzzer
+       sound_alarm = true;
        RELAYS_OFF; // disable the output relays
        if (menu_is_idle)
        {  // Make it less anoying to nagivate menu during alarm
           led_10 = LED_A;
 	  led_1  = LED_L;
-	  led_e  = led_01 = LED_OFF;
+          if (ad_err1) led_01 = LED_1;
+          else         led_01 = LED_2;
+	  led_e = LED_OFF;
        } // if
        cooling_delay = heating_delay = 60;
    } else {
-       ALARM_OFF; // reset the piezo buzzer
+       sound_alarm = false; // reset the piezo buzzer
        if(((uint8_t)eeprom_read_config(EEADR_MENU_ITEM(rn))) < THERMOSTAT_MODE)
             led_e |=  LED_SET; // Indicate profile mode
        else led_e &= ~LED_SET;
@@ -384,13 +391,9 @@ void ctrl_task(void)
 	   if (sa < 0)
            {
   	      sa = -sa;
-              if (diff <= sa)
-                   ALARM_ON;  // enable the piezo buzzer
-              else ALARM_OFF; // reset the piezo buzzer
+              sound_alarm = (diff <= sa); // enable buzzer if diff is small
 	   } else {
-              if (diff >= sa)
-                   ALARM_ON;  // enable the piezo buzzer
-              else ALARM_OFF; // reset the piezo buzzer
+              sound_alarm = (diff >= sa); // enable buzzer if diff is large
 	   } // if
        } // if
        if (ts == 0)                // PID Ts parameter is 0?
@@ -405,11 +408,11 @@ void ctrl_task(void)
        } // else
        if (menu_is_idle)           // show temperature if menu is idle
        {
-           if ((PD_IDR & ALARM) && show_sa_alarm)
+           if (sound_alarm && show_sa_alarm)
            {
-               led_10 = LED_S;
-	       led_1  = LED_A;
-	       led_01 = LED_OFF;
+               led_10 = LED_A;
+	       led_1  = LED_L;
+	       led_01 = LED_d;
            } else {
                led_e &= ~LED_POINT; // LED in middle, does not seem to work
                switch (sensor2_selected)
