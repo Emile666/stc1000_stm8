@@ -484,11 +484,11 @@
         </option>
         <option>
           <name>OCOutputOverride</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>stc1000p.hex</state>
+          <state>stc1000p_stm8s003f3_4pr_5tt.hex</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
