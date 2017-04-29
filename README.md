@@ -32,8 +32,10 @@ You'd need one of those fancy coloured ST-Link V2 USB adapter (which are very ch
 ![st-link-v2](img/st_link_v2.png)<br>
 *The ST-Link V2 USB adapter*
 
-The frontpanel PCB already has a 4-pin connector (labeled with SIG, RST, VCC and GND). Solder some pins to this and connect the ST-Link adapter (use GND-GND, RST-RST and SWIM-SIG. VCC is not needed). This is all you need to reprogram the device! 
-Power-up the STC-1000 and connect the ST-Link V2 USB to it. 
+The frontpanel PCB already has a 4-pin connector (labeled with SIG, RST, VCC and GND). Solder some pins to this and connect the ST-Link adapter (use GND-GND, RST-RST and SWIM-SIG). Power up the STC-1000 device, so that it uses it's own
+power-supply (in this way, the 4th VCC pin on the connecter is not needed). **Please be aware that most of the PCB is directly connected to the MAINS voltage, so keep your fingers out of it!**
+
+This is all you need to reprogram the device! Now power-up the STC-1000 and connect the ST-Link V2 USB to it. 
 
 ![swim-interface](img/swim_interface.jpg)<br>
 *The Programming Interface. Note that you have to solder the 4-pins in place!*
