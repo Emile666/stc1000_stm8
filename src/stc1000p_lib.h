@@ -57,7 +57,7 @@
 
 // Default values
 #define DEFAULT_SP	  (200)
-#define DEFAULT_hy	   (50)
+#define DEFAULT_hy	    (5)
 #define DEFAULT_hy2	  (100)
 
 //---------------------------------------------------------------------------
@@ -135,8 +135,8 @@ enum e_item_type
 	_(SP, 	LED_S, 	LED_P, 	LED_OFF, t_temperature,	DEFAULT_SP)	\
 	_(hy, 	LED_h, 	LED_y, 	LED_OFF, t_hyst_1,	DEFAULT_hy) 	\
 	_(hy2, 	LED_h, 	LED_y, 	LED_2, 	 t_hyst_2, 	DEFAULT_hy2)	\
-	_(tc, 	LED_t, 	LED_c, 	LED_OFF, t_tempdiff,	3)		\
-	_(tc2, 	LED_t, 	LED_c, 	LED_2, 	 t_tempdiff,	-2)		\
+	_(tc, 	LED_t, 	LED_c, 	LED_OFF, t_tempdiff,	0)		\
+	_(tc2, 	LED_t, 	LED_c, 	LED_2, 	 t_tempdiff,	0)		\
 	_(SA, 	LED_S, 	LED_A, 	LED_OFF, t_sp_alarm,	0)		\
 	_(St, 	LED_S, 	LED_t, 	LED_OFF, t_step,	0)		\
 	_(dh, 	LED_d, 	LED_h, 	LED_OFF, t_duration,	0)		\

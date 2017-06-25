@@ -35,23 +35,29 @@ const uint8_t led_lookup[] = {LED_0,LED_1,LED_2,LED_3,LED_4,LED_5,LED_6,LED_7,LE
 
 //----------------------------------------------------------------------------
 // These values are stored directly into EEPROM
+// PR0: Pilsner Urquell profile (21 d @ 11°, 3 d @ 16°, then 6°) 
+// PR1: Weizen profile (3d @ 19°, 3d @ 20°, 17 d @ 21°, then 6°)
+// PR2: Tripel / Wyeast 1214 Belgian Abbey (3 d @ 20°, 3 d @ 21°, 17 d @ 22°, then 6°)
+// PR3: IPA / SafAle US-05 yeast (3.5 wk @ 18°, then 6°)
+// PR4: 3.5 wk @ 19°, then 6°
+// PR5: 3.5 wk @ 20°, then 6°
 //----------------------------------------------------------------------------
 __root __eeprom const int eedata[] = 
 {
 #ifdef __IOSTM8S103F3_H__
     // STM8S103F3 with 640 bytes EEPROM
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr0 (SP0, dh0, ..., dh8, SP9)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr1 (SP0, dh0, ..., dh8, SP9)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr2 (SP0, dh0, ..., dh8, SP9)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr3 (SP0, dh0, ..., dh8, SP9)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr4 (SP0, dh0, ..., dh8, SP9)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, 48, 40, 0, 0, 0, 0, 0, 0, // Pr5 (SP0, dh0, ..., dh8, SP9)
+   110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr0 (SP0, dh0, ..., dh8, SP9)
+   190, 72, 190,  6, 200, 72, 200,  6, 210, 408, 210, 12, 60, 0, 0, 0, 0, 0, 0, // Pr1 (SP0, dh0, ..., dh8, SP9)
+   200, 72, 200,  6, 210, 72, 210,  6, 220, 408, 220, 12, 60, 0, 0, 0, 0, 0, 0, // Pr2 (SP0, dh0, ..., dh8, SP9)
+   180,564, 180, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr3 (SP0, dh0, ..., dh8, SP9)
+   190,564, 190, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr4 (SP0, dh0, ..., dh8, SP9)
+   200,564, 200, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr5 (SP0, dh0, ..., dh8, SP9)
 #else
     // STM8S003F3 with 128 bytes EEPROM (stock STC1000 IC)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr0 (SP0, dh0, ..., dh4, SP5)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr1 (SP0, dh0, ..., dh4, SP5)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr2 (SP0, dh0, ..., dh4, SP5)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr3 (SP0, dh0, ..., dh4, SP5)
+   110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0, // Pr0 (SP0, dh0, ..., dh4, SP5)
+   190, 72, 190, 12, 210,504, 210, 12,  60,   0,   0, // Pr1 (SP0, dh0, ..., dh4, SP5)
+   200, 72, 200, 12, 220,504, 220, 12,  60,   0,   0, // Pr2 (SP0, dh0, ..., dh4, SP5)
+   180,564, 180, 12,  60,  0,   0,  0,   0,   0,   0, // Pr3 (SP0, dh0, ..., dh4, SP5)
 #endif
    MENU_DATA(EEPROM_DEFAULTS) 1 // Last one is for POWER_ON
 }; // eedata[]
@@ -842,27 +848,4 @@ void pid_control(void)
         pid_ctrl(temp_ntc1,&pid_out,setpoint);
         pid_tmr = 0;
     } // if
-    // --------- Logic for HEATING -----------------------------------
-/*    if (!pwr_on || (HEAT_STATUS && (pid_out <= hysteresis)))
-    {   // heating and pid-output drops below hysteresis limit in E-1 %
-        heating_delay = min_to_sec(hd);
-	HEAT_OFF;           // Disable Heating
-        led_e &= ~LED_HEAT; // Disable LED indicator
-    } // if    
-    else if (!HEAT_STATUS && (pid_out >= hysteresis2))
-    {   // pwr_on && !heating && pid output exceeds hysteresis limit in E-1 %
-	enable_heating(); // switch heating relay
-    } // else if
-    // --------- Logic for COOLING -----------------------------------
-    if (!pwr_on || (COOL_STATUS && (pid_out >= -hysteresis)))
-    {   // cooling and pid-output exceeds upper hysteresis limit in E-1 %
-        cooling_delay = min_to_sec(cd);
-	COOL_OFF; // Disable cooling
-        led_e &= ~LED_COOL; // Disable LED indicator
-    } // if    
-    else if (!COOL_STATUS && (pid_out <= -hysteresis2))
-    {   // pwr_on && !cooling && pid-output drops below hysteresis limit in E-1 %
-	enable_cooling(); // switch cooling relay
-    } // else if
-*/
 } // pid_control()

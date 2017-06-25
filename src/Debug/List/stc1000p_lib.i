@@ -5592,17 +5592,23 @@ const uint8_t led_lookup[] = {(0xE7),(0x03),(0xD6),(0x97),(0x33),(0xB5),(0xF5),(
 
 //----------------------------------------------------------------------------
 // These values are stored directly into EEPROM
+// PR0: Pilsner Urquell profile (21 d @ 11°, 3 d @ 16°, then 6°) 
+// PR1: Weizen profile (3d @ 19°, 3d @ 20°, 17 d @ 21°, then 6°)
+// PR2: Tripel / Wyeast 1214 Belgian Abbey (3 d @ 20°, 3 d @ 21°, 17 d @ 22°, then 6°)
+// PR3: IPA / SafAle US-05 yeast (3.5 wk @ 18°, then 6°)
+// PR4: 3.5 wk @ 19°, then 6°
+// PR5: 3.5 wk @ 20°, then 6°
 //----------------------------------------------------------------------------
 __root __eeprom const int eedata[] = 
 {
-#line 50 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 56 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.c"
     // STM8S003F3 with 128 bytes EEPROM (stock STC1000 IC)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr0 (SP0, dh0, ..., dh4, SP5)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr1 (SP0, dh0, ..., dh4, SP5)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr2 (SP0, dh0, ..., dh4, SP5)
-   160, 24, 170, 24, 180, 24, 190, 24, 200, 144, 250, // Pr3 (SP0, dh0, ..., dh4, SP5)
+   110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0, // Pr0 (SP0, dh0, ..., dh4, SP5)
+   190, 72, 190, 12, 210,504, 210, 12,  60,   0,   0, // Pr1 (SP0, dh0, ..., dh4, SP5)
+   200, 72, 200, 12, 220,504, 220, 12,  60,   0,   0, // Pr2 (SP0, dh0, ..., dh4, SP5)
+   180,564, 180, 12,  60,  0,   0,  0,   0,   0,   0, // Pr3 (SP0, dh0, ..., dh4, SP5)
 
-   (200), (50), (100), 3, -2, 0, 0, 0, 5, 2, 1, 0, 0, 1, 80, 280, 20, 0, (4), 1 // Last one is for POWER_ON
+   (200), (5), (100), 0, 0, 0, 0, 0, 5, 2, 1, 0, 0, 1, 80, 280, 20, 0, (4), 1 // Last one is for POWER_ON
 }; // eedata[]
 
 // Global variables to hold LED data (for multiplexing purposes)
@@ -6391,27 +6397,4 @@ void pid_control(void)
         pid_ctrl(temp_ntc1,&pid_out,setpoint);
         pid_tmr = 0;
     } // if
-    // --------- Logic for HEATING -----------------------------------
-/*    if (!pwr_on || (HEAT_STATUS && (pid_out <= hysteresis)))
-    {   // heating and pid-output drops below hysteresis limit in E-1 %
-        heating_delay = min_to_sec(hd);
-	HEAT_OFF;           // Disable Heating
-        led_e &= ~LED_HEAT; // Disable LED indicator
-    } // if    
-    else if (!HEAT_STATUS && (pid_out >= hysteresis2))
-    {   // pwr_on && !heating && pid output exceeds hysteresis limit in E-1 %
-	enable_heating(); // switch heating relay
-    } // else if
-    // --------- Logic for COOLING -----------------------------------
-    if (!pwr_on || (COOL_STATUS && (pid_out >= -hysteresis)))
-    {   // cooling and pid-output exceeds upper hysteresis limit in E-1 %
-        cooling_delay = min_to_sec(cd);
-	COOL_OFF; // Disable cooling
-        led_e &= ~LED_COOL; // Disable LED indicator
-    } // if    
-    else if (!COOL_STATUS && (pid_out <= -hysteresis2))
-    {   // pwr_on && !cooling && pid-output drops below hysteresis limit in E-1 %
-	enable_cooling(); // switch cooling relay
-    } // else if
-*/
 } // pid_control()
