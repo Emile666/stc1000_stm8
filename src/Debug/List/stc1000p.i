@@ -1,4 +1,4 @@
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.c"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
 /*==================================================================
   File Name    : stc1000p.c
   Author       : Mats Staffansson / Emile
@@ -84,8 +84,8 @@ typedef unsigned char __istate_t;
 
 #pragma language=restore
 
-#line 29 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.c"
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 29 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 /*==================================================================
   File Name    : stc1000p.h
   Author       : Mats Staffansson / Emile
@@ -3293,7 +3293,7 @@ __near __no_init volatile  unsigned char DM_ENFCTR @ 0x7F9A;;
 /*----------------------------------------------
  *      End of file
  *--------------------------------------------*/
-#line 60 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 60 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 //#include <iostm8s103f3.h>
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
 /* stdint.h standard header */
@@ -5188,7 +5188,7 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 62 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 62 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
      
 /* Define STC-1000+ version number (XYY, X=major, YY=minor) */
 /* Also, keep track of last version that has changes in EEPROM layout */
@@ -5215,13 +5215,13 @@ V5.04:0576 */
 
 
 
-#line 100 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 100 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
      
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 139 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 139 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
-#line 148 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 148 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
 // Function prototypes
 void save_display_state(void);
@@ -5236,8 +5236,8 @@ void std_task(void);
 void ctrl_task(void);
 void prfl_task(void);
 
-#line 30 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.c"
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 30 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 /*==================================================================
   File Name    : stc1000p_lib.h
   Author       : Mats Staffansson / Emile
@@ -5280,7 +5280,7 @@ void prfl_task(void);
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 33 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 33 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdbool.h"
 /* stdbool.h header */
 /* Copyright 2003-2010 IAR Systems AB.  */
@@ -5311,8 +5311,8 @@ V5.04:0576 */
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 34 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\eep.h"
+#line 34 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\eep.h"
 /*==================================================================
   File Name    : eep.h
   Author       : Emile
@@ -5349,7 +5349,7 @@ V5.04:0576 */
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 28 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\eep.h"
+#line 28 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\eep.h"
 
 
 // EEPROM base address within STM8 uC
@@ -5359,8 +5359,8 @@ V5.04:0576 */
 uint16_t eeprom_read_config(uint8_t eeprom_address);
 void     eeprom_write_config(uint8_t eeprom_address,uint16_t data);
 
-#line 37 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.h"
+#line 37 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\pid.h"
 /*==================================================================
   File name    : pid.h
   Author       : Emile
@@ -5394,7 +5394,7 @@ void     eeprom_write_config(uint8_t eeprom_address,uint16_t data);
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 26 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\pid.h"
+#line 26 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\pid.h"
 
 
 // PID controller upper & lower limit [E-1 %]
@@ -5407,12 +5407,12 @@ V5.04:0576 */
 void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
 void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 
-#line 38 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 38 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 // Define limits for temperatures in Fahrenheit and Celsius
-#line 48 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 48 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
-#line 57 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 57 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 // Default values
 
@@ -5427,7 +5427,7 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 // 1) proper #include in stc1000p.h: <iostm8s003f3.h> or <iostm8s103f3.h>
 // 2) Project -> Options -> Target -> Device to STM8S003F3 or STM8S103F3
 //---------------------------------------------------------------------------
-#line 81 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 81 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 //-----------------------------------------------------------------------------
 // Enum to specify the types of the parameters in the menu.
@@ -5481,7 +5481,7 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
-#line 154 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 154 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 
 
@@ -5582,8 +5582,8 @@ void     read_buttons(void);
 void     menu_fsm(void);
 void     temperature_control(void);
 void     pid_control(void);
-#line 31 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.c"
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.h"
+#line 31 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\scheduler.h"
 /*==================================================================
   File Name    : scheduler.h
   Author       : Emile
@@ -5620,7 +5620,7 @@ void     pid_control(void);
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 27 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.h"
+#line 27 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\scheduler.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
 /* string.h standard header */
 /* Copyright 2009-2010 IAR Systems AB. */
@@ -5893,7 +5893,7 @@ _Pragma("function_effects = no_state, no_errno, no_write(1,2)") __intrinsic __no
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 29 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\scheduler.h"
+#line 29 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\scheduler.h"
 
 
 
@@ -5926,8 +5926,8 @@ uint8_t enable_task(char *Name);
 uint8_t disable_task(char *Name);
 void    list_all_tasks(_Bool rs232_udp);
 
-#line 32 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.c"
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.h"
+#line 32 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
 /*==================================================================
   File Name    : adc.h
   Author       : Emile
@@ -5964,7 +5964,7 @@ void    list_all_tasks(_Bool rs232_udp);
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 27 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.h"
+#line 27 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
 
 
 
@@ -5980,7 +5980,7 @@ V5.04:0576 */
 // Function prototypes
 uint16_t read_adc(uint8_t ch);
 int16_t  ad_to_temp(uint16_t adfilter, _Bool *err);
-#line 33 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.c"
+#line 33 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
 
 
 // Global variables

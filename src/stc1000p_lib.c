@@ -697,13 +697,8 @@ void menu_fsm(void)
                         {
                             eeadr_sp = EEADR_PROFILE_SETPOINT(((uint8_t)config_value), 0);
                             // Set initial value for SP
-                            if (minutes)
-                            {
-                                setpoint = eeprom_read_config(eeadr_sp);
-                                eeprom_write_config(EEADR_MENU_ITEM(SP), setpoint);
-                            } else {
-                                eeprom_write_config(EEADR_MENU_ITEM(SP), eeprom_read_config(eeadr_sp));
-                            } // else if
+                            setpoint = eeprom_read_config(eeadr_sp);
+                            eeprom_write_config(EEADR_MENU_ITEM(SP), setpoint);
                             // Hack in case inital step duration is '0'
                             if(eeprom_read_config(eeadr_sp+1) == 0)
                             {   // Set to thermostat mode

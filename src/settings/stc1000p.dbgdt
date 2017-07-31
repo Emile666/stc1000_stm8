@@ -45,7 +45,7 @@
         
         
       <ColumnWidth0>569</ColumnWidth0><ColumnWidth1>94</ColumnWidth1><ColumnWidth2>854</ColumnWidth2><ColumnWidth3>379</ColumnWidth3></Find-in-Files>
-    <StaticWatch><expressions><item>ad_ntc1&gt;&gt;6</item><item>temp_ntc1</item><item></item></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths></StaticWatch></Static>
+    <StaticWatch><expressions><item>ad_ntc1&gt;&gt;6</item><item>temp_ntc1</item><item/></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths></StaticWatch></Static>
     <Windows>
       
       

@@ -1,4 +1,4 @@
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.c"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.c"
 /*==================================================================
   File Name    : adc.c
   Author       : Emile
@@ -23,7 +23,7 @@
   $Log: $
   ==================================================================
 */ 
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.h"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
 /*==================================================================
   File Name    : adc.h
   Author       : Emile
@@ -1942,7 +1942,7 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 27 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.h"
+#line 27 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdbool.h"
 /* stdbool.h header */
 /* Copyright 2003-2010 IAR Systems AB.  */
@@ -1973,8 +1973,8 @@ V5.04:0576 */
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 28 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.h"
-#line 1 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 28 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
+#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 /*==================================================================
   File Name    : stc1000p.h
   Author       : Mats Staffansson / Emile
@@ -5182,7 +5182,7 @@ __near __no_init volatile  unsigned char DM_ENFCTR @ 0x7F9A;;
 /*----------------------------------------------
  *      End of file
  *--------------------------------------------*/
-#line 60 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 60 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 //#include <iostm8s103f3.h>
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
 /* stdint.h standard header */
@@ -5195,7 +5195,7 @@ __near __no_init volatile  unsigned char DM_ENFCTR @ 0x7F9A;;
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 62 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 62 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
      
 /* Define STC-1000+ version number (XYY, X=major, YY=minor) */
 /* Also, keep track of last version that has changes in EEPROM layout */
@@ -5222,13 +5222,13 @@ V5.04:0576 */
 
 
 
-#line 100 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 100 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
      
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 139 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 139 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
-#line 148 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\stc1000p.h"
+#line 148 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
 // Function prototypes
 void save_display_state(void);
@@ -5243,7 +5243,7 @@ void std_task(void);
 void ctrl_task(void);
 void prfl_task(void);
 
-#line 29 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.h"
+#line 29 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\intrinsics.h"
 /**************************************************
  *
@@ -5302,7 +5302,7 @@ typedef unsigned char __istate_t;
 
 #pragma language=restore
 
-#line 30 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.h"
+#line 30 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
 
 // NTC1 is connected to ADC-channel AIN4 (PD3)
 // NTC2 is connected to ADC-channel AIN3 (PD2)
@@ -5315,7 +5315,7 @@ typedef unsigned char __istate_t;
 // Function prototypes
 uint16_t read_adc(uint8_t ch);
 int16_t  ad_to_temp(uint16_t adfilter, _Bool *err);
-#line 26 "D:\\Dropbox\\Programming\\Github\\stc1000_stm8\\src\\adc.c"
+#line 26 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.c"
 
 extern _Bool fahrenheit; // false = Celsius, true = Fahrenheit
 
