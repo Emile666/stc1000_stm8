@@ -6358,7 +6358,7 @@ void temperature_control(void)
 	if ((temp_ntc1 > setpoint + hysteresis) && (!probe2 || (temp_ntc2 >= setpoint - hysteresis2))) 
              enable_cooling(); // switch cooling relay
         else led_e &= ~(0x04);
-	if ((temp_ntc1 < setpoint - hysteresis) && (probe2 || (temp_ntc2 <= setpoint + hysteresis2))) 
+	if ((temp_ntc1 < setpoint - hysteresis) && (!probe2 || (temp_ntc2 <= setpoint + hysteresis2))) 
 	    enable_heating(); // switch heating relay
 	else led_e &= ~(0x01);
     } // else if
