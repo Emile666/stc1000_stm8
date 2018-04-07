@@ -5537,6 +5537,7 @@ enum menu_enum
 
 
 
+
 // Timers for state transition diagram. One-tick = 100 msec.
 
 
@@ -5577,7 +5578,7 @@ enum menu_states
 // Function Prototypes
 uint16_t divu10(uint16_t n); 
 void     prx_to_led(uint8_t run_mode, uint8_t is_menu);
-void     value_to_led(int value, uint8_t decimal); 
+void     value_to_led(int value, uint8_t mode); 
 void     update_profile(void);
 int16_t  range(int16_t x, int16_t min, int16_t max);
 int16_t  check_config_value(int16_t config_value, uint8_t eeadr);
@@ -5712,13 +5713,16 @@ void prx_to_led(uint8_t run_mode, uint8_t is_menu)
              temperature or a non-temperature value.
              In case of a temperature, a decimal point is displayed (for 0.1).
              In case of a non-temperature value, only the value itself is shown.
-  Variables: value  : the value to display
-             decimal: 0=display as integer, 1=display temperature as xx.1
+  Variables: value: the value to display
+             mode : LEDS_INT : display as integer
+                    LEDS_TEMP: display temperature as xx.1
+                    LEDS_PERC: display percentage as xx.1
   Returns  : -
   ---------------------------------------------------------------------------*/
-void value_to_led(int value, uint8_t decimal) 
+void value_to_led(int value, uint8_t mode) 
 {
 	uint8_t i;
+        uint8_t decimal = 0;
 
 	led_e &= ~((0x80) | (0x40) | (0x20)); // clear negative, ° and Celsius symbols
         if (value < 0) 
@@ -5727,23 +5731,28 @@ void value_to_led(int value, uint8_t decimal)
 	   value  = -value;
 	} // if
 
-        if(decimal == 1)
-        {  // this is a temperature
+        if (mode == (1))
+        {  // this is a temperature in E-1 °C
 	   led_e |= (0x40);
            if (!fahrenheit) led_e |= (0x20); // Celsius symbol
+           decimal = 1;
 	} // if
+        else if (mode == (2))
+        {  // this is a percentage in E-1 %
+            decimal = 1;
+        } // else if
 
-	// If temperature >= 100 we must loose a decimal...
+	// If temperature >= 100 °C or percentage is 100 %, we must loose a decimal...
 	if (value >= 1000) 
         {
 	   value   = divu10((uint16_t) value);
-	   decimal = 0;
+	   decimal = 0; // no decimal point in this case
 	} // if
 
 	// Convert value to BCD and set LED outputs
-	if(value >= 100)
+	if (value >= 100)
         {
-	   for(i = 0; value >= 100; i++)
+	   for (i = 0; value >= 100; i++)
            {
 	      value -= 100;
 	   } // for
@@ -5753,7 +5762,7 @@ void value_to_led(int value, uint8_t decimal)
 	} // else
 	if (value >= 10 || decimal || led_10 != (0x00))
         {  // If decimal, we want 1 leading zero
-	   for(i = 0; value >= 10; i++)
+	   for (i = 0; value >= 10; i++)
            {
 	      value -= 10;
 	   } // for

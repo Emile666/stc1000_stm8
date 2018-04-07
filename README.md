@@ -9,6 +9,8 @@ I bought a couple of STC-1000 devices which had another µC with completely diff
 the hardware, create the schematics and new boards and (like Mats) add new features. You can find the schematics (with the Eagle design files) all here. I also used Mats software as a start, but needed to heavily modify it in order
 to run on the new hardware platform.
 
+**PID-Control with SSR**: This is a nice feature which was not present in Mats' firmware. This firmware version has PID-control built-in and the output is available at the connector block for direct control of a Solid-State Relay (SSR).
+
 So, for those of you who have this version of the STC-1000: enjoy! Because now you can have almost the same functionality as Mats realised in the PIC version of the STC-1000. There's only one real drawback: the STM8 µC
 only has 128 bytes of EEPROM, so the number of profiles and the number of temperature-time pairs per profile needed to be reduced. But you get more features as a standard (switchable) option (instead of programming a different firmware version). 
 For those of you willing to do some de-soldering (see text below): you can replace the µC with a **STM8S103F3** µC that has 640 bytes of EEPROM. Then you have the 6 profiles with all temperature-time pairs again.

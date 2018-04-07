@@ -202,6 +202,7 @@ enum menu_enum
 // Defines for value_to_led() function
 #define LEDS_INT      (0)
 #define LEDS_TEMP     (1)
+#define LEDS_PERC     (2)
 
 // Timers for state transition diagram. One-tick = 100 msec.
 #define TMR_POWERDOWN          (30)
@@ -243,7 +244,7 @@ enum menu_states
 // Function Prototypes
 uint16_t divu10(uint16_t n); 
 void     prx_to_led(uint8_t run_mode, uint8_t is_menu);
-void     value_to_led(int value, uint8_t decimal); 
+void     value_to_led(int value, uint8_t mode); 
 void     update_profile(void);
 int16_t  range(int16_t x, int16_t min, int16_t max);
 int16_t  check_config_value(int16_t config_value, uint8_t eeadr);

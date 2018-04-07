@@ -422,7 +422,7 @@ void ctrl_task(void)
                    case 1: value_to_led(temp_ntc2,LEDS_TEMP); 
                            led_e |= LED_POINT;
                            break;
-                   case 2: value_to_led(pid_out  ,LEDS_INT) ; 
+                   case 2: value_to_led(pid_out  ,LEDS_PERC) ; 
                            break;
                } // switch
            } // else
