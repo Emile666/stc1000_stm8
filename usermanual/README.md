@@ -8,7 +8,7 @@ Mats Staffansson / Emile
 # Changelog
 
 2016-11-04:	First version of STC-1000p for STM8<br>
-2016-12-05: Direct- (heating-loop) or reverse-acting (cooling-loop) PID now selectable with **Hc** parameter
+2016-12-05: Direct- (heating-loop) or reverse-acting (cooling-loop) PID now selectable with **Hc** parameter<br>
 2020-02-29: Option added (**Pb** = 2) to control a refrigerator and the compressor fan
 
 # Features
@@ -19,8 +19,9 @@ Mats Staffansson / Emile
 * PID-output polarity selectable with **Kc** parameter. Forward-acting (heating-loop) or reverse-acting (cooling-loop)
 * PID-output signal (slow PWM, T=12.5 sec) present at **S3 output** for connection to a Solid-State Relay (SSR)
 * Standard thermostat functionality available when PID-controller is disabled (**TS** parameter set to 0)
-* Second temperature probe functionality selectable with **Pb2** parameter
-* With **Pb** set to 2, a refrigerator and the compressor fan are controlled. You need two temperature probes for this
+* Second temperature probe functionality selectable with **Pb2** parameter. If **Pb2** is set to 0, no second temperature probe is connected.
++ With **Pb2** set to 1, the second temperature probe should measure the outside temperature. Used in thermostat control.
++ With **Pb** set to 2, the second temperature probe should measure the compressor temperature of a refrigerator. Used in refrigerator mode to also control the compressor fan.
 * Up to 4 profiles with up to 6 setpoints (6 profiles with 10 setpoints if the STM8S003F3 is replaced with a STM8S103FS µC)
 * Each setpoint can be held for 1-999 hours (i.e. up to ~41 days) or 1-999 minutes (i.e. up to ~16 hours)
 * Approximative ramping
@@ -82,7 +83,7 @@ The settings menu has the following items:
 |hd|Set heating delay|0 to 60 minutes|
 |rP|Ramping|0 = off, 1 = on|
 |cF|Celsius or Fahrenheit display|0 = Celsius, 1 = Fahrenheit|
-|Pb2|Enable second temp probe for use in thermostat control|0 = off, 1 = on, 2 = refrigerator with compressor fan control|
+|Pb2|Enable second temp probe for use in thermostat control|0 = off, 1 = on, 2 = refrigerator mode with compressor fan control|
 |HrS|Select Hours or Minutes time-base|0 = minutes, 1 = hours|
 |Hc|Kc parameter for PID-controller in %/°C|-9999 to 9999|
 |Ti|Ti parameter for PID-controller in seconds|0 to 9999|
@@ -95,7 +96,8 @@ The settings menu has the following items:
 
 **Hysteresis**: This parameter is used when the thermostat controls the temperature (**Ts** is set to 0). This parameter then controls the allowable temperature range around the setpoint where the thermostat will not change state. For example, if temperature is greater than setpoint + hysteresis AND the time passed since last cooling cycle is greater than cooling delay, then cooling relay will be engaged. Once the temperature reaches setpoint again, cooling relay will be disengaged.
 
-**Hysteresis 2**, This parameter is used when the thermostat controls the temperature (**Ts** is set to 0). Futhermore if **Pb2** is set to 1, temperature probe 2 should measure the environmental temperature. Now the allowable temperature range around the setpoint for temperature probe 2 is controlled. For example, if temperature 2 is less than **SP - hy2**, the cooling relay will cut out even if **SP - hy** has not been reached for temperature. Also, cooling will not be allowed again, until temperature 2 exceeds **SP - 0.5 \* hy2** (that is, it has regained at least half the hysteresis). If **Pb2** is set to 2, then this parameter controls the compressor fan (which should be connected to the heater output). For example: if **Hysteresis 2** is set to 100 E-1 °C, the compressor fan is switched on when probe 2 temperature exceeds 35 °C (30 + **Hysteresis 2**/2) and switched off when probe 2 temperature is below 25 °C (30 - **Hysteresis 2**/2). Temperature probe 2 should in this case be attached to one of the compressor output pipes (that should get hot when the compressor is turned on).
+**Hysteresis 2**, This parameter is used when the thermostat controls the temperature (**Ts** is set to 0). Futhermore if **Pb2** is set to 1, temperature probe 2 should measure the environmental temperature. Now the allowable temperature range around the setpoint for temperature probe 2 is controlled. For example, if temperature 2 is less than **SP - hy2**, the cooling relay will cut out even if **SP - hy** has not been reached for temperature. Also, cooling will not be allowed again, until temperature 2 exceeds **SP - 0.5 \* hy2** (that is, it has regained at least half the hysteresis).<br>
+If **Pb2** is set to 2, then this parameter controls the compressor fan (which should be connected to the heater output). For example: if **Hysteresis 2** is set to 100 E-1 °C, the compressor fan is switched on when probe 2 temperature exceeds 35 °C (30 + **Hysteresis 2**/2) and switched off when probe 2 temperature is below 25 °C (30 - **Hysteresis 2**/2). Temperature probe 2 should in this case be attached to one of the compressor output pipes (which should get hot when the compressor is turned on).
 
 **Temperature correction**, will be added to the temperature sensor, this allows the user to calibrate the temperature reading. It is best to calibrate with a precision resistor of 10 k Ohms (1% tolerance). Replace the temperature sensor with such a resistor, let the STC-1000p-STM8 run for at-least half an hour and adjust this parameter such that the temperature display is set to 25.0 °C.
 
@@ -193,11 +195,12 @@ Here, you can see that there is room on the PCB for a three or even a five pole 
 
 ## Using secondary temperature probe input
 
-The idea is to use the secondary temperature probe to measure the fridge air temperature or the temperature of a smaller thermal mass (water or sand) in the fridge. This should respond faster to the temperature fluctuations than the beer. By carefully limiting how far this temperature is allowed to deviate from the setpoint, it should be possible to limit the over/under-shoot that can occur as the heater/cooler continues to operate until the beer has reached the setpoint. Ther correct value for **hy2** will be dependent of the specific setup (and also the *hy* value) and will need to be set by trial and error or by analyzing how much over/under-shoot is seen and how far off setpoint the fridge temperature will go. This is a double edged sword, you do not want to set too tight hysteresis for the second temp probe as it will put more stress on the compressor and may make it harder to reach setpoint. But you also want to constrain it enough to be effective. Err on the safe side to begin with (using a larger **hy2** setting) and constrain it more as needed.
+The idea is to use the secondary temperature probe to measure the fridge air temperature or the temperature of a smaller thermal mass (water or sand) in the fridge. This should respond faster to the temperature fluctuations than the beer. By carefully limiting how far this temperature is allowed to deviate from the setpoint, it should be possible to limit the over/under-shoot that can occur as the heater/cooler continues to operate until the beer has reached the setpoint.<br>
+The correct value for **hy2** will be dependent of the specific setup (and also the *hy* value) and will need to be set by trial and error or by analyzing how much over/under-shoot is seen and how far off setpoint the fridge temperature will go. This is a double edged sword, you do not want to set too tight hysteresis for the second temp probe as it will put more stress on the compressor and may make it harder to reach setpoint. But you also want to constrain it enough to be effective. Err on the safe side to begin with (using a larger **hy2** setting) and constrain it more as needed.
 
 It should also be noted, that it would be a very good idea to make sure the two temperature probes are calibrated (at least in respect to each other) around the setpoint. See table 4
 
-To enable use of the second temp probe in the thermostat logic (i.e. to enable **hy2** limits on temperature2), set **Pb2** = 1. Even with with it disabled it is still possible to switch to display the second temperature input using a short press on the power button. 
+To enable use of the second temp probe in the thermostat logic (i.e. to enable **hy2** limits on temperature2), set **Pb2** to 1. Even with with it disabled it is still possible to switch to display the second temperature input using a short press on the power button. 
 
 When you set **Pb2** to 2, the heating output is now used to control the compressor fan of the refrigerator. This is convenient if you want to control a refrigerator and you only want the compressor fan on when it is needed. Connect the second temperature probe in this case to one of the compressor output pipes (which should get hot when the compressor is on).
 

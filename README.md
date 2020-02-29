@@ -11,7 +11,7 @@ to run on the new hardware platform.
 
 The following additional features were added, which were not present in Mats' firmware (See the [user-manual](./usermanual/README.md) for more details):
 - **PID-Control with SSR**: This firmware version has PID-control built-in and the output is available at the connector block for direct control of a Solid-State Relay (SSR). Just set the **Ts** parameter to a non-zero value to enable PID-control.
-- **Cooling mode with compressor fan control**: If you connect a second temperature probe and set the **Pb2** parameter to 2, you can connect a refrigerator and control the compressor fan at the same time. The first temperature probe goes inside the refrigerator, the second one is connected to the compressor output. The cooling output controls the refrigerator itself, the heating output if for the compressor fan.
+- **Refrigerator mode with compressor fan control**: If you connect a second temperature probe and set the **Pb2** parameter to 2, you can control a refrigerator and the compressor fan at the same time. The first temperature probe goes inside the refrigerator as usual, the second one is connected to one of the compressor output pipes. The cooling output controls the refrigerator itself, the heating output is now used for the compressor fan.
 
 So, for those of you who have this version of the STC-1000: enjoy! Because now you can have the same (and more) functionality as Mats realised in the PIC version of the STC-1000. There's only one real drawback: the STM8 µC
 only has 128 bytes of EEPROM, so the number of profiles and the number of temperature-time pairs per profile needed to be reduced. But you get more features as a standard (switchable) option (instead of programming a different firmware version). 
