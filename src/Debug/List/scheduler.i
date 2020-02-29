@@ -48,7 +48,7 @@
 
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 /* stdint.h standard header */
 /* Copyright 2003-2010 IAR Systems AB.  */
 
@@ -58,7 +58,7 @@
   #pragma system_include
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 /* ycheck.h internal checking header file. */
 /* Copyright 2005-2010 IAR Systems AB. */
 
@@ -104,21 +104,25 @@
 
 
 
-#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
 
 
 
 /* A definiton for a function of what effects it has.
-   NS  = no_state, i.e. it uses no internal or external state. It may write
-         to errno though
-   NE  = no_state, no_errno,  i.e. it uses no internal or external state,
-         not even writing to errno. 
+   NS  = no_state, errno, i.e. it uses no internal or external state. It may
+         write to errno though
+   NE  = no_state, i.e. it uses no internal or external state, not even
+         writing to errno. 
    NRx = no_read(x), i.e. it doesn't read through pointer parameter x.
    NWx = no_write(x), i.e. it doesn't write through pointer parameter x.
+   Rx  = returns x, i.e. the function will return parameter x.
+   
+   All the functions with effects also has "always_returns", 
+   i.e. the function will always return.
 */
 
-#line 99 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 103 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
 
 
@@ -128,8 +132,8 @@
 
 
 
-#line 11 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 11 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 /* yvals.h internal configuration header file. */
 /* Copyright 2001-2010 IAR Systems AB. */
 
@@ -140,7 +144,7 @@
   #pragma system_include
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 /* ycheck.h internal checking header file. */
 /* Copyright 2005-2010 IAR Systems AB. */
 
@@ -186,9 +190,9 @@
 
 
 
-#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
-#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* Convenience macros */
 
@@ -228,16 +232,16 @@
 
 
   /* Default turned on when compiling C++, EC++, or C99. */
-#line 59 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 59 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
 
 
-#line 70 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 70 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* Configuration */
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 /***************************************************
  *
  * DLib_Defaults.h is the library configuration manager.
@@ -275,7 +279,7 @@
 
 
 /* Include the main configuration header file. */
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\LIB\\dlstm8smn.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\LIB\\dlstm8smn.h"
 /* Customer-specific DLib configuration. */
 /* Copyright (C) 2003 IAR Systems.  All rights reserved. */
 
@@ -288,12 +292,12 @@
 
 /* No changes to the defaults. */
 
-#line 40 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 40 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
   /* _DLIB_CONFIG_FILE_STRING is the quoted variant of above */
-#line 47 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 47 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 /* Include the product specific header file. */
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Product.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Product.h"
 /* STM8-specific DLib configuration. */
 /* Copyright 2010 IAR Systems AB.    */
 /* $Revision: 3172 $                  */
@@ -340,7 +344,7 @@
 
 
 
-#line 51 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 51 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 
@@ -634,7 +638,7 @@
  * Default is to support long long formatting.
  */
 
-#line 351 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 351 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 
@@ -843,7 +847,7 @@
  * Default is to support long long formatting in scanf.
  */
 
-#line 566 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 566 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 
@@ -1083,7 +1087,7 @@
 
 
 
-#line 812 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 812 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 /*
@@ -1091,13 +1095,13 @@
  * ARM AEABI. A target, except ARM, may deviate from it.
  */
 
-#line 826 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 826 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
   /* Possible AEABI deviations */
-#line 836 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 836 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
-#line 844 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 844 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
   /*
    * The "difunc" table contains information about C++ objects that
    * should be dynamically initialized, where each entry in the table
@@ -1142,7 +1146,7 @@
  * Rtti support.
  */
 
-#line 899 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 899 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 /*
  * Use the "pointers to short" or "pointers to long" implementation of 
@@ -1181,7 +1185,7 @@
  */
 
   /* size_t/ptrdiff_t must be a 4 bytes unsigned integer. */
-#line 943 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 943 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 
@@ -1229,7 +1233,7 @@
  * Set this to __weak, if supported.
  *
  */
-#line 997 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 997 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 /*
@@ -1243,7 +1247,7 @@
 
 
 
-#line 73 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 73 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1277,7 +1281,7 @@
  * _LONG_DOUBLE_IS_DOUBLE signals that all internal long double routines
  *                        aren't needed.
  */
-#line 147 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 147 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1293,7 +1297,7 @@
 
 /* Has support for secure functions (printf_s, scanf_s, etc) */
 /* Will not compile if enabled */
-#line 170 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 170 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 /* Has support for complex C types */
 
@@ -1315,7 +1319,7 @@
 
 
 /* True C++ language setup */
-#line 233 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 233 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1328,7 +1332,7 @@
 
 
                 /* NAMESPACE CONTROL */
-#line 292 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 292 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1338,7 +1342,7 @@
 
 
 
-#line 308 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 308 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1347,7 +1351,7 @@
 
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
 /* xencoding_limits.h internal header file */
 /* Copyright 2003-2010 IAR Systems AB.  */
 
@@ -1358,7 +1362,7 @@
   #pragma system_include
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 /* ycheck.h internal checking header file. */
 /* Copyright 2005-2010 IAR Systems AB. */
 
@@ -1404,30 +1408,30 @@
 
 
 
-#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
-#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 /* yvals.h internal configuration header file. */
 /* Copyright 2001-2010 IAR Systems AB. */
 
-#line 707 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 711 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 /*
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 13 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
+#line 13 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
 
                                 /* Multibyte encoding length. */
 
 
-#line 24 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
+#line 24 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
 
 
 
 
-#line 42 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
+#line 42 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
 
                                 /* Utility macro */
 
@@ -1444,17 +1448,17 @@ V5.04:0576 */
 
 
 
-#line 317 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 317 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
                 /* FLOATING-POINT PROPERTIES */
 
                 /* float properties */
-#line 335 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 335 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* double properties */
-#line 360 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 360 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* long double properties */
                 /* (must be same as double) */
@@ -1462,7 +1466,7 @@ V5.04:0576 */
 
 
 
-#line 382 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 382 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
                 /* INTEGER PROPERTIES */
@@ -1480,7 +1484,7 @@ V5.04:0576 */
   typedef long long _Longlong;
   typedef unsigned long long _ULonglong;
   #pragma language=restore
-#line 405 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 405 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1491,9 +1495,9 @@ V5.04:0576 */
   typedef unsigned short int _Wintt;
 
 
-#line 424 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 424 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
-#line 432 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 432 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* POINTER PROPERTIES */
 
@@ -1510,10 +1514,14 @@ typedef unsigned short int     _Sizet;
 
 
 
+
+/* This struct definition must not be inside namespace std, or
+   overloading will be wrong in full C++ */
   typedef struct __va_list
   {
     char  *_Ap;
   } __va_list;
+
   typedef __va_list __Va_list;
 
 
@@ -1523,7 +1531,7 @@ typedef unsigned short int     _Sizet;
 __intrinsic __nounwind void __iar_Atexit(void (*)(void));
 
 
-#line 471 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 475 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
   typedef struct
   {       /* state of a multibyte translation */
     unsigned long _Wchar;      /* Used as an intermediary value (up to 32-bits) */
@@ -1558,7 +1566,7 @@ typedef struct
 
                 /* THREAD AND LOCALE CONTROL */
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Threads.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Threads.h"
 /***************************************************
  *
  * DLib_Threads.h is the library threads manager.
@@ -1686,20 +1694,16 @@ typedef struct
 
 
 
-#line 296 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Threads.h"
+#line 296 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Threads.h"
 
   
   typedef void *__iar_Rmtx;
   
-#line 326 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Threads.h"
+#line 326 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Threads.h"
 
 
 
-#line 348 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Threads.h"
-
-
-
-
+#line 348 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Threads.h"
 
 
 
@@ -1708,21 +1712,25 @@ typedef struct
 
 
 
-#line 506 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
 
-#line 516 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+
+
+
+#line 510 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
+
+#line 520 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* THREAD-LOCAL STORAGE */
-#line 524 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 528 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
                 /* MULTITHREAD PROPERTIES */
-#line 564 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 568 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* LOCK MACROS */
-#line 572 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 576 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
-#line 690 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 694 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* MISCELLANEOUS MACROS AND FUNCTIONS*/
 
@@ -1730,7 +1738,7 @@ typedef struct
 
 
 
-#line 705 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 709 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1738,7 +1746,7 @@ typedef struct
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 
 /* Fixed size types. These are all optional. */
@@ -1757,7 +1765,7 @@ V5.04:0576 */
   typedef unsigned long int uint32_t;
 
 
-#line 37 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 37 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /* Types capable of holding at least a certain number of bits.
    These are not optional for the sizes 8, 16, 32, 64. */
@@ -1771,7 +1779,7 @@ typedef signed long int   int_least32_t;
 typedef unsigned long int uint_least32_t;
 
 /* This isn't really optional, but make it so for now. */
-#line 62 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 62 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /* The fastest type holding at least a certain number of bits.
    These are not optional for the size 8, 16, 32, 64.
@@ -1785,7 +1793,7 @@ typedef unsigned int uint_fast16_t;
 typedef signed long int   int_fast32_t;
 typedef unsigned long int uint_fast32_t;
 
-#line 87 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 87 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /* The integer type capable of holding the largest number of bits. */
 #pragma language=save
@@ -1935,14 +1943,14 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
 
 
 
-#line 258 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 258 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /*
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
 #line 27 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\scheduler.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdbool.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdbool.h"
 /* stdbool.h header */
 /* Copyright 2003-2010 IAR Systems AB.  */
 
@@ -1973,7 +1981,7 @@ V5.04:0576 */
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
 #line 28 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\scheduler.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\string.h"
 /* string.h standard header */
 /* Copyright 2009-2010 IAR Systems AB. */
 
@@ -1983,7 +1991,7 @@ V5.04:0576 */
   #pragma system_include
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 /* ycheck.h internal checking header file. */
 /* Copyright 2005-2010 IAR Systems AB. */
 
@@ -2029,10 +2037,10 @@ V5.04:0576 */
 
 
 
-#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
-#line 11 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ysizet.h"
+#line 11 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\string.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ysizet.h"
 /* ysizet.h internal header file. */
 /* Copyright 2003-2010 IAR Systems AB.  */
 
@@ -2043,7 +2051,7 @@ V5.04:0576 */
   #pragma system_include
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 /* ycheck.h internal checking header file. */
 /* Copyright 2005-2010 IAR Systems AB. */
 
@@ -2089,9 +2097,9 @@ V5.04:0576 */
 
 
 
-#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
-#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ysizet.h"
+#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ysizet.h"
 
 
 
@@ -2117,7 +2125,7 @@ typedef unsigned char __tiny_size_t; typedef unsigned short __near_size_t; typed
 
 
 
-#line 13 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
+#line 13 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\string.h"
 
 
 
@@ -2131,50 +2139,50 @@ typedef unsigned char __tiny_size_t; typedef unsigned short __near_size_t; typed
 
                 /* declarations */
 
-_Pragma("function_effects = no_state, no_errno, no_write(1,2)")   __intrinsic __nounwind int        memcmp(const void *, const void *,
+_Pragma("function_effects = no_state, no_write(1,2), always_returns")   __intrinsic __nounwind int        memcmp(const void *, const void *,
                                                 size_t);
-_Pragma("function_effects = no_state, no_errno, no_read(1), no_write(2), returns 1") __intrinsic __nounwind void *     memcpy(void *, 
+_Pragma("function_effects = no_state, no_read(1), no_write(2), returns 1, always_returns") __intrinsic __nounwind void *     memcpy(void *, 
                                                 const void *, size_t);
-_Pragma("function_effects = no_state, no_errno, no_read(1), no_write(2), returns 1") __intrinsic __nounwind void *     memmove(void *, const void *, size_t);
-_Pragma("function_effects = no_state, no_errno, no_read(1), returns 1")    __intrinsic __nounwind void *     memset(void *, int, size_t);
-_Pragma("function_effects = no_state, no_errno, no_write(2), returns 1")    __intrinsic __nounwind char *     strcat(char *, 
+_Pragma("function_effects = no_state, no_read(1), no_write(2), returns 1, always_returns") __intrinsic __nounwind void *     memmove(void *, const void *, size_t);
+_Pragma("function_effects = no_state, no_read(1), returns 1, always_returns")    __intrinsic __nounwind void *     memset(void *, int, size_t);
+_Pragma("function_effects = no_state, no_write(2), returns 1, always_returns")    __intrinsic __nounwind char *     strcat(char *, 
                                                 const char *);
-_Pragma("function_effects = no_state, no_errno, no_write(1,2)")   __intrinsic __nounwind int        strcmp(const char *, const char *);
-_Pragma("function_effects = no_write(1,2)")     __intrinsic __nounwind int        strcoll(const char *, const char *);
-_Pragma("function_effects = no_state, no_errno, no_read(1), no_write(2), returns 1") __intrinsic __nounwind char *     strcpy(char *, 
+_Pragma("function_effects = no_state, no_write(1,2), always_returns")   __intrinsic __nounwind int        strcmp(const char *, const char *);
+_Pragma("function_effects = no_write(1,2), always_returns")     __intrinsic __nounwind int        strcoll(const char *, const char *);
+_Pragma("function_effects = no_state, no_read(1), no_write(2), returns 1, always_returns") __intrinsic __nounwind char *     strcpy(char *, 
                                                 const char *);
-_Pragma("function_effects = no_state, no_errno, no_write(1,2)")   __intrinsic __nounwind size_t     strcspn(const char *, const char *);
+_Pragma("function_effects = no_state, no_write(1,2), always_returns")   __intrinsic __nounwind size_t     strcspn(const char *, const char *);
                  __intrinsic __nounwind char *     strerror(int);
-_Pragma("function_effects = no_state, no_errno, no_write(1)")      __intrinsic __nounwind size_t     strlen(const char *);
-_Pragma("function_effects = no_state, no_errno, no_write(2), returns 1")    __intrinsic __nounwind char *     strncat(char *, 
+_Pragma("function_effects = no_state, no_write(1), always_returns")      __intrinsic __nounwind size_t     strlen(const char *);
+_Pragma("function_effects = no_state, no_write(2), returns 1, always_returns")    __intrinsic __nounwind char *     strncat(char *, 
                                                  const char *, size_t);
-_Pragma("function_effects = no_state, no_errno, no_write(1,2)")   __intrinsic __nounwind int        strncmp(const char *, const char *, 
+_Pragma("function_effects = no_state, no_write(1,2), always_returns")   __intrinsic __nounwind int        strncmp(const char *, const char *, 
                                                  size_t);
-_Pragma("function_effects = no_state, no_errno, no_read(1), no_write(2), returns 1") __intrinsic __nounwind char *     strncpy(char *, 
+_Pragma("function_effects = no_state, no_read(1), no_write(2), returns 1, always_returns") __intrinsic __nounwind char *     strncpy(char *, 
                                                  const char *, size_t);
-_Pragma("function_effects = no_state, no_errno, no_write(1,2)")   __intrinsic __nounwind size_t     strspn(const char *, const char *);
-_Pragma("function_effects = no_write(2)")        __intrinsic __nounwind char *     strtok(char *, 
+_Pragma("function_effects = no_state, no_write(1,2), always_returns")   __intrinsic __nounwind size_t     strspn(const char *, const char *);
+_Pragma("function_effects = no_write(2), always_returns")        __intrinsic __nounwind char *     strtok(char *, 
                                                 const char *);
-_Pragma("function_effects = no_write(2)")        __intrinsic __nounwind size_t     strxfrm(char *, 
+_Pragma("function_effects = no_write(2), always_returns")        __intrinsic __nounwind size_t     strxfrm(char *, 
                                                  const char *, size_t);
 
 
-  _Pragma("function_effects = no_write(1)")      __intrinsic __nounwind char *   strdup(const char *);
-  _Pragma("function_effects = no_write(1,2)")   __intrinsic __nounwind int      strcasecmp(const char *, const char *);
-  _Pragma("function_effects = no_write(1,2)")   __intrinsic __nounwind int      strncasecmp(const char *, const char *, 
+  _Pragma("function_effects = no_write(1), always_returns")      __intrinsic __nounwind char *   strdup(const char *);
+  _Pragma("function_effects = no_write(1,2), always_returns")   __intrinsic __nounwind int      strcasecmp(const char *, const char *);
+  _Pragma("function_effects = no_write(1,2), always_returns")   __intrinsic __nounwind int      strncasecmp(const char *, const char *, 
                                                    size_t);
-  _Pragma("function_effects = no_state, no_errno, no_write(2)")    __intrinsic __nounwind char *   strtok_r(char *, const char *, char **);
-  _Pragma("function_effects = no_state, no_errno, no_write(1)")    __intrinsic __nounwind size_t   strnlen(char const *, size_t);
+  _Pragma("function_effects = no_state, no_write(2), always_returns")    __intrinsic __nounwind char *   strtok_r(char *, const char *, char **);
+  _Pragma("function_effects = no_state, no_write(1), always_returns")    __intrinsic __nounwind size_t   strnlen(char const *, size_t);
 
 
 
 
-#line 81 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
-  _Pragma("function_effects = no_state, no_errno, no_write(1)")    __intrinsic __nounwind void *memchr(const void *_S, int _C, size_t _N);
-  _Pragma("function_effects = no_state, no_errno, no_write(1)")    __intrinsic __nounwind char *strchr(const char *_S, int _C);
-  _Pragma("function_effects = no_state, no_errno, no_write(1,2)") __intrinsic __nounwind char *strpbrk(const char *_S, const char *_P);
-  _Pragma("function_effects = no_state, no_errno, no_write(1)")    __intrinsic __nounwind char *strrchr(const char *_S, int _C);
-  _Pragma("function_effects = no_state, no_errno, no_write(1,2)") __intrinsic __nounwind char *strstr(const char *_S, const char *_P);
+#line 81 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\string.h"
+  _Pragma("function_effects = no_state, no_write(1), always_returns")    __intrinsic __nounwind void *memchr(const void *_S, int _C, size_t _N);
+  _Pragma("function_effects = no_state, no_write(1), always_returns")    __intrinsic __nounwind char *strchr(const char *_S, int _C);
+  _Pragma("function_effects = no_state, no_write(1,2), always_returns") __intrinsic __nounwind char *strpbrk(const char *_S, const char *_P);
+  _Pragma("function_effects = no_state, no_write(1), always_returns")    __intrinsic __nounwind char *strrchr(const char *_S, int _C);
+  _Pragma("function_effects = no_state, no_write(1,2), always_returns") __intrinsic __nounwind char *strstr(const char *_S, const char *_P);
 
 
 
@@ -2184,16 +2192,16 @@ _Pragma("function_effects = no_write(2)")        __intrinsic __nounwind size_t  
 
                 /* The implementations. */
 
-_Pragma("function_effects = no_state, no_errno, no_write(1)")    __intrinsic __nounwind void *__iar_Memchr(const void *, int, size_t);
-_Pragma("function_effects = no_state, no_errno, no_write(1)")    __intrinsic __nounwind char *__iar_Strchr(const char *, int);
+_Pragma("function_effects = no_state, no_write(1), always_returns")    __intrinsic __nounwind void *__iar_Memchr(const void *, int, size_t);
+_Pragma("function_effects = no_state, no_write(1), always_returns")    __intrinsic __nounwind char *__iar_Strchr(const char *, int);
                __intrinsic __nounwind char *__iar_Strerror(int, char *);
-_Pragma("function_effects = no_state, no_errno, no_write(1,2)") __intrinsic __nounwind char *__iar_Strpbrk(const char *, const char *);
-_Pragma("function_effects = no_state, no_errno, no_write(1)")    __intrinsic __nounwind char *__iar_Strrchr(const char *, int);
-_Pragma("function_effects = no_state, no_errno, no_write(1,2)") __intrinsic __nounwind char *__iar_Strstr(const char *, const char *);
+_Pragma("function_effects = no_state, no_write(1,2), always_returns") __intrinsic __nounwind char *__iar_Strpbrk(const char *, const char *);
+_Pragma("function_effects = no_state, no_write(1), always_returns")    __intrinsic __nounwind char *__iar_Strrchr(const char *, int);
+_Pragma("function_effects = no_state, no_write(1,2), always_returns") __intrinsic __nounwind char *__iar_Strstr(const char *, const char *);
 
 
                 /* inlines and overloads, for C and C++ */
-#line 168 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
+#line 168 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\string.h"
                 /* Then the overloads for C. */
     #pragma inline
     void *memchr(const void *_S, int _C, size_t _N)
@@ -2232,14 +2240,14 @@ _Pragma("function_effects = no_state, no_errno, no_write(1,2)") __intrinsic __no
     return (__iar_Strerror(_Err, 0));
   }
 
-#line 451 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
+#line 451 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\string.h"
 
 
 
 
 
 
-#line 479 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\string.h"
+#line 479 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\string.h"
 
 /*
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.

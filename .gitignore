@@ -22,6 +22,16 @@ $RECYCLE.BIN/
 *.i
 *.map
 
+# IAR IDE files
+*.dbgdt
+*.wsdt
+*.dep
+*.xcl
+*.pbd
+*.pbd.*
+*.pbi
+*.pbi.*
+
 # =========================
 # Operating System Files
 # =========================

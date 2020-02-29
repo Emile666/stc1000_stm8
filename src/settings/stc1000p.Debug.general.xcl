@@ -1,10 +1,10 @@
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\stm8\bin\stm8proc.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\stm8\bin\stm8proc.dll" 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\stm8\bin\stm8stlink.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\stm8\bin\stm8stlink.dll" 
 
 "D:\ownCloud\Programming\stc1000_stm8\src\Debug\Exe\stc1000p.out" 
 
---plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\stm8\bin\stm8bat.dll" 
+--plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\stm8\bin\stm8bat.dll" 
 
 
 

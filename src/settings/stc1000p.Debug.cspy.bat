@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.general.xcl" --backend -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.general.xcl" --backend -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.driver.xcl" 
 
 @echo off 
 :end

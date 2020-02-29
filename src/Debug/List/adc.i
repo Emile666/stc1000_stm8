@@ -49,7 +49,7 @@
 
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 /* stdint.h standard header */
 /* Copyright 2003-2010 IAR Systems AB.  */
 
@@ -59,7 +59,7 @@
   #pragma system_include
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 /* ycheck.h internal checking header file. */
 /* Copyright 2005-2010 IAR Systems AB. */
 
@@ -105,21 +105,25 @@
 
 
 
-#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
 
 
 
 /* A definiton for a function of what effects it has.
-   NS  = no_state, i.e. it uses no internal or external state. It may write
-         to errno though
-   NE  = no_state, no_errno,  i.e. it uses no internal or external state,
-         not even writing to errno. 
+   NS  = no_state, errno, i.e. it uses no internal or external state. It may
+         write to errno though
+   NE  = no_state, i.e. it uses no internal or external state, not even
+         writing to errno. 
    NRx = no_read(x), i.e. it doesn't read through pointer parameter x.
    NWx = no_write(x), i.e. it doesn't write through pointer parameter x.
+   Rx  = returns x, i.e. the function will return parameter x.
+   
+   All the functions with effects also has "always_returns", 
+   i.e. the function will always return.
 */
 
-#line 99 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 103 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
 
 
@@ -129,8 +133,8 @@
 
 
 
-#line 11 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 11 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 /* yvals.h internal configuration header file. */
 /* Copyright 2001-2010 IAR Systems AB. */
 
@@ -141,7 +145,7 @@
   #pragma system_include
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 /* ycheck.h internal checking header file. */
 /* Copyright 2005-2010 IAR Systems AB. */
 
@@ -187,9 +191,9 @@
 
 
 
-#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
-#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* Convenience macros */
 
@@ -229,16 +233,16 @@
 
 
   /* Default turned on when compiling C++, EC++, or C99. */
-#line 59 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 59 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
 
 
-#line 70 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 70 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* Configuration */
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 /***************************************************
  *
  * DLib_Defaults.h is the library configuration manager.
@@ -276,7 +280,7 @@
 
 
 /* Include the main configuration header file. */
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\LIB\\dlstm8smn.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\LIB\\dlstm8smn.h"
 /* Customer-specific DLib configuration. */
 /* Copyright (C) 2003 IAR Systems.  All rights reserved. */
 
@@ -289,12 +293,12 @@
 
 /* No changes to the defaults. */
 
-#line 40 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 40 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
   /* _DLIB_CONFIG_FILE_STRING is the quoted variant of above */
-#line 47 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 47 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 /* Include the product specific header file. */
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Product.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Product.h"
 /* STM8-specific DLib configuration. */
 /* Copyright 2010 IAR Systems AB.    */
 /* $Revision: 3172 $                  */
@@ -341,7 +345,7 @@
 
 
 
-#line 51 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 51 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 
@@ -635,7 +639,7 @@
  * Default is to support long long formatting.
  */
 
-#line 351 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 351 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 
@@ -844,7 +848,7 @@
  * Default is to support long long formatting in scanf.
  */
 
-#line 566 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 566 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 
@@ -1084,7 +1088,7 @@
 
 
 
-#line 812 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 812 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 /*
@@ -1092,13 +1096,13 @@
  * ARM AEABI. A target, except ARM, may deviate from it.
  */
 
-#line 826 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 826 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
   /* Possible AEABI deviations */
-#line 836 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 836 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
-#line 844 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 844 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
   /*
    * The "difunc" table contains information about C++ objects that
    * should be dynamically initialized, where each entry in the table
@@ -1143,7 +1147,7 @@
  * Rtti support.
  */
 
-#line 899 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 899 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 /*
  * Use the "pointers to short" or "pointers to long" implementation of 
@@ -1182,7 +1186,7 @@
  */
 
   /* size_t/ptrdiff_t must be a 4 bytes unsigned integer. */
-#line 943 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 943 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 
@@ -1230,7 +1234,7 @@
  * Set this to __weak, if supported.
  *
  */
-#line 997 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Defaults.h"
+#line 997 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Defaults.h"
 
 
 /*
@@ -1244,7 +1248,7 @@
 
 
 
-#line 73 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 73 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1278,7 +1282,7 @@
  * _LONG_DOUBLE_IS_DOUBLE signals that all internal long double routines
  *                        aren't needed.
  */
-#line 147 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 147 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1294,7 +1298,7 @@
 
 /* Has support for secure functions (printf_s, scanf_s, etc) */
 /* Will not compile if enabled */
-#line 170 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 170 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 /* Has support for complex C types */
 
@@ -1316,7 +1320,7 @@
 
 
 /* True C++ language setup */
-#line 233 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 233 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1329,7 +1333,7 @@
 
 
                 /* NAMESPACE CONTROL */
-#line 292 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 292 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1339,7 +1343,7 @@
 
 
 
-#line 308 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 308 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1348,7 +1352,7 @@
 
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
 /* xencoding_limits.h internal header file */
 /* Copyright 2003-2010 IAR Systems AB.  */
 
@@ -1359,7 +1363,7 @@
   #pragma system_include
 
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 /* ycheck.h internal checking header file. */
 /* Copyright 2005-2010 IAR Systems AB. */
 
@@ -1405,30 +1409,30 @@
 
 
 
-#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\ycheck.h"
+#line 67 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\ycheck.h"
 
-#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 /* yvals.h internal configuration header file. */
 /* Copyright 2001-2010 IAR Systems AB. */
 
-#line 707 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 711 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 /*
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 13 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
+#line 13 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
 
                                 /* Multibyte encoding length. */
 
 
-#line 24 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
+#line 24 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
 
 
 
 
-#line 42 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\xencoding_limits.h"
+#line 42 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\xencoding_limits.h"
 
                                 /* Utility macro */
 
@@ -1445,17 +1449,17 @@ V5.04:0576 */
 
 
 
-#line 317 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 317 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
                 /* FLOATING-POINT PROPERTIES */
 
                 /* float properties */
-#line 335 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 335 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* double properties */
-#line 360 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 360 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* long double properties */
                 /* (must be same as double) */
@@ -1463,7 +1467,7 @@ V5.04:0576 */
 
 
 
-#line 382 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 382 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
                 /* INTEGER PROPERTIES */
@@ -1481,7 +1485,7 @@ V5.04:0576 */
   typedef long long _Longlong;
   typedef unsigned long long _ULonglong;
   #pragma language=restore
-#line 405 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 405 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1492,9 +1496,9 @@ V5.04:0576 */
   typedef unsigned short int _Wintt;
 
 
-#line 424 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 424 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
-#line 432 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 432 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* POINTER PROPERTIES */
 
@@ -1511,10 +1515,14 @@ typedef unsigned short int     _Sizet;
 
 
 
+
+/* This struct definition must not be inside namespace std, or
+   overloading will be wrong in full C++ */
   typedef struct __va_list
   {
     char  *_Ap;
   } __va_list;
+
   typedef __va_list __Va_list;
 
 
@@ -1524,7 +1532,7 @@ typedef unsigned short int     _Sizet;
 __intrinsic __nounwind void __iar_Atexit(void (*)(void));
 
 
-#line 471 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 475 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
   typedef struct
   {       /* state of a multibyte translation */
     unsigned long _Wchar;      /* Used as an intermediary value (up to 32-bits) */
@@ -1559,7 +1567,7 @@ typedef struct
 
                 /* THREAD AND LOCALE CONTROL */
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Threads.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Threads.h"
 /***************************************************
  *
  * DLib_Threads.h is the library threads manager.
@@ -1687,20 +1695,16 @@ typedef struct
 
 
 
-#line 296 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Threads.h"
+#line 296 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Threads.h"
 
   
   typedef void *__iar_Rmtx;
   
-#line 326 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Threads.h"
+#line 326 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Threads.h"
 
 
 
-#line 348 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\DLib_Threads.h"
-
-
-
-
+#line 348 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\DLib_Threads.h"
 
 
 
@@ -1709,21 +1713,25 @@ typedef struct
 
 
 
-#line 506 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
 
-#line 516 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+
+
+
+#line 510 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
+
+#line 520 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* THREAD-LOCAL STORAGE */
-#line 524 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 528 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
                 /* MULTITHREAD PROPERTIES */
-#line 564 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 568 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* LOCK MACROS */
-#line 572 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 576 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
-#line 690 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 694 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
                 /* MISCELLANEOUS MACROS AND FUNCTIONS*/
 
@@ -1731,7 +1739,7 @@ typedef struct
 
 
 
-#line 705 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\yvals.h"
+#line 709 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\yvals.h"
 
 
 
@@ -1739,7 +1747,7 @@ typedef struct
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 12 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 
 /* Fixed size types. These are all optional. */
@@ -1758,7 +1766,7 @@ V5.04:0576 */
   typedef unsigned long int uint32_t;
 
 
-#line 37 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 37 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /* Types capable of holding at least a certain number of bits.
    These are not optional for the sizes 8, 16, 32, 64. */
@@ -1772,7 +1780,7 @@ typedef signed long int   int_least32_t;
 typedef unsigned long int uint_least32_t;
 
 /* This isn't really optional, but make it so for now. */
-#line 62 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 62 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /* The fastest type holding at least a certain number of bits.
    These are not optional for the size 8, 16, 32, 64.
@@ -1786,7 +1794,7 @@ typedef unsigned int uint_fast16_t;
 typedef signed long int   int_fast32_t;
 typedef unsigned long int uint_fast32_t;
 
-#line 87 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 87 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /* The integer type capable of holding the largest number of bits. */
 #pragma language=save
@@ -1936,14 +1944,14 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
 
 
 
-#line 258 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 258 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /*
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
 #line 27 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdbool.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdbool.h"
 /* stdbool.h header */
 /* Copyright 2003-2010 IAR Systems AB.  */
 
@@ -2033,13 +2041,13 @@ V5.04:0576 */
 
 
 // #include <iostm8s003f3.h> for stock STC1000 PCB
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 /*-------------------------------------------------------------------------
  *      STM8 definitions of SFR registers
  *
  *      Used with STM8 IAR C/C++ Compiler and Assembler.
  *
- *      Copyright 2015 IAR Systems AB.
+ *      Copyright 2017 IAR Systems AB.
  *
  *-----------------------------------------------------------------------*/
 
@@ -2054,7 +2062,7 @@ V5.04:0576 */
  *      I/O register macros
  *-----------------------------------------------------------------------*/
 
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\io_macros.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\io_macros.h"
 /*-------------------------------------------------------------------------
  *      Common SFR macro declarations used for
  *      STM8 IAR C/C++ Compiler and Assembler.
@@ -2078,7 +2086,7 @@ V5.04:0576 */
 /*---------------------------------------------
  *          I/O reg attributes
  *--------------------------------------------*/
-#line 31 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\io_macros.h"
+#line 31 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\io_macros.h"
 
 /*---------------------------------------------
  * Define NAME as an I/O 8 bit reg
@@ -2088,11 +2096,11 @@ V5.04:0576 */
 
 
 /*---------------------------------------------
- * Define NAME as an I/O reg with bit accesss
+ * Define NAME as an I/O reg with bit access
  * Access of 8 bit reg:  NAME
  * Access of bit(s):     NAME_bit.noXX
  *--------------------------------------------*/
-#line 50 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\io_macros.h"
+#line 50 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\io_macros.h"
 
 
 
@@ -2100,15 +2108,33 @@ V5.04:0576 */
  *          Assembler specific macros
  *--------------------------------------------*/
 
-#line 79 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\io_macros.h"
+#line 79 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\io_macros.h"
 
-#line 22 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 22 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 #pragma system_include
 #pragma language=save
 #pragma language=extended
+
+
+/*-------------------------------------------------------------------------
+ *      Option byte attribute define
+ *-----------------------------------------------------------------------*/
+ 
+
+ 
+/*-------------------------------------------------------------------------
+ *      Option bytes register definitions
+ *-----------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------
+ *      Option bytes addresses
+ *-----------------------------------------------------------------------*/
+#line 54 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
+
+#line 66 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -2200,30 +2226,30 @@ __near __no_init volatile  union { unsigned char PA_CR2; __BITS_PA_CR2 PA_CR2_bi
  *-----------------------------------------------------------------------*/
 
 
-#line 127 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 165 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 136 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 174 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 145 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 183 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 154 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 192 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 163 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 201 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      Port A bit masks
  *-----------------------------------------------------------------------*/
-#line 177 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 215 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 186 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 224 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 195 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 233 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 204 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 242 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 213 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 251 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -2315,30 +2341,30 @@ __near __no_init volatile  union { unsigned char PB_CR2; __BITS_PB_CR2 PB_CR2_bi
  *-----------------------------------------------------------------------*/
 
 
-#line 312 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 350 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 321 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 359 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 330 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 368 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 339 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 377 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 348 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 386 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      Port B bit masks
  *-----------------------------------------------------------------------*/
-#line 362 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 400 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 371 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 409 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 380 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 418 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 389 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 427 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 398 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 436 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -2430,30 +2456,30 @@ __near __no_init volatile  union { unsigned char PC_CR2; __BITS_PC_CR2 PC_CR2_bi
  *-----------------------------------------------------------------------*/
 
 
-#line 497 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 535 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 506 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 544 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 515 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 553 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 524 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 562 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 533 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 571 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      Port C bit masks
  *-----------------------------------------------------------------------*/
-#line 547 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 585 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 556 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 594 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 565 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 603 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 574 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 612 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 583 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 621 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -2545,30 +2571,30 @@ __near __no_init volatile  union { unsigned char PD_CR2; __BITS_PD_CR2 PD_CR2_bi
  *-----------------------------------------------------------------------*/
 
 
-#line 682 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 720 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 691 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 729 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 700 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 738 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 709 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 747 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 718 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 756 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      Port D bit masks
  *-----------------------------------------------------------------------*/
-#line 732 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 770 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 741 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 779 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 750 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 788 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 759 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 797 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 768 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 806 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -2660,30 +2686,30 @@ __near __no_init volatile  union { unsigned char PE_CR2; __BITS_PE_CR2 PE_CR2_bi
  *-----------------------------------------------------------------------*/
 
 
-#line 867 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 905 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 876 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 914 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 885 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 923 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 894 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 932 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 903 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 941 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      Port E bit masks
  *-----------------------------------------------------------------------*/
-#line 917 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 955 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 926 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 964 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 935 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 973 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 944 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 982 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 953 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 991 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -2775,30 +2801,30 @@ __near __no_init volatile  union { unsigned char PF_CR2; __BITS_PF_CR2 PF_CR2_bi
  *-----------------------------------------------------------------------*/
 
 
-#line 1052 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1090 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1061 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1099 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1070 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1108 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1079 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1117 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1088 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1126 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      Port F bit masks
  *-----------------------------------------------------------------------*/
-#line 1102 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1140 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1111 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1149 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1120 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1158 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1129 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1167 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1138 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1176 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -2913,9 +2939,9 @@ __near __no_init volatile  unsigned char FLASH_DUKR @ 0x5064;;
 
 
 
-#line 1258 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1296 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1265 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1303 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -2945,9 +2971,9 @@ __near __no_init volatile  unsigned char FLASH_DUKR @ 0x5064;;
 
 
 
-#line 1300 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1338 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1307 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1345 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -3309,7 +3335,7 @@ __near __no_init volatile  union { unsigned char CLK_SWIMCCR; __BITS_CLK_SWIMCCR
  *-----------------------------------------------------------------------*/
 
 
-#line 1674 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1712 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -3341,7 +3367,7 @@ __near __no_init volatile  union { unsigned char CLK_SWIMCCR; __BITS_CLK_SWIMCCR
 /*-------------------------------------------------------------------------
  *      CLK bit masks
  *-----------------------------------------------------------------------*/
-#line 1711 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1749 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -3409,18 +3435,18 @@ __near __no_init volatile  union { unsigned char WWDG_WR; __BITS_WWDG_WR WWDG_WR
  *-----------------------------------------------------------------------*/
 
 
-#line 1786 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1824 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1794 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1832 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      WWDG bit masks
  *-----------------------------------------------------------------------*/
-#line 1808 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1846 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 1816 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 1854 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -3626,32 +3652,32 @@ __near __no_init volatile const unsigned char SPI_TXCRCR @ 0x5207;;
  *-----------------------------------------------------------------------*/
 
 
-#line 2027 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2065 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2035 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
-
-
+#line 2073 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 
-#line 2048 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+
+
+#line 2086 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      SPI bit masks
  *-----------------------------------------------------------------------*/
-#line 2060 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2098 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2068 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
-
-
+#line 2106 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 
-#line 2081 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+
+
+#line 2119 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -3821,7 +3847,7 @@ __near __no_init volatile  unsigned char I2C_PECR @ 0x521E;;
 
 
 
-#line 2257 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2295 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -3868,7 +3894,7 @@ __near __no_init volatile  unsigned char I2C_PECR @ 0x521E;;
 
 
 
-#line 2310 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2348 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -4000,13 +4026,13 @@ __near __no_init volatile  unsigned char UART1_PSCR @ 0x523A;;
  *-----------------------------------------------------------------------*/
 
 
-#line 2449 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2487 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2458 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2496 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2467 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2505 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2474 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2512 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -4024,13 +4050,13 @@ __near __no_init volatile  unsigned char UART1_PSCR @ 0x523A;;
 /*-------------------------------------------------------------------------
  *      UART1 bit masks
  *-----------------------------------------------------------------------*/
-#line 2499 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2537 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2508 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2546 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2517 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2555 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2524 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2562 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -4310,7 +4336,7 @@ __near __no_init volatile  union { unsigned char TIM1_OISR; __BITS_TIM1_OISR TIM
  *-----------------------------------------------------------------------*/
 
 
-#line 2810 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2848 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -4325,18 +4351,16 @@ __near __no_init volatile  union { unsigned char TIM1_OISR; __BITS_TIM1_OISR TIM
 
 
 
-#line 2832 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2870 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2841 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
-
-
+#line 2879 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 
-#line 2855 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
 
 
+#line 2893 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -4360,20 +4384,22 @@ __near __no_init volatile  union { unsigned char TIM1_OISR; __BITS_TIM1_OISR TIM
 
 
 
-#line 2888 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2895 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2903 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2926 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2911 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2933 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
+
+#line 2941 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
+
+#line 2949 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 /*-------------------------------------------------------------------------
  *      TIM1 bit masks
  *-----------------------------------------------------------------------*/
-#line 2924 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2962 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -4388,18 +4414,16 @@ __near __no_init volatile  union { unsigned char TIM1_OISR; __BITS_TIM1_OISR TIM
 
 
 
-#line 2946 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 2984 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 2955 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
-
-
+#line 2993 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 
-#line 2969 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
 
 
+#line 3007 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -4423,13 +4447,15 @@ __near __no_init volatile  union { unsigned char TIM1_OISR; __BITS_TIM1_OISR TIM
 
 
 
-#line 3002 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
 
-#line 3009 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
 
-#line 3017 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3040 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
-#line 3025 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3047 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
+
+#line 3055 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
+
+#line 3063 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -5018,12 +5044,12 @@ __near __no_init volatile  union { unsigned char ADC_AWCRL; __BITS_ADC_AWCRL ADC
 
 
 
-#line 3621 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3659 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 
-#line 3633 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3671 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -5055,12 +5081,12 @@ __near __no_init volatile  union { unsigned char ADC_AWCRL; __BITS_ADC_AWCRL ADC
 
 
 
-#line 3672 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3710 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
 
-#line 3684 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3722 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 /*-------------------------------------------------------------------------
@@ -5118,7 +5144,7 @@ __near __no_init volatile  union { unsigned char CPU_CFG_GCR; __BITS_CPU_CFG_GCR
  *-----------------------------------------------------------------------*/
 
 
-#line 3748 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3786 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -5128,7 +5154,7 @@ __near __no_init volatile  union { unsigned char CPU_CFG_GCR; __BITS_CPU_CFG_GCR
 /*-------------------------------------------------------------------------
  *      CPU bit masks
  *-----------------------------------------------------------------------*/
-#line 3764 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3802 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 
@@ -5170,8 +5196,11 @@ __near __no_init volatile  unsigned char DM_ENFCTR @ 0x7F9A;;
 
 /*-------------------------------------------------------------------------
  *      Interrupt vector numbers
+ *
+ *  Note: The vector numbers listed in ST's manuals for STM8 are offset
+ *        by 2 compared to the vector numbers used by EWSTM8.
  *-----------------------------------------------------------------------*/
-#line 3867 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\iostm8s003f3.h"
+#line 3908 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\iostm8s003f3.h"
 
 
 #pragma language=restore
@@ -5184,12 +5213,12 @@ __near __no_init volatile  unsigned char DM_ENFCTR @ 0x7F9A;;
  *--------------------------------------------*/
 #line 60 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 //#include <iostm8s103f3.h>
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 /* stdint.h standard header */
 /* Copyright 2003-2010 IAR Systems AB.  */
-#line 235 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 235 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
-#line 258 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\stdint.h"
+#line 258 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 
 /*
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
@@ -5244,7 +5273,7 @@ void ctrl_task(void);
 void prfl_task(void);
 
 #line 29 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"
-#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.3\\stm8\\inc\\c\\intrinsics.h"
+#line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\intrinsics.h"
 /**************************************************
  *
  * Intrinsic functions.
