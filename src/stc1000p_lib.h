@@ -123,7 +123,7 @@ enum e_item_type
 // hd	Set heating delay	                         0 to 60 minutes
 // rP	Ramping	                                         0 = off, 1 = on
 // CF	Set Celsius of Fahrenheit temperature display    0 = Celsius, 1 = Fahrenheit
-// Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on
+// Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on, 2 = probe controls compressor fan
 // HrS	Control and Times in minutes or hours	         0 = minutes, 1 = hours
 // Hc   Kc parameter for PID controller in %/°C          -9999..9999, >0: heating loop, <0: cooling loop 
 // ti   Ti parameter for PID controller in seconds       0..9999 
@@ -144,7 +144,7 @@ enum e_item_type
 	_(hd, 	LED_h, 	LED_d, 	LED_OFF, t_delay,	2)		\
 	_(rP, 	LED_r, 	LED_P, 	LED_OFF, t_boolean,	1)		\
 	_(CF, 	LED_C, 	LED_F, 	LED_OFF, t_boolean,	0)		\
-	_(Pb2, 	LED_P, 	LED_b, 	LED_2, 	 t_boolean,	0)		\
+	_(Pb2, 	LED_P, 	LED_b, 	LED_2, 	 t_parameter,	0)		\
 	_(HrS, 	LED_H, 	LED_r, 	LED_S, 	 t_boolean,	1)		\
 	_(Hc, 	LED_H, 	LED_c, 	LED_OFF, t_parameter,	80)		\
 	_(Ti, 	LED_t, 	LED_I, 	LED_OFF, t_parameter,  280)		\

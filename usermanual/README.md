@@ -3,12 +3,13 @@
 
 Mats Staffansson / Emile
 
-© 2014-2016
+© 2014-2020
 
 # Changelog
 
 2016-11-04:	First version of STC-1000p for STM8<br>
 2016-12-05: Direct- (heating-loop) or reverse-acting (cooling-loop) PID now selectable with **Hc** parameter
+2020-02-29: Option added (**Pb** = 2) to control a refrigerator and the compressor fan
 
 # Features
 
@@ -19,8 +20,9 @@ Mats Staffansson / Emile
 * PID-output signal (slow PWM, T=12.5 sec) present at **S3 output** for connection to a Solid-State Relay (SSR)
 * Standard thermostat functionality available when PID-controller is disabled (**TS** parameter set to 0)
 * Second temperature probe functionality selectable with **Pb2** parameter
+* With **Pb** set to 2, a refrigerator and the compressor fan are controlled. You need two temperature probes for this
 * Up to 4 profiles with up to 6 setpoints (6 profiles with 10 setpoints if the STM8S003F3 is replaced with a STM8S103FS µC)
-* Each setpoint can be held for 1-999 hours (i.e. up to ~41 days) or 1-999 minutes (i.e. up to ~16 hours).
+* Each setpoint can be held for 1-999 hours (i.e. up to ~41 days) or 1-999 minutes (i.e. up to ~16 hours)
 * Approximative ramping
 * Somewhat intuitive menus for configuring
 * Separate delay settings for cooling and heating
@@ -80,7 +82,7 @@ The settings menu has the following items:
 |hd|Set heating delay|0 to 60 minutes|
 |rP|Ramping|0 = off, 1 = on|
 |cF|Celsius or Fahrenheit display|0 = Celsius, 1 = Fahrenheit|
-|Pb2|Enable second temp probe for use in thermostat control|0 = off, 1 = on|
+|Pb2|Enable second temp probe for use in thermostat control|0 = off, 1 = on, 2 = refrigerator with compressor fan control|
 |HrS|Select Hours or Minutes time-base|0 = minutes, 1 = hours|
 |Hc|Kc parameter for PID-controller in %/°C|-9999 to 9999|
 |Ti|Ti parameter for PID-controller in seconds|0 to 9999|
@@ -93,7 +95,7 @@ The settings menu has the following items:
 
 **Hysteresis**: This parameter is used when the thermostat controls the temperature (**Ts** is set to 0). This parameter then controls the allowable temperature range around the setpoint where the thermostat will not change state. For example, if temperature is greater than setpoint + hysteresis AND the time passed since last cooling cycle is greater than cooling delay, then cooling relay will be engaged. Once the temperature reaches setpoint again, cooling relay will be disengaged.
 
-**Hysteresis 2**, This parameter is also used when the thermostat controls the temperature (**Ts** is set to 0). This parameter then controls the allowable temperature range around the setpoint for temperature probe 2, if it is enabled (**Pb2** = 1). For example, if temperature 2 is less than **SP - hy2**, the cooling relay will cut out even if **SP - hy** has not been reached for temperature. Also, cooling will not be allowed again, until temperature 2 exceeds **SP - 0.5 \* hy2** (that is, it has regained at least half the hysteresis).
+**Hysteresis 2**, This parameter is used when the thermostat controls the temperature (**Ts** is set to 0). Futhermore if **Pb2** is set to 1, temperature probe 2 should measure the environmental temperature. Now the allowable temperature range around the setpoint for temperature probe 2 is controlled. For example, if temperature 2 is less than **SP - hy2**, the cooling relay will cut out even if **SP - hy** has not been reached for temperature. Also, cooling will not be allowed again, until temperature 2 exceeds **SP - 0.5 \* hy2** (that is, it has regained at least half the hysteresis). If **Pb2** is set to 2, then this parameter controls the compressor fan (which should be connected to the heater output). For example: if **Hysteresis 2** is set to 100 E-1 °C, the compressor fan is switched on when probe 2 temperature exceeds 35 °C (30 + **Hysteresis 2**/2) and switched off when probe 2 temperature is below 25 °C (30 - **Hysteresis 2**/2). Temperature probe 2 should in this case be attached to one of the compressor output pipes (that should get hot when the compressor is turned on).
 
 **Temperature correction**, will be added to the temperature sensor, this allows the user to calibrate the temperature reading. It is best to calibrate with a precision resistor of 10 k Ohms (1% tolerance). Replace the temperature sensor with such a resistor, let the STC-1000p-STM8 run for at-least half an hour and adjust this parameter such that the temperature display is set to 25.0 °C.
 
@@ -197,6 +199,8 @@ It should also be noted, that it would be a very good idea to make sure the two 
 
 To enable use of the second temp probe in the thermostat logic (i.e. to enable **hy2** limits on temperature2), set **Pb2** = 1. Even with with it disabled it is still possible to switch to display the second temperature input using a short press on the power button. 
 
+When you set **Pb2** to 2, the heating output is now used to control the compressor fan of the refrigerator. This is convenient if you want to control a refrigerator and you only want the compressor fan on when it is needed. Connect the second temperature probe in this case to one of the compressor output pipes (which should get hot when the compressor is on).
+
 ## PID-output for connection to a Solid-State Relay (SSR)
 
 The PID-output signal is available at the rear of the STC-1000p-STM8, but it is not populated yet. Best thing to do is to remove the existing temperature probe connector and re-solder a 5-pin terminal block with a pitch of 5 mm (Mouser part nr. 523-ELM051200). In the picture below I improvised with a 3-pin and 2-pin terminal block (I didn't have a 5-pin block yet). 
@@ -228,7 +232,7 @@ By pressing and holding 'up' and 'down' button simultaneously when temperature i
 
 # Development
 
-STC-1000p-STM8 is written in C and compiled using IAR STM8 embedded workbench v2.20.2.
+STC-1000p-STM8 is written in C and compiled using IAR STM8 embedded workbench v3.10.4.
 
 ## Useful tips for development
 

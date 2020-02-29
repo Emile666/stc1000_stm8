@@ -5,124 +5,97 @@
     <configuration>
         <name>Debug</name>
         <outputs>
-            <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
-            <file>$PROJ_DIR$\scheduler.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\stc1000p_lib.pbi</file>
-            <file>$PROJ_DIR$\stc1000p.c</file>
-            <file>$PROJ_DIR$\stc1000p_lib.c</file>
-            <file>$PROJ_DIR$\stc1000p_lib.h</file>
-            <file>$PROJ_DIR$\Debug\Exe\stc1000p_stm8s003f3_4pr_5tt.hex</file>
-            <file>$PROJ_DIR$\Debug\Obj\stc1000p.pbi</file>
-            <file>$PROJ_DIR$\eep.c</file>
-            <file>$PROJ_DIR$\scheduler.c</file>
-            <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
-            <file>$PROJ_DIR$\Debug\List\adc.i</file>
-            <file>$TOOLKIT_DIR$\lib\dlstm8smn.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\pid.o</file>
-            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-            <file>$PROJ_DIR$\adc.c</file>
-            <file>$PROJ_DIR$\pid.c</file>
-            <file>$PROJ_DIR$\Debug\Obj\pid.pbi</file>
-            <file>$PROJ_DIR$\pid.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\string.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\scheduler.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\adc.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\adc.pbi</file>
+            <file>$PROJ_DIR$\Debug\Obj\stc1000p.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\pid.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\adc.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\eep.pbi</file>
+            <file>$PROJ_DIR$\Debug\Obj\eep.o</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\stc1000p.__cstat.et</file>
             <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
             <file>$PROJ_DIR$\Debug\List\pid.i</file>
-            <file>$PROJ_DIR$\adc.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\adc.pbi</file>
-            <file>$TOOLKIT_DIR$\lib\dbgstm8smd.a</file>
-            <file>$PROJ_DIR$\eep.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\stc1000p.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Obj\eep.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\inc\c\string.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
             <file>$TOOLKIT_DIR$\config\lnkstm8s003f3.icf</file>
-            <file>$PROJ_DIR$\Debug\List\stc1000p.map</file>
+            <file>$PROJ_DIR$\Debug\Obj\pid.o</file>
+            <file>$TOOLKIT_DIR$\lib\dbgstm8smd.a</file>
             <file>$TOOLKIT_DIR$\lib\dlstm8smn.a</file>
             <file>$PROJ_DIR$\Debug\List\stc1000p.i</file>
             <file>$PROJ_DIR$\Debug\List\stc1000p_lib.i</file>
-            <file>$PROJ_DIR$\stc1000p.h</file>
-            <file>$TOOLKIT_DIR$\inc\iostm8s003f3.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\adc.__cstat.et</file>
             <file>$PROJ_DIR$\Debug\List\eep.i</file>
-            <file>$PROJ_DIR$\Debug\Obj\scheduler.pbi</file>
-            <file>$PROJ_DIR$\Debug\Obj\eep.o</file>
-            <file>$PROJ_DIR$\Debug\Obj\stc1000p.o</file>
-            <file>$PROJ_DIR$\Debug\Obj\scheduler.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Obj\pid.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Obj\scheduler.o</file>
-            <file>$PROJ_DIR$\Debug\Obj\adc.o</file>
-            <file>$PROJ_DIR$\Debug\Obj\eep.pbi</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
             <file>$PROJ_DIR$\Debug\Obj\stc1000p_lib.o</file>
-            <file>$PROJ_DIR$\Debug\List\scheduler.i</file>
-            <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\stc1000p_lib.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Obj\stc1000p.pbd</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+            <file>$TOOLKIT_DIR$\lib\dlstm8smn.h</file>
+            <file>$TOOLKIT_DIR$\inc\iostm8s003f3.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\scheduler.pbi</file>
+            <file>$PROJ_DIR$\eep.h</file>
+            <file>$PROJ_DIR$\Debug\List\stc1000p.map</file>
+            <file>$PROJ_DIR$\Debug\Obj\pid.pbi</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+            <file>$PROJ_DIR$\stc1000p.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\scheduler.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\eep.__cstat.et</file>
+            <file>$PROJ_DIR$\stc1000p_lib.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+            <file>$PROJ_DIR$\adc.h</file>
+            <file>$PROJ_DIR$\adc.c</file>
+            <file>$PROJ_DIR$\Debug\Obj\stc1000p_lib.pbi</file>
+            <file>$PROJ_DIR$\Debug\Exe\stc1000p_stm8s003f3_4pr_5tt.hex</file>
+            <file>$PROJ_DIR$\Debug\Obj\stc1000p.pbi</file>
+            <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
+            <file>$PROJ_DIR$\Debug\List\adc.i</file>
+            <file>$PROJ_DIR$\eep.c</file>
+            <file>$PROJ_DIR$\pid.c</file>
+            <file>$PROJ_DIR$\scheduler.c</file>
+            <file>$PROJ_DIR$\stc1000p.c</file>
+            <file>$PROJ_DIR$\pid.h</file>
+            <file>$PROJ_DIR$\scheduler.h</file>
+            <file>$PROJ_DIR$\stc1000p_lib.c</file>
             <file>$PROJ_DIR$\Debug\Exe\stc1000p.out</file>
             <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+            <file>$PROJ_DIR$\Debug\List\scheduler.i</file>
+            <file>$PROJ_DIR$\Debug\Obj\stc1000p_lib.__cstat.et</file>
             <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\stc1000p.pbd</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 54 30</file>
+                    <file> 48 25</file>
                 </tool>
             </outputs>
         </file>
         <file>
-            <name>$PROJ_DIR$\stc1000p.c</name>
+            <name>$PROJ_DIR$\adc.c</name>
             <outputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 32 40</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 7</file>
-                </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 25</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 49 34 35 10 46 56 55 28 12 50 19 53 5 0 24 18 1 27 14 21</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 46 28 53 34 21 10 49 5 0 27 1 24 35 55 56 19 12 50 18 14</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\stc1000p_lib.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 33 47</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
                     <file> 2</file>
                 </tool>
                 <tool>
-                    <name>__cstat</name>
-                    <file> 51</file>
+                    <name>ICCSTM8</name>
+                    <file> 40 6</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 3</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCSTM8</name>
-                    <file> 5 46 56 55 28 12 50 19 53 0 49 34 35 10 24 18</file>
+                    <file> 34 9 52 49 27 21 55 11 54 33 29 22 39 56</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 50 46 56 24 55 49 28 12 0 34 18 19 53 35 10 5</file>
+                    <file> 49 29 55 52 9 27 21 33 11 54 22 39 34 56</file>
                 </tool>
             </inputs>
         </file>
@@ -130,80 +103,26 @@
             <name>$PROJ_DIR$\eep.c</name>
             <outputs>
                 <tool>
+                    <name>__cstat</name>
+                    <file> 31</file>
+                </tool>
+                <tool>
                     <name>ICCSTM8</name>
-                    <file> 37 39</file>
+                    <file> 19 8</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 45</file>
-                </tool>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 26</file>
+                    <file> 7</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCSTM8</name>
-                    <file> 24 34 35 10 46 56 55 28 12 50 19 53 49</file>
+                    <file> 24 29 22 39 9 52 49 27 21 55 11 54 56</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 35 56 34 53 46 10 19 55 24 28 12 50 49</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\scheduler.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 48 43</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 38</file>
-                </tool>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 41</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 1 46 56 55 28 12 50 19 53 0 27 14</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 28 27 12 55 46 56 0 50 1 19 53 14</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\adc.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 11 44</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 22</file>
-                </tool>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 36</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 21 46 56 55 28 12 50 19 53 0 34 35 10 49</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 55 34 50 56 46 28 12 0 19 53 35 10 21 49</file>
+                    <file> 22 52 29 54 9 39 11 49 24 27 21 55 56</file>
                 </tool>
             </inputs>
         </file>
@@ -211,26 +130,107 @@
             <name>$PROJ_DIR$\pid.c</name>
             <outputs>
                 <tool>
+                    <name>__cstat</name>
+                    <file> 5</file>
+                </tool>
+                <tool>
                     <name>ICCSTM8</name>
-                    <file> 20 13</file>
+                    <file> 12 14</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 17</file>
-                </tool>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 42</file>
+                    <file> 26</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCSTM8</name>
-                    <file> 18 46 56 55 28 12 50 19 53 0</file>
+                    <file> 45 9 52 49 27 21 55 11 54 33</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 56 55 19 0 12 50 46 28 53 18</file>
+                    <file> 52 49 11 33 21 55 9 27 54 45</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\scheduler.c</name>
+            <outputs>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 30</file>
+                </tool>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 50 1</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 23</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 46 9 52 49 27 21 55 11 54 33 0 28</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 27 0 21 49 9 52 33 55 46 11 54 28</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\stc1000p.c</name>
+            <outputs>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 10</file>
+                </tool>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 17 4</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 38</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 56 29 22 39 9 52 49 27 21 55 11 54 32 33 24 45 46 0 28 34</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 22 21 29 34 33 32 52 45 0 46 24 9 39 11 55 49 56 27 54 28</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\stc1000p_lib.c</name>
+            <outputs>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 51</file>
+                </tool>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 18 20</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 36</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 32 9 52 49 27 21 55 11 54 33 56 29 22 39 24 45</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 21 9 24 49 56 27 55 52 33 29 45 11 54 22 39 32</file>
                 </tool>
             </inputs>
         </file>
@@ -238,18 +238,18 @@
             <name>$PROJ_DIR$\Debug\Exe\stc1000p.out</name>
             <outputs>
                 <tool>
-                    <name>ILINK</name>
-                    <file> 30</file>
+                    <name>OBJCOPY</name>
+                    <file> 37</file>
                 </tool>
                 <tool>
-                    <name>OBJCOPY</name>
-                    <file> 6</file>
+                    <name>ILINK</name>
+                    <file> 25</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 29 44 39 13 43 40 47 31 23</file>
+                    <file> 13 6 8 14 1 4 20 16 15</file>
                 </tool>
             </inputs>
         </file>
@@ -257,57 +257,133 @@
     <configuration>
         <name>Release</name>
         <outputs>
-            <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
-            <file>$PROJ_DIR$\scheduler.h</file>
-            <file>$PROJ_DIR$\stc1000p.c</file>
-            <file>$PROJ_DIR$\stc1000p_lib.c</file>
+            <file>$TOOLKIT_DIR$\inc\c\string.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+            <file>$TOOLKIT_DIR$\lib\dlstm8smn.h</file>
+            <file>$PROJ_DIR$\eep.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+            <file>$PROJ_DIR$\stc1000p.h</file>
             <file>$PROJ_DIR$\stc1000p_lib.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+            <file>$PROJ_DIR$\adc.h</file>
+            <file>$PROJ_DIR$\adc.c</file>
+            <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
             <file>$PROJ_DIR$\eep.c</file>
             <file>$PROJ_DIR$\scheduler.c</file>
-            <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
-            <file>$TOOLKIT_DIR$\lib\dlstm8smn.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-            <file>$PROJ_DIR$\adc.c</file>
-            <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
-            <file>$PROJ_DIR$\adc.h</file>
-            <file>$PROJ_DIR$\Release\Obj\stc1000p.o</file>
-            <file>$PROJ_DIR$\Release\Obj\scheduler.pbi</file>
+            <file>$PROJ_DIR$\stc1000p.c</file>
+            <file>$PROJ_DIR$\scheduler.h</file>
+            <file>$PROJ_DIR$\stc1000p_lib.c</file>
+            <file>$PROJ_DIR$\Release\Obj\stc1000p_lib.o</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
             <file>$PROJ_DIR$\Release\Obj\adc.pbi</file>
-            <file>$TOOLKIT_DIR$\inc\iostm8s103f3.h</file>
             <file>$PROJ_DIR$\Release\Obj\scheduler.o</file>
-            <file>$PROJ_DIR$\eep.h</file>
             <file>$PROJ_DIR$\Release\Obj\stc1000p_lib.pbi</file>
             <file>$PROJ_DIR$\Release\Obj\adc.o</file>
             <file>$PROJ_DIR$\Release\Obj\eep.o</file>
-            <file>$PROJ_DIR$\Release\Obj\stc1000p.pbi</file>
-            <file>$PROJ_DIR$\Release\Obj\stc1000p_lib.o</file>
-            <file>$PROJ_DIR$\Release\Obj\eep.pbi</file>
-            <file>$PROJ_DIR$\Release\Exe\stc1000p.out</file>
-            <file>$TOOLKIT_DIR$\inc\c\string.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-            <file>$PROJ_DIR$\stc1000p.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
             <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$TOOLKIT_DIR$\inc\iostm8s103f3.h</file>
+            <file>$PROJ_DIR$\Release\Obj\scheduler.pbi</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+            <file>$PROJ_DIR$\Release\Obj\stc1000p.pbi</file>
+            <file>$PROJ_DIR$\Release\Exe\stc1000p.out</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$PROJ_DIR$\Release\Obj\eep.pbi</file>
+            <file>$PROJ_DIR$\Release\Obj\stc1000p.o</file>
+            <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 25</file>
+                    <file> 30</file>
                 </tool>
             </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\adc.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 23</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 20</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 19 7 31 25 1 5 3 9 2 28 26 12 10 34</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\eep.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 24</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 32</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 26 25 7 28 1 12 2 19 4 34 5 3 31</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\scheduler.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 21</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 27</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 5 0 3 19 1 25 9 31 16 2 28 6</file>
+                </tool>
+            </inputs>
         </file>
         <file>
             <name>$PROJ_DIR$\stc1000p.c</name>
             <outputs>
                 <tool>
                     <name>ICCSTM8</name>
-                    <file> 13</file>
+                    <file> 33</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 29</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 10 1 8 5 3 34 0 6 7 16 4 26 12 19 31 25 2 28 9</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\stc1000p_lib.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 18</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
@@ -317,83 +393,7 @@
             <inputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 12 29 4 27 8 30 26 9 28 1 18 16 7 33 31 34 11 32 0</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\stc1000p_lib.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 23</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 19</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 29 34 7 18 32 30 11 33 16 0 28 27 8 31 4</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\eep.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 21</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 24</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 16 34 28 32 29 7 11 33 18 30 27 8 31</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\scheduler.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 17</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 14</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 27 26 8 33 29 34 0 31 1 11 32 9</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\adc.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCSTM8</name>
-                    <file> 20</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 15</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 33 28 31 34 29 27 8 0 11 32 16 7 12 30</file>
+                    <file> 1 25 12 4 28 34 2 19 26 9 7 5 3 31 8</file>
                 </tool>
             </inputs>
         </file>

@@ -5502,7 +5502,7 @@ enum e_item_type
 // hd	Set heating delay	                         0 to 60 minutes
 // rP	Ramping	                                         0 = off, 1 = on
 // CF	Set Celsius of Fahrenheit temperature display    0 = Celsius, 1 = Fahrenheit
-// Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on
+// Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on, 2 = probe controls compressor fan
 // HrS	Control and Times in minutes or hours	         0 = minutes, 1 = hours
 // Hc   Kc parameter for PID controller in %/°C          -9999..9999, >0: heating loop, <0: cooling loop 
 // ti   Ti parameter for PID controller in seconds       0..9999 
@@ -6016,7 +6016,7 @@ int16_t  ad_to_temp(uint16_t adfilter, _Bool *err);
 // Global variables
 _Bool      ad_err1 = 0; // used for adc range checking
 _Bool      ad_err2 = 0; // used for adc range checking
-_Bool      probe2  = 0; // cached flag indicating whether 2nd probe is active
+uint8_t   probe2  = 0; // cached flag indicating whether 2nd probe is active
 _Bool      show_sa_alarm = 0; // true = display alarm
 _Bool      sound_alarm   = 0; // true = sound alarm
 _Bool      ad_ch   = 0; // used in adc_task()
@@ -6338,9 +6338,7 @@ void ctrl_task(void)
 
    // Start with updating the alarm
    // cache whether the 2nd probe is enabled or not.
-      if (eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Pb2)))) 
-        probe2 = 1;
-   else probe2 = 0;
+   probe2 = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Pb2))); 
    if (ad_err1 || (ad_err2 && probe2))
    {
        sound_alarm = 1;
@@ -6377,6 +6375,7 @@ void ctrl_task(void)
               sound_alarm = (diff >= sa); // enable buzzer if diff is large
 	   } // if
        } // if
+       if (!minutes) setpoint = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP)));
        if (ts == 0)                // PID Ts parameter is 0?
        {
            temperature_control();  // Run thermostat

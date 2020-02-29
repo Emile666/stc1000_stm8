@@ -35,7 +35,7 @@
 // Global variables
 bool      ad_err1 = false; // used for adc range checking
 bool      ad_err2 = false; // used for adc range checking
-bool      probe2  = false; // cached flag indicating whether 2nd probe is active
+uint8_t   probe2  = false; // cached flag indicating whether 2nd probe is active
 bool      show_sa_alarm = false; // true = display alarm
 bool      sound_alarm   = false; // true = sound alarm
 bool      ad_ch   = false; // used in adc_task()
@@ -357,9 +357,7 @@ void ctrl_task(void)
 
    // Start with updating the alarm
    // cache whether the 2nd probe is enabled or not.
-      if (eeprom_read_config(EEADR_MENU_ITEM(Pb2))) 
-        probe2 = true;
-   else probe2 = false;
+   probe2 = eeprom_read_config(EEADR_MENU_ITEM(Pb2)); 
    if (ad_err1 || (ad_err2 && probe2))
    {
        sound_alarm = true;
@@ -396,6 +394,7 @@ void ctrl_task(void)
               sound_alarm = (diff >= sa); // enable buzzer if diff is large
 	   } // if
        } // if
+       if (!minutes) setpoint = eeprom_read_config(EEADR_MENU_ITEM(SP));
        if (ts == 0)                // PID Ts parameter is 0?
        {
            temperature_control();  // Run thermostat

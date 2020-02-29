@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V3.10.1.201 for STM8                     29/Feb/2020  12:26:08
+# IAR ELF Linker V3.10.1.201 for STM8                     29/Feb/2020  14:51:01
 # Copyright 2010-2017 IAR Systems AB.
 #
 #    Output file  =  
@@ -8,7 +8,7 @@
 #    Map file     =  
 #        D:\ownCloud\Programming\stc1000_stm8\src\Debug\List\stc1000p.map
 #    Command line =  
-#        -f C:\Users\Emile\AppData\Local\Temp\EWC2EB.tmp
+#        -f C:\Users\Emile\AppData\Local\Temp\EW6A1E.tmp
 #        (D:\ownCloud\Programming\stc1000_stm8\src\Debug\Obj\adc.o
 #        D:\ownCloud\Programming\stc1000_stm8\src\Debug\Obj\eep.o
 #        D:\ownCloud\Programming\stc1000_stm8\src\Debug\Obj\pid.o
@@ -95,7 +95,7 @@ initialize by copy {
     .near.data       inited   0x00001c     0x1  stc1000p_lib.o [1]
                             - 0x00001d     0xd
 
-"P2", part 2 of 2:                        0x99
+"P2", part 2 of 2:                        0x9a
   .near.bss          zero     0x00001d    0x54  scheduler.o [1]
   .near.bss          zero     0x000071     0x4  pid.o [1]
   .near.bss          zero     0x000075     0x4  pid.o [1]
@@ -144,7 +144,8 @@ initialize by copy {
   .near.bss          zero     0x0000b3     0x1  stc1000p_lib.o [1]
   .near.bss          zero     0x0000b4     0x1  stc1000p_lib.o [1]
   .near.bss          zero     0x0000b5     0x1  stc1000p_lib.o [1]
-                            - 0x0000b6    0x99
+  .near.bss          zero     0x0000b6     0x1  stc1000p_lib.o [1]
+                            - 0x0000b7    0x9a
 
 "A1":                                    0x100
   CSTACK                      0x000300   0x100  <Block>
@@ -155,76 +156,78 @@ initialize by copy {
   .eeprom.rodata     const    0x004000    0x80  stc1000p_lib.o [1]
                             - 0x004080    0x80
 
-Absolute sections, part 1 of 15:           0x4
+Absolute sections, part 1 of 16:           0x1
   .near.noinit       uninit   0x005000     0x1  stc1000p_lib.o [1]
-  .near.noinit       uninit   0x005001     0x1  stc1000p_lib.o [1]
+                            - 0x005001     0x1
+
+Absolute sections, part 2 of 16:           0x2
   .near.noinit       uninit   0x005002     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005003     0x1  stc1000p.o [1]
-                            - 0x005004     0x4
+                            - 0x005004     0x2
 
-Absolute sections, part 2 of 15:           0x4
+Absolute sections, part 3 of 16:           0x4
   .near.noinit       uninit   0x005005     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005006     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005007     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005008     0x1  stc1000p.o [1]
                             - 0x005009     0x4
 
-Absolute sections, part 3 of 15:           0x4
+Absolute sections, part 4 of 16:           0x4
   .near.noinit       uninit   0x00500a     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x00500b     0x1  stc1000p_lib.o [1]
   .near.noinit       uninit   0x00500c     0x1  stc1000p_lib.o [1]
   .near.noinit       uninit   0x00500d     0x1  stc1000p_lib.o [1]
                             - 0x00500e     0x4
 
-Absolute sections, part 4 of 15:           0x4
+Absolute sections, part 5 of 16:           0x4
   .near.noinit       uninit   0x00500f     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005010     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005011     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005012     0x1  stc1000p.o [1]
                             - 0x005013     0x4
 
-Absolute sections, part 5 of 15:           0x1
+Absolute sections, part 6 of 16:           0x1
   .near.noinit       uninit   0x00505f     0x1  eep.o [1]
                             - 0x005060     0x1
 
-Absolute sections, part 6 of 15:           0x1
+Absolute sections, part 7 of 16:           0x1
   .near.noinit       uninit   0x005064     0x1  eep.o [1]
                             - 0x005065     0x1
 
-Absolute sections, part 7 of 15:           0x1
+Absolute sections, part 8 of 16:           0x1
   .near.noinit       uninit   0x0050b3     0x1  stc1000p.o [1]
                             - 0x0050b4     0x1
 
-Absolute sections, part 8 of 15:           0x1
+Absolute sections, part 9 of 16:           0x1
   .near.noinit       uninit   0x0050c0     0x1  stc1000p.o [1]
                             - 0x0050c1     0x1
 
-Absolute sections, part 9 of 15:           0x3
+Absolute sections, part 10 of 16:          0x3
   .near.noinit       uninit   0x0050c4     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x0050c5     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x0050c6     0x1  stc1000p.o [1]
                             - 0x0050c7     0x3
 
-Absolute sections, part 10 of 15:          0x1
+Absolute sections, part 11 of 16:          0x1
   .near.noinit       uninit   0x0050cd     0x1  stc1000p.o [1]
                             - 0x0050ce     0x1
 
-Absolute sections, part 11 of 15:          0x1
+Absolute sections, part 12 of 16:          0x1
   .near.noinit       uninit   0x005300     0x1  stc1000p.o [1]
                             - 0x005301     0x1
 
-Absolute sections, part 12 of 15:          0x2
+Absolute sections, part 13 of 16:          0x2
   .near.noinit       uninit   0x005303     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005304     0x1  stc1000p.o [1]
                             - 0x005305     0x2
 
-Absolute sections, part 13 of 15:          0x3
+Absolute sections, part 14 of 16:          0x3
   .near.noinit       uninit   0x00530e     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x00530f     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005310     0x1  stc1000p.o [1]
                             - 0x005311     0x3
 
-Absolute sections, part 14 of 15:          0x6
+Absolute sections, part 15 of 16:          0x6
   .near.noinit       uninit   0x005400     0x1  adc.o [1]
   .near.noinit       uninit   0x005401     0x1  stc1000p.o [1]
   .near.noinit       uninit   0x005402     0x1  adc.o [1]
@@ -233,7 +236,7 @@ Absolute sections, part 14 of 15:          0x6
   .near.noinit       uninit   0x005405     0x1  adc.o [1]
                             - 0x005406     0x6
 
-Absolute sections, part 15 of 15:          0x1
+Absolute sections, part 16 of 16:          0x1
   .near.noinit       uninit   0x005407     0x1  adc.o [1]
                             - 0x005408     0x1
 
@@ -242,68 +245,67 @@ Absolute sections, part 15 of 15:          0x1
     .intvec          const    0x008000    0x80  interrupt.o [4]
                             - 0x008080    0x80
 
-"P3-P5":                                0x18b7
+"P3-P5":                                0x192d
   .near_func.text    ro code  0x008080   0x4e2  stc1000p_lib.o [1]
   .near_func.text    ro code  0x008562   0x187  long.o [4]
-  .near_func.text    ro code  0x0086e9   0x15c  stc1000p.o [1]
-  .near_func.text    ro code  0x008845   0x158  vreg_util.o [4]
-  .near_func.text    ro code  0x00899d   0x133  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x008ad0   0x112  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x008be2    0xeb  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x008ccd    0xd1  stc1000p.o [1]
-  .near_func.text    ro code  0x008d9e    0xc4  scheduler.o [1]
-  .near_func.text    ro code  0x008e62    0xac  stc1000p.o [1]
-  .near_func.text    ro code  0x008f0e    0xa8  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x008fb6    0xa2  adc.o [1]
-  .near_func.text    ro code  0x009058    0xa1  stc1000p.o [1]
-  .near_func.text    ro code  0x0090f9    0x9b  pid.o [1]
-  .near_func.text    ro code  0x009194    0x99  pid.o [1]
-  .near_func.text    ro code  0x00922d    0x81  stc1000p.o [1]
-  .near_func.text    ro code  0x0092ae    0x70  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x00931e    0x5f  adc.o [1]
-  .near_func.text    ro code  0x00937d    0x57  stc1000p.o [1]
-  .near_func.text    ro code  0x0093d4    0x57  stc1000p.o [1]
-  .near_func.text    ro code  0x00942b    0x51  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x00947c    0x4e  scheduler.o [1]
-  .near.rodata       const    0x0094ca    0x4c  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x009516    0x4a  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x009560    0x42  scheduler.o [1]
-  .near.rodata       const    0x0095a2    0x40  adc.o [1]
-  .near.rodata       const    0x0095e2    0x40  adc.o [1]
-  .near_func.text    ro code  0x009622    0x3c  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x00965e    0x36  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x009694    0x34  stc1000p.o [1]
-  .near_func.text    ro code  0x0096c8    0x34  strncpy.o [4]
-  .near_func.text    ro code  0x0096fc    0x31  eep.o [1]
-  .near_func.text    ro code  0x00972d    0x31  stc1000p.o [1]
-  .near_func.text    ro code  0x00975e    0x31  short.o [4]
-  .near_func.text    ro code  0x00978f    0x29  stc1000p.o [1]
-  .near_func.text    ro code  0x0097b8    0x28  init_small.o [4]
-  .near_func.text    ro code  0x0097e0    0x26  long_util.o [4]
-  .iar.init_table    const    0x009806    0x12  - Linker created -
-  .near_func.text    ro code  0x009818    0x20  stc1000p.o [1]
-  .near_func.text    ro code  0x009838    0x1e  init_small.o [4]
-  .near_func.text    ro code  0x009856    0x18  dc_util.o [4]
-  .near_func.text    ro code  0x00986e    0x17  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x009885    0x15  stc1000p.o [1]
-  .near_func.text    ro code  0x00989a    0x15  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x0098af    0x14  eep.o [1]
-  .near_func.text    ro code  0x0098c3    0x14  init.o [4]
-  .near_func.text    ro code  0x0098d7    0x14  __dbg_xxexit.o [3]
-  .near_func.text    ro code  0x0098eb    0x13  cstartup.o [4]
-  Initializer bytes  const    0x0098fe     0xd  <for P2-1>
-  .near.rodata       const    0x00990b     0xa  stc1000p_lib.o [1]
-  .near_func.text    ro code  0x009915     0x5  cexit.o [4]
-  .near.rodata       const    0x00991a     0x4  stc1000p.o [1]
-  .near.rodata       const    0x00991e     0x4  stc1000p.o [1]
-  .near.rodata       const    0x009922     0x4  stc1000p.o [1]
-  .near.rodata       const    0x009926     0x4  stc1000p.o [1]
-  .near_func.text    ro code  0x00992a     0x3  interrupt.o [4]
-  .near_func.text    ro code  0x00992d     0x3  low_level_init.o [4]
-  .near_func.text    ro code  0x009930     0x3  exit.o [4]
-  .near_func.text    ro code  0x009933     0x3  unhandled_exception.o [4]
-  .near_func.text    ro code  0x009936     0x1  __dbg_break.o [3]
-                            - 0x009937  0x18b7
+  .near_func.text    ro code  0x0086e9   0x174  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x00885d   0x164  stc1000p.o [1]
+  .near_func.text    ro code  0x0089c1   0x158  vreg_util.o [4]
+  .near_func.text    ro code  0x008b19   0x133  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x008c4c   0x112  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x008d5e    0xd1  stc1000p.o [1]
+  .near_func.text    ro code  0x008e2f    0xc4  scheduler.o [1]
+  .near_func.text    ro code  0x008ef3    0xac  stc1000p.o [1]
+  .near_func.text    ro code  0x008f9f    0xa8  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x009047    0xa2  adc.o [1]
+  .near_func.text    ro code  0x0090e9    0xa1  stc1000p.o [1]
+  .near_func.text    ro code  0x00918a    0x9b  pid.o [1]
+  .near_func.text    ro code  0x009225    0x99  pid.o [1]
+  .near_func.text    ro code  0x0092be    0x81  stc1000p.o [1]
+  .near_func.text    ro code  0x00933f    0x6d  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x0093ac    0x5f  adc.o [1]
+  .near_func.text    ro code  0x00940b    0x57  stc1000p.o [1]
+  .near_func.text    ro code  0x009462    0x57  stc1000p.o [1]
+  .near_func.text    ro code  0x0094b9    0x51  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x00950a    0x4e  scheduler.o [1]
+  .near.rodata       const    0x009558    0x4c  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x0095a4    0x4a  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x0095ee    0x42  scheduler.o [1]
+  .near.rodata       const    0x009630    0x40  adc.o [1]
+  .near.rodata       const    0x009670    0x40  adc.o [1]
+  .near_func.text    ro code  0x0096b0    0x3c  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x0096ec    0x35  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x009721    0x34  stc1000p.o [1]
+  .near_func.text    ro code  0x009755    0x34  strncpy.o [4]
+  .near_func.text    ro code  0x009789    0x31  eep.o [1]
+  .near_func.text    ro code  0x0097ba    0x31  stc1000p.o [1]
+  .near_func.text    ro code  0x0097eb    0x31  short.o [4]
+  .near_func.text    ro code  0x00981c    0x29  stc1000p.o [1]
+  .near_func.text    ro code  0x009845    0x28  init_small.o [4]
+  .near_func.text    ro code  0x00986d    0x26  long_util.o [4]
+  .iar.init_table    const    0x009893    0x12  - Linker created -
+  .near_func.text    ro code  0x0098a5    0x20  stc1000p.o [1]
+  .near_func.text    ro code  0x0098c5    0x1e  init_small.o [4]
+  .near_func.text    ro code  0x0098e3    0x18  dc_util.o [4]
+  .near_func.text    ro code  0x0098fb    0x15  stc1000p.o [1]
+  .near_func.text    ro code  0x009910    0x15  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x009925    0x14  eep.o [1]
+  .near_func.text    ro code  0x009939    0x14  init.o [4]
+  .near_func.text    ro code  0x00994d    0x14  __dbg_xxexit.o [3]
+  .near_func.text    ro code  0x009961    0x13  cstartup.o [4]
+  Initializer bytes  const    0x009974     0xd  <for P2-1>
+  .near.rodata       const    0x009981     0xa  stc1000p_lib.o [1]
+  .near_func.text    ro code  0x00998b     0x5  cexit.o [4]
+  .near.rodata       const    0x009990     0x4  stc1000p.o [1]
+  .near.rodata       const    0x009994     0x4  stc1000p.o [1]
+  .near.rodata       const    0x009998     0x4  stc1000p.o [1]
+  .near.rodata       const    0x00999c     0x4  stc1000p.o [1]
+  .near_func.text    ro code  0x0099a0     0x3  interrupt.o [4]
+  .near_func.text    ro code  0x0099a3     0x3  low_level_init.o [4]
+  .near_func.text    ro code  0x0099a6     0x3  exit.o [4]
+  .near_func.text    ro code  0x0099a9     0x3  unhandled_exception.o [4]
+  .near_func.text    ro code  0x0099ac     0x1  __dbg_break.o [3]
+                            - 0x0099ad  0x192d
 
 
 *******************************************************************************
@@ -313,12 +315,12 @@ Absolute sections, part 15 of 15:          0x1
           Address   Size
           -------   ----
 Zero (__iar_zero_init2)
-    1 destination range, total size 0x99:
-          0x00001d  0x99
+    1 destination range, total size 0x9a:
+          0x00001d  0x9a
 
 Copy (__iar_copy_init2)
     1 source range, total size 0xd:
-          0x0098fe   0xd
+          0x009974   0xd
     1 destination range, total size 0xd:
           0x000010   0xd
 
@@ -336,10 +338,10 @@ D:\ownCloud\Programming\stc1000_stm8\src\Debug\Obj: [1]
     eep.o                       69                          2
     pid.o                      308                24
     scheduler.o                340                85
-    stc1000p.o               1 388       23       25       24
-    stc1000p_lib.o           2 659      220       32        5
+    stc1000p.o               1 396       23       25       24
+    stc1000p_lib.o           2 769      220       33        4
     ---------------------------------------------------------
-    Total:                   5 021      371      166       37
+    Total:                   5 139      371      167       36
 
 command line: [2]
     ---------------------------------------------------------
@@ -372,7 +374,7 @@ dlstm8smn.a: [4]
 
     Linker created                       18      256
 -------------------------------------------------------------
-    Grand Total:             6 066      517      438       37
+    Grand Total:             6 184      517      439       36
 
 
 *******************************************************************************
@@ -381,8 +383,8 @@ dlstm8smn.a: [4]
 
 Entry                    Address   Size  Type      Object
 -----                    -------   ----  ----      ------
-.iar.init_table$$Base   0x009806          --   Gb  - Linker created -
-.iar.init_table$$Limit  0x009818          --   Gb  - Linker created -
+.iar.init_table$$Base   0x009893          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x0098a5          --   Gb  - Linker created -
 ?add32_l0_l0_0x         0x008575         Code  Gb  long.o [4]
 ?add32_l0_l0_l1         0x008572         Code  Gb  long.o [4]
 ?b0                     0x000000         Data  Gb  vregs.o [4]
@@ -401,85 +403,85 @@ Entry                    Address   Size  Type      Object
 ?b7                     0x000007         Data  Gb  vregs.o [4]
 ?b8                     0x000008         Data  Gb  vregs.o [4]
 ?b9                     0x000009         Data  Gb  vregs.o [4]
-?dc32_l1                0x009856         Code  Gb  dc_util.o [4]
-?dc32_px                0x009863         Code  Gb  dc_util.o [4]
+?dc32_l1                0x0098e3         Code  Gb  dc_util.o [4]
+?dc32_px                0x0098f0         Code  Gb  dc_util.o [4]
 ?e0                     0x000001         Data  Gb  vregs.o [4]
 ?e1                     0x000005         Data  Gb  vregs.o [4]
 ?e2                     0x000009         Data  Gb  vregs.o [4]
 ?e3                     0x00000d         Data  Gb  vregs.o [4]
-?epilogue_l2            0x008917         Code  Gb  vreg_util.o [4]
-?epilogue_l2_l3         0x008914         Code  Gb  vreg_util.o [4]
-?epilogue_l2_w6         0x00891b         Code  Gb  vreg_util.o [4]
-?epilogue_w4            0x008922         Code  Gb  vreg_util.o [4]
+?epilogue_l2            0x008a93         Code  Gb  vreg_util.o [4]
+?epilogue_l2_l3         0x008a90         Code  Gb  vreg_util.o [4]
+?epilogue_l2_w6         0x008a97         Code  Gb  vreg_util.o [4]
+?epilogue_w4            0x008a9e         Code  Gb  vreg_util.o [4]
 ?l0                     0x000000         Data  Gb  vregs.o [4]
 ?l1                     0x000004         Data  Gb  vregs.o [4]
 ?l2                     0x000008         Data  Gb  vregs.o [4]
 ?l3                     0x00000c         Data  Gb  vregs.o [4]
-?load32_0x_l0           0x0097f8         Code  Gb  long_util.o [4]
-?load32_l0_0x           0x0097e0         Code  Gb  long_util.o [4]
-?load32_l1_0x           0x0097ec         Code  Gb  long_util.o [4]
-?mov_e0_e1              0x008945         Code  Gb  vreg_util.o [4]
-?mov_e0_e2              0x008952         Code  Gb  vreg_util.o [4]
-?mov_e1_e0              0x00895f         Code  Gb  vreg_util.o [4]
-?mov_e1_e2              0x00896c         Code  Gb  vreg_util.o [4]
-?mov_e1_e3              0x008979         Code  Gb  vreg_util.o [4]
-?mov_e2_e0              0x008986         Code  Gb  vreg_util.o [4]
-?mov_e3_e0              0x008993         Code  Gb  vreg_util.o [4]
-?mov_l0_l1              0x008942         Code  Gb  vreg_util.o [4]
-?mov_l0_l2              0x00894f         Code  Gb  vreg_util.o [4]
-?mov_l1_l0              0x00895c         Code  Gb  vreg_util.o [4]
-?mov_l1_l2              0x008969         Code  Gb  vreg_util.o [4]
-?mov_l1_l3              0x008976         Code  Gb  vreg_util.o [4]
-?mov_l2_l0              0x008983         Code  Gb  vreg_util.o [4]
-?mov_l3_l0              0x008990         Code  Gb  vreg_util.o [4]
-?mov_w0_w1              0x008926         Code  Gb  vreg_util.o [4]
-?mov_w1_w3              0x008948         Code  Gb  vreg_util.o [4]
-?mov_w1_w5              0x008955         Code  Gb  vreg_util.o [4]
-?mov_w1_w6              0x00892d         Code  Gb  vreg_util.o [4]
-?mov_w3_w1              0x008962         Code  Gb  vreg_util.o [4]
-?mov_w3_w5              0x00896f         Code  Gb  vreg_util.o [4]
-?mov_w3_w7              0x00897c         Code  Gb  vreg_util.o [4]
-?mov_w5_w0              0x008934         Code  Gb  vreg_util.o [4]
-?mov_w5_w1              0x008989         Code  Gb  vreg_util.o [4]
-?mov_w6_w1              0x00893b         Code  Gb  vreg_util.o [4]
-?mov_w7_w1              0x008996         Code  Gb  vreg_util.o [4]
-?mul16_x_x_w0           0x00975e         Code  Gb  short.o [4]
+?load32_0x_l0           0x009885         Code  Gb  long_util.o [4]
+?load32_l0_0x           0x00986d         Code  Gb  long_util.o [4]
+?load32_l1_0x           0x009879         Code  Gb  long_util.o [4]
+?mov_e0_e1              0x008ac1         Code  Gb  vreg_util.o [4]
+?mov_e0_e2              0x008ace         Code  Gb  vreg_util.o [4]
+?mov_e1_e0              0x008adb         Code  Gb  vreg_util.o [4]
+?mov_e1_e2              0x008ae8         Code  Gb  vreg_util.o [4]
+?mov_e1_e3              0x008af5         Code  Gb  vreg_util.o [4]
+?mov_e2_e0              0x008b02         Code  Gb  vreg_util.o [4]
+?mov_e3_e0              0x008b0f         Code  Gb  vreg_util.o [4]
+?mov_l0_l1              0x008abe         Code  Gb  vreg_util.o [4]
+?mov_l0_l2              0x008acb         Code  Gb  vreg_util.o [4]
+?mov_l1_l0              0x008ad8         Code  Gb  vreg_util.o [4]
+?mov_l1_l2              0x008ae5         Code  Gb  vreg_util.o [4]
+?mov_l1_l3              0x008af2         Code  Gb  vreg_util.o [4]
+?mov_l2_l0              0x008aff         Code  Gb  vreg_util.o [4]
+?mov_l3_l0              0x008b0c         Code  Gb  vreg_util.o [4]
+?mov_w0_w1              0x008aa2         Code  Gb  vreg_util.o [4]
+?mov_w1_w3              0x008ac4         Code  Gb  vreg_util.o [4]
+?mov_w1_w5              0x008ad1         Code  Gb  vreg_util.o [4]
+?mov_w1_w6              0x008aa9         Code  Gb  vreg_util.o [4]
+?mov_w3_w1              0x008ade         Code  Gb  vreg_util.o [4]
+?mov_w3_w5              0x008aeb         Code  Gb  vreg_util.o [4]
+?mov_w3_w7              0x008af8         Code  Gb  vreg_util.o [4]
+?mov_w5_w0              0x008ab0         Code  Gb  vreg_util.o [4]
+?mov_w5_w1              0x008b05         Code  Gb  vreg_util.o [4]
+?mov_w6_w1              0x008ab7         Code  Gb  vreg_util.o [4]
+?mov_w7_w1              0x008b12         Code  Gb  vreg_util.o [4]
+?mul16_x_x_w0           0x0097eb         Code  Gb  short.o [4]
 ?mul32_l0_l0_0x         0x008590         Code  Gb  long.o [4]
 ?mul32_l0_l0_dl         0x00858d         Code  Gb  long.o [4]
 ?mul32_l0_l0_l1         0x008599         Code  Gb  long.o [4]
 ?neg32_l0_l0            0x008562         Code  Gb  long.o [4]
-?pop_e3                 0x008895         Code  Gb  vreg_util.o [4]
-?pop_l0                 0x0088e0         Code  Gb  vreg_util.o [4]
-?pop_l1                 0x0088eb         Code  Gb  vreg_util.o [4]
-?pop_l2                 0x0088f6         Code  Gb  vreg_util.o [4]
-?pop_l3                 0x008901         Code  Gb  vreg_util.o [4]
-?pop_w4                 0x008867         Code  Gb  vreg_util.o [4]
-?pop_w6                 0x00886e         Code  Gb  vreg_util.o [4]
-?push_e3                0x00887d         Code  Gb  vreg_util.o [4]
-?push_l0                0x0088af         Code  Gb  vreg_util.o [4]
-?push_l1                0x0088b4         Code  Gb  vreg_util.o [4]
-?push_l2                0x0088b9         Code  Gb  vreg_util.o [4]
-?push_l3                0x0088be         Code  Gb  vreg_util.o [4]
-?push_w0                0x008845         Code  Gb  vreg_util.o [4]
-?push_w4                0x00884a         Code  Gb  vreg_util.o [4]
-?push_w6                0x00884f         Code  Gb  vreg_util.o [4]
+?pop_e3                 0x008a11         Code  Gb  vreg_util.o [4]
+?pop_l0                 0x008a5c         Code  Gb  vreg_util.o [4]
+?pop_l1                 0x008a67         Code  Gb  vreg_util.o [4]
+?pop_l2                 0x008a72         Code  Gb  vreg_util.o [4]
+?pop_l3                 0x008a7d         Code  Gb  vreg_util.o [4]
+?pop_w4                 0x0089e3         Code  Gb  vreg_util.o [4]
+?pop_w6                 0x0089ea         Code  Gb  vreg_util.o [4]
+?push_e3                0x0089f9         Code  Gb  vreg_util.o [4]
+?push_l0                0x008a2b         Code  Gb  vreg_util.o [4]
+?push_l1                0x008a30         Code  Gb  vreg_util.o [4]
+?push_l2                0x008a35         Code  Gb  vreg_util.o [4]
+?push_l3                0x008a3a         Code  Gb  vreg_util.o [4]
+?push_w0                0x0089c1         Code  Gb  vreg_util.o [4]
+?push_w4                0x0089c6         Code  Gb  vreg_util.o [4]
+?push_w6                0x0089cb         Code  Gb  vreg_util.o [4]
 ?sdiv32_l0_l0_dl        0x008684         Code  Gb  long.o [4]
 ?sdiv32_l0_l0_l1        0x008687         Code  Gb  long.o [4]
 ?sext32_l0_x            0x0086de         Code  Gb  long.o [4]
-?sll16_x_x_4            0x00977e         Code  Gb  short.o [4]
-?sll16_x_x_5            0x00977d         Code  Gb  short.o [4]
-?sll16_x_x_6            0x00977c         Code  Gb  short.o [4]
+?sll16_x_x_4            0x00980b         Code  Gb  short.o [4]
+?sll16_x_x_5            0x00980a         Code  Gb  short.o [4]
+?sll16_x_x_6            0x009809         Code  Gb  short.o [4]
 ?smod32_l1_l0_l1        0x008687         Code  Gb  long.o [4]
 ?sra32_0x_0x_a          0x0086d0         Code  Gb  long.o [4]
 ?sra32_l0_l0_a          0x0086cd         Code  Gb  long.o [4]
-?srl16_x_x_10           0x009784         Code  Gb  short.o [4]
-?srl16_x_x_11           0x009783         Code  Gb  short.o [4]
-?srl16_x_x_4            0x00978a         Code  Gb  short.o [4]
-?srl16_x_x_5            0x009789         Code  Gb  short.o [4]
-?srl16_x_x_6            0x009788         Code  Gb  short.o [4]
-?srl16_x_x_7            0x009787         Code  Gb  short.o [4]
-?srl16_x_x_8            0x009786         Code  Gb  short.o [4]
-?srl16_x_x_9            0x009785         Code  Gb  short.o [4]
+?srl16_x_x_10           0x009811         Code  Gb  short.o [4]
+?srl16_x_x_11           0x009810         Code  Gb  short.o [4]
+?srl16_x_x_4            0x009817         Code  Gb  short.o [4]
+?srl16_x_x_5            0x009816         Code  Gb  short.o [4]
+?srl16_x_x_6            0x009815         Code  Gb  short.o [4]
+?srl16_x_x_7            0x009814         Code  Gb  short.o [4]
+?srl16_x_x_8            0x009813         Code  Gb  short.o [4]
+?srl16_x_x_9            0x009812         Code  Gb  short.o [4]
 ?udiv32_l0_l0_l1        0x008617         Code  Gb  long.o [4]
 ?umod32_l1_l0_l1        0x008617         Code  Gb  long.o [4]
 ?w0                     0x000000         Data  Gb  vregs.o [4]
@@ -499,12 +501,12 @@ CSTACK$$Limit           0x000400          --   Gb  - Linker created -
 FLASH_DUKR              0x005064    0x1  Data  Gb  eep.o [1]
 INTVEC$$Base            0x008000          --   Gb  - Linker created -
 INTVEC$$Limit           0x008080          --   Gb  - Linker created -
-Region$$Table$$Base     0x009806          --   Gb  - Linker created -
-Region$$Table$$Limit    0x009818          --   Gb  - Linker created -
+Region$$Table$$Base     0x009893          --   Gb  - Linker created -
+Region$$Table$$Limit    0x0098a5          --   Gb  - Linker created -
 TIM2_ARRH               0x00530f    0x1  Data  Gb  stc1000p.o [1]
 TIM2_ARRL               0x005310    0x1  Data  Gb  stc1000p.o [1]
 TIM2_UPD_OVF_IRQHandler
-                        0x00937d   0x57  Code  Gb  stc1000p.o [1]
+                        0x00940b   0x57  Code  Gb  stc1000p.o [1]
 _A_ADC_CR1              0x005401    0x1  Data  Gb  stc1000p.o [1]
 _A_ADC_CR2              0x005402    0x1  Data  Gb  adc.o [1]
 _A_ADC_CR3              0x005403    0x1  Data  Gb  adc.o [1]
@@ -516,7 +518,6 @@ _A_CLK_SWIMCCR          0x0050cd    0x1  Data  Gb  stc1000p.o [1]
 _A_FLASH_IAPSR          0x00505f    0x1  Data  Gb  eep.o [1]
 _A_PA_CR1               0x005003    0x1  Data  Gb  stc1000p.o [1]
 _A_PA_DDR               0x005002    0x1  Data  Gb  stc1000p.o [1]
-_A_PA_IDR               0x005001    0x1  Data  Gb  stc1000p_lib.o [1]
 _A_PA_ODR               0x005000    0x1  Data  Gb  stc1000p_lib.o [1]
 _A_PB_CR1               0x005008    0x1  Data  Gb  stc1000p.o [1]
 _A_PB_DDR               0x005007    0x1  Data  Gb  stc1000p.o [1]
@@ -535,51 +536,49 @@ _A_TIM2_CR1             0x005300    0x1  Data  Gb  stc1000p.o [1]
 _A_TIM2_IER             0x005303    0x1  Data  Gb  stc1000p.o [1]
 _A_TIM2_PSCR            0x00530e    0x1  Data  Gb  stc1000p.o [1]
 _A_TIM2_SR1             0x005304    0x1  Data  Gb  stc1000p.o [1]
-__DebugBreak            0x009936    0x1  Code  Gb  __dbg_break.o [3]
-__exit                  0x0098d7   0x14  Code  Gb  __dbg_xxexit.o [3]
-__iar_copy_init2        0x0097b8         Code  Gb  init_small.o [4]
-__iar_data_init2        0x0098c3   0x14  Code  Gb  init.o [4]
-__iar_program_start     0x0098eb         Code  Gb  cstartup.o [4]
+__DebugBreak            0x0099ac    0x1  Code  Gb  __dbg_break.o [3]
+__exit                  0x00994d   0x14  Code  Gb  __dbg_xxexit.o [3]
+__iar_copy_init2        0x009845         Code  Gb  init_small.o [4]
+__iar_data_init2        0x009939   0x14  Code  Gb  init.o [4]
+__iar_program_start     0x009961         Code  Gb  cstartup.o [4]
 __iar_unhandled_exception
-                        0x009933         Code  Gb  unhandled_exception.o [4]
-__iar_zero_init2        0x009838         Code  Gb  init_small.o [4]
+                        0x0099a9         Code  Gb  unhandled_exception.o [4]
+__iar_zero_init2        0x0098c5         Code  Gb  init_small.o [4]
 __intvec                0x008000         Data  Gb  interrupt.o [4]
-__low_level_init        0x00992d    0x3  Code  Gb  low_level_init.o [4]
+__low_level_init        0x0099a3    0x3  Code  Gb  low_level_init.o [4]
 _buttons                0x0000b2    0x1  Data  Gb  stc1000p_lib.o [1]
-_exit                   0x009915         Code  Gb  cexit.o [4]
-_interrupt_15           0x00937d         Code  Gb  stc1000p.o [1]
+_exit                   0x00998b         Code  Gb  cexit.o [4]
+_interrupt_15           0x00940b         Code  Gb  stc1000p.o [1]
 ad_ch                   0x00009f    0x1  Data  Gb  stc1000p.o [1]
 ad_err1                 0x00009a    0x1  Data  Gb  stc1000p.o [1]
 ad_err2                 0x00009b    0x1  Data  Gb  stc1000p.o [1]
-ad_lookup_c             0x0095e2   0x40  Data  Gb  adc.o [1]
-ad_lookup_f             0x0095a2   0x40  Data  Gb  adc.o [1]
+ad_lookup_c             0x009670   0x40  Data  Gb  adc.o [1]
+ad_lookup_f             0x009630   0x40  Data  Gb  adc.o [1]
 ad_ntc1                 0x000010    0x2  Data  Gb  stc1000p.o [1]
 ad_ntc2                 0x000012    0x2  Data  Gb  stc1000p.o [1]
-ad_to_temp              0x008fb6   0xa2  Code  Gb  adc.o [1]
-adc_task                0x008e62   0xac  Code  Gb  stc1000p.o [1]
-add_task                0x008d9e   0xc4  Code  Gb  scheduler.o [1]
-check_config_value      0x008ae8   0xfa  Code  Gb  stc1000p_lib.o [1]
+ad_to_temp              0x009047   0xa2  Code  Gb  adc.o [1]
+adc_task                0x008ef3   0xac  Code  Gb  stc1000p.o [1]
+add_task                0x008e2f   0xc4  Code  Gb  scheduler.o [1]
+check_config_value      0x008c64   0xfa  Code  Gb  stc1000p_lib.o [1]
 config_item             0x0000b0    0x1  Data  Gb  stc1000p_lib.o [1]
 config_value            0x00008b    0x2  Data  Gb  stc1000p_lib.o [1]
 cooling_delay           0x000017    0x2  Data  Gb  stc1000p_lib.o [1]
-ctrl_task               0x0086e9  0x15c  Code  Gb  stc1000p.o [1]
+ctrl_task               0x00885d  0x164  Code  Gb  stc1000p.o [1]
 curr_dur                0x00008f    0x2  Data  Gb  stc1000p_lib.o [1]
-dispatch_tasks          0x00947c   0x4e  Code  Gb  scheduler.o [1]
-divu10                  0x009622   0x3c  Code  Gb  stc1000p_lib.o [1]
+dispatch_tasks          0x00950a   0x4e  Code  Gb  scheduler.o [1]
+divu10                  0x0096b0   0x3c  Code  Gb  stc1000p_lib.o [1]
 eedata                  0x004000   0x80  Data  Gb  stc1000p_lib.o [1]
-eeprom_read_config      0x0098af   0x14  Code  Gb  eep.o [1]
-eeprom_write_config     0x0096fc   0x31  Code  Gb  eep.o [1]
-enable_cooling          0x00986e   0x17  Code  Gb  stc1000p_lib.o [1]
-enable_heating          0x008be2   0x17  Code  Gb  stc1000p_lib.o [1]
-exit                    0x009930    0x3  Code  Gb  exit.o [4]
+eeprom_read_config      0x009925   0x14  Code  Gb  eep.o [1]
+eeprom_write_config     0x009789   0x31  Code  Gb  eep.o [1]
+exit                    0x0099a6    0x3  Code  Gb  exit.o [4]
 fahrenheit              0x0000ad    0x1  Data  Gb  stc1000p_lib.o [1]
+fan_control             0x0096ec   0x35  Code  Gb  stc1000p_lib.o [1]
 heating_delay           0x000019    0x2  Data  Gb  stc1000p_lib.o [1]
 hysteresis              0x000093    0x2  Data  Gb  stc1000p_lib.o [1]
 hysteresis2             0x000095    0x2  Data  Gb  stc1000p_lib.o [1]
-init_pid                0x009194   0x99  Code  Gb  pid.o [1]
-init_temp_delays        0x00965e   0x36  Code  Gb  stc1000p_lib.o [1]
+init_pid                0x009225   0x99  Code  Gb  pid.o [1]
 initialise_system_clock
-                        0x00972d   0x31  Code  Gb  stc1000p.o [1]
+                        0x0097ba   0x31  Code  Gb  stc1000p.o [1]
 kc                      0x00007d    0x2  Data  Gb  pid.o [1]
 kd                      0x000075    0x4  Data  Gb  pid.o [1]
 key_held_tmr            0x0000b3    0x1  Data  Gb  stc1000p_lib.o [1]
@@ -588,24 +587,24 @@ led_01                  0x0000ab    0x1  Data  Gb  stc1000p_lib.o [1]
 led_1                   0x0000aa    0x1  Data  Gb  stc1000p_lib.o [1]
 led_10                  0x0000a9    0x1  Data  Gb  stc1000p_lib.o [1]
 led_e                   0x0000a8    0x1  Data  Gb  stc1000p_lib.o [1]
-led_lookup              0x00990b    0xa  Data  Gb  stc1000p_lib.o [1]
+led_lookup              0x009981    0xa  Data  Gb  stc1000p_lib.o [1]
 m_countdown             0x0000b1    0x1  Data  Gb  stc1000p_lib.o [1]
-main                    0x00922d   0x81  Code  Gb  stc1000p.o [1]
+main                    0x0092be   0x81  Code  Gb  stc1000p.o [1]
 max_tasks               0x000099    0x1  Data  Gb  scheduler.o [1]
-menu                    0x0094ca   0x4c  Data  Gb  stc1000p_lib.o [1]
+menu                    0x009558   0x4c  Data  Gb  stc1000p_lib.o [1]
 menu_fsm                0x008080  0x4e2  Code  Gb  stc1000p_lib.o [1]
 menu_is_idle            0x00001b    0x1  Data  Gb  stc1000p_lib.o [1]
 menu_item               0x0000af    0x1  Data  Gb  stc1000p_lib.o [1]
 menustate               0x0000ac    0x1  Data  Gb  stc1000p_lib.o [1]
-min_to_sec              0x00989a   0x15  Code  Gb  stc1000p_lib.o [1]
+min_to_sec              0x009910   0x15  Code  Gb  stc1000p_lib.o [1]
 minutes                 0x0000ae    0x1  Data  Gb  stc1000p_lib.o [1]
 mpx_nr                  0x0000a0    0x1  Data  Gb  stc1000p.o [1]
-multiplexer             0x008ccd   0xd1  Code  Gb  stc1000p.o [1]
-pid_control             0x0092ae   0x70  Code  Gb  stc1000p_lib.o [1]
-pid_control::pid_tmr    0x0000b5    0x1  Data  Lc  stc1000p_lib.o [1]
-pid_ctrl                0x0090f9   0x9b  Code  Gb  pid.o [1]
+multiplexer             0x008d5e   0xd1  Code  Gb  stc1000p.o [1]
+pid_control             0x00933f   0x6d  Code  Gb  stc1000p_lib.o [1]
+pid_control::pid_tmr    0x0000b6    0x1  Data  Lc  stc1000p_lib.o [1]
+pid_ctrl                0x00918a   0x9b  Code  Gb  pid.o [1]
 pid_out                 0x000091    0x2  Data  Gb  stc1000p_lib.o [1]
-pid_to_time             0x009058   0x98  Code  Gb  stc1000p.o [1]
+pid_to_time             0x0090e9   0x98  Code  Gb  stc1000p.o [1]
 pid_to_time::htmr       0x0000a6    0x1  Data  Lc  stc1000p.o [1]
 pid_to_time::ltmr       0x0000a5    0x1  Data  Lc  stc1000p.o [1]
 pid_to_time::std_ptt    0x000016    0x1  Data  Lc  stc1000p.o [1]
@@ -614,36 +613,38 @@ portc                   0x0000a3    0x1  Data  Gb  stc1000p.o [1]
 portd                   0x0000a4    0x1  Data  Gb  stc1000p.o [1]
 portd_leds              0x0000a1    0x1  Data  Gb  stc1000p.o [1]
 pp                      0x000079    0x4  Data  Gb  pid.o [1]
-prfl_task               0x009818   0x20  Code  Gb  stc1000p.o [1]
+prfl_task               0x0098a5   0x20  Code  Gb  stc1000p.o [1]
 prfl_task::min          0x0000a7    0x1  Data  Lc  stc1000p.o [1]
 probe2                  0x00009c    0x1  Data  Gb  stc1000p.o [1]
-prx_to_led              0x00942b   0x51  Code  Gb  stc1000p_lib.o [1]
+prx_to_led              0x0094b9   0x51  Code  Gb  stc1000p_lib.o [1]
 pwr_on                  0x00001c    0x1  Data  Gb  stc1000p_lib.o [1]
 pwr_on_tmr              0x000014    0x2  Data  Gb  stc1000p.o [1]
-range                   0x008ad0   0x18  Code  Gb  stc1000p_lib.o [1]
-read_adc                0x00931e   0x5f  Code  Gb  adc.o [1]
-read_buttons            0x009516   0x4a  Code  Gb  stc1000p_lib.o [1]
-restore_display_state   0x009694   0x34  Code  Gb  stc1000p.o [1]
+range                   0x008c4c   0x18  Code  Gb  stc1000p_lib.o [1]
+read_adc                0x0093ac   0x5f  Code  Gb  adc.o [1]
+read_buttons            0x0095a4   0x4a  Code  Gb  stc1000p_lib.o [1]
+restore_display_state   0x009721   0x34  Code  Gb  stc1000p.o [1]
 reverse_acting          0x000098    0x1  Data  Gb  pid.o [1]
-save_display_state      0x00978f   0x29  Code  Gb  stc1000p.o [1]
-scheduler_isr           0x009560   0x42  Code  Gb  scheduler.o [1]
+save_display_state      0x00981c   0x29  Code  Gb  stc1000p.o [1]
+scheduler_isr           0x0095ee   0x42  Code  Gb  scheduler.o [1]
 sensor2_selected        0x0000b4    0x1  Data  Gb  stc1000p_lib.o [1]
 setpoint                0x00008d    0x2  Data  Gb  stc1000p_lib.o [1]
-setup_output_ports      0x0093d4   0x57  Code  Gb  stc1000p.o [1]
-setup_timer2            0x009885   0x15  Code  Gb  stc1000p.o [1]
+setup_output_ports      0x009462   0x57  Code  Gb  stc1000p.o [1]
+setup_timer2            0x0098fb   0x15  Code  Gb  stc1000p.o [1]
 show_sa_alarm           0x00009d    0x1  Data  Gb  stc1000p.o [1]
 sound_alarm             0x00009e    0x1  Data  Gb  stc1000p.o [1]
-std_task                0x0090f0    0x9  Code  Gb  stc1000p.o [1]
-strncpy                 0x0096c8   0x34  Code  Gb  strncpy.o [4]
+std_task                0x009181    0x9  Code  Gb  stc1000p.o [1]
+strncpy                 0x009755   0x34  Code  Gb  strncpy.o [4]
 task_list               0x00001d   0x54  Data  Gb  scheduler.o [1]
 td                      0x000081    0x2  Data  Gb  pid.o [1]
 temp_ntc1               0x000087    0x2  Data  Gb  stc1000p.o [1]
 temp_ntc2               0x000089    0x2  Data  Gb  stc1000p.o [1]
-temperature_control     0x008bf9   0xd4  Code  Gb  stc1000p_lib.o [1]
+temperature_control     0x0086e9  0x174  Code  Gb  stc1000p_lib.o [1]
+temperature_control::std_x
+                        0x0000b5    0x1  Data  Lc  stc1000p_lib.o [1]
 ti                      0x00007f    0x2  Data  Gb  pid.o [1]
 ts                      0x000097    0x1  Data  Gb  pid.o [1]
-update_profile          0x00899d  0x133  Code  Gb  stc1000p_lib.o [1]
-value_to_led            0x008f0e   0xa8  Code  Gb  stc1000p_lib.o [1]
+update_profile          0x008b19  0x133  Code  Gb  stc1000p_lib.o [1]
+value_to_led            0x008f9f   0xa8  Code  Gb  stc1000p_lib.o [1]
 yk_1                    0x000083    0x2  Data  Gb  pid.o [1]
 yk_2                    0x000085    0x2  Data  Gb  pid.o [1]
 
@@ -653,9 +654,9 @@ yk_2                    0x000085    0x2  Data  Gb  pid.o [1]
 [3] = dbgstm8smd.a
 [4] = dlstm8smn.a
 
-  6 066 bytes of readonly  code memory
+  6 184 bytes of readonly  code memory
     517 bytes of readonly  data memory
-    438 bytes of readwrite data memory (+ 37 absolute)
+    439 bytes of readwrite data memory (+ 36 absolute)
 
 Errors: none
 Warnings: none
