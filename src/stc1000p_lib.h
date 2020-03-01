@@ -60,6 +60,13 @@
 #define DEFAULT_hy	    (5)
 #define DEFAULT_hy2	  (100)
 
+// Values for temperature control STD
+#define STD_OFF      (0)
+#define STD_DLY_HEAT (1)
+#define STD_DLY_COOL (2)
+#define STD_HEATING  (3)
+#define STD_COOLING  (4)
+
 //---------------------------------------------------------------------------
 // Basic defines for EEPROM config addresses
 // One profile consists of several temp. time pairs and a final temperature

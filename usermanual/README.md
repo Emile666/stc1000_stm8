@@ -20,8 +20,8 @@ Mats Staffansson / Emile
 * PID-output signal (slow PWM, T=12.5 sec) present at **S3 output** for connection to a Solid-State Relay (SSR)
 * Standard thermostat functionality available when PID-controller is disabled (**TS** parameter set to 0)
 * Second temperature probe functionality selectable with **Pb2** parameter. If **Pb2** is set to 0, no second temperature probe is connected.
- + With **Pb2** set to 1, the second temperature probe should measure the outside temperature. Used in thermostat control.
- + With **Pb** set to 2, the second temperature probe should measure the compressor temperature of a refrigerator. Used in refrigerator mode to also control the compressor fan.
+ ..+ With **Pb2** set to 1, the second temperature probe should measure the outside temperature. Used in thermostat control.
+ ..+ With **Pb** set to 2, the second temperature probe should measure the compressor temperature of a refrigerator. Used in refrigerator mode to also control the compressor fan.
 * Up to 4 profiles with up to 6 setpoints (6 profiles with 10 setpoints if the STM8S003F3 is replaced with a STM8S103FS µC)
 * Each setpoint can be held for 1-999 hours (i.e. up to ~41 days) or 1-999 minutes (i.e. up to ~16 hours)
 * Approximative ramping

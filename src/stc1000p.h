@@ -62,7 +62,7 @@
      
 /* Define STC-1000+ version number (XYY, X=major, YY=minor) */
 /* Also, keep track of last version that has changes in EEPROM layout */
-#define STC1000P_VERSION	(200)
+#define STC1000P_VERSION	(210)
 #define STC1000P_EEPROM_VERSION	 (20)
 
 // Common-Cathode bits on PB5, PB4, PD5 and PD4

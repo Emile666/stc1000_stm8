@@ -5448,6 +5448,13 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 
 
 
+// Values for temperature control STD
+
+
+
+
+
+
 //---------------------------------------------------------------------------
 // Basic defines for EEPROM config addresses
 // One profile consists of several temp. time pairs and a final temperature
@@ -5456,7 +5463,7 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 // 1) proper #include in stc1000p.h: <iostm8s003f3.h> or <iostm8s103f3.h>
 // 2) Project -> Options -> Target -> Device to STM8S003F3 or STM8S103F3
 //---------------------------------------------------------------------------
-#line 81 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 88 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 //-----------------------------------------------------------------------------
 // Enum to specify the types of the parameters in the menu.
@@ -5510,7 +5517,7 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
-#line 154 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 161 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 
 
@@ -6016,7 +6023,7 @@ int16_t  ad_to_temp(uint16_t adfilter, _Bool *err);
 // Global variables
 _Bool      ad_err1 = 0; // used for adc range checking
 _Bool      ad_err2 = 0; // used for adc range checking
-uint8_t   probe2  = 0; // cached flag indicating whether 2nd probe is active
+uint8_t   probe2  = 0;     // cached flag indicating whether 2nd probe is active
 _Bool      show_sa_alarm = 0; // true = display alarm
 _Bool      sound_alarm   = 0; // true = sound alarm
 _Bool      ad_ch   = 0; // used in adc_task()
@@ -6462,6 +6469,6 @@ int main(void)
     while (1)
     {   // background-processes
         dispatch_tasks();       // Run task-scheduler()
-        __wait_for_interrupt(); // do nothing
+        //__wait_for_interrupt(); // do nothing
     } // while
 } // main()

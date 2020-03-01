@@ -35,7 +35,7 @@
 // Global variables
 bool      ad_err1 = false; // used for adc range checking
 bool      ad_err2 = false; // used for adc range checking
-uint8_t   probe2  = false; // cached flag indicating whether 2nd probe is active
+uint8_t   probe2  = 0;     // cached flag indicating whether 2nd probe is active
 bool      show_sa_alarm = false; // true = display alarm
 bool      sound_alarm   = false; // true = sound alarm
 bool      ad_ch   = false; // used in adc_task()
@@ -481,6 +481,6 @@ int main(void)
     while (1)
     {   // background-processes
         dispatch_tasks();       // Run task-scheduler()
-        __wait_for_interrupt(); // do nothing
+        //__wait_for_interrupt(); // do nothing
     } // while
 } // main()

@@ -5451,6 +5451,13 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 
 
 
+// Values for temperature control STD
+
+
+
+
+
+
 //---------------------------------------------------------------------------
 // Basic defines for EEPROM config addresses
 // One profile consists of several temp. time pairs and a final temperature
@@ -5459,7 +5466,7 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 // 1) proper #include in stc1000p.h: <iostm8s003f3.h> or <iostm8s103f3.h>
 // 2) Project -> Options -> Target -> Device to STM8S003F3 or STM8S103F3
 //---------------------------------------------------------------------------
-#line 81 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 88 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 //-----------------------------------------------------------------------------
 // Enum to specify the types of the parameters in the menu.
@@ -5513,7 +5520,7 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
-#line 154 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 161 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 
 
@@ -6060,7 +6067,7 @@ void menu_fsm(void)
             break; // MENU_POWER_DOWN_WAIT
        //--------------------------------------------------------------------         
        case MENU_SHOW_VERSION: // Show STC1000p version number
-            value_to_led((200),(0));
+            value_to_led((210),(0));
 	    led_10 |= (0x08);
             led_1  |= (0x08);
 	    led_e  &= ~((0x40) | (0x20)); // clear ° and Celsius symbols
@@ -6323,85 +6330,6 @@ uint16_t min_to_sec(enum menu_enum x)
     return retv;
 } // min_to_sec()
 
-///*-----------------------------------------------------------------------------
-//  Purpose  : This routine initialises the heating and cooling delays.
-//  Variables: -
-//  Returns  : -
-//  ---------------------------------------------------------------------------*/
-//void init_temp_delays(void)
-//{
-//    if (!minutes) setpoint = eeprom_read_config(EEADR_MENU_ITEM(SP));
-//    hysteresis  = eeprom_read_config(EEADR_MENU_ITEM(hy));
-//    hysteresis2 = eeprom_read_config(EEADR_MENU_ITEM(hy2));
-//
-//    if (cooling_delay) cooling_delay--;
-//    if (heating_delay) heating_delay--;
-//} // init_temp_delays()
-//
-///*-----------------------------------------------------------------------------
-//  Purpose  : This routine switches the cooling relay and the LED indicator.
-//  Variables: -
-//  Returns  : -
-//  ---------------------------------------------------------------------------*/
-//void enable_cooling(void)
-//{
-//     if (cooling_delay) 
-//         led_e ^= LED_COOL; // Flash to indicate cooling delay
-//     else
-//     {   // time-out
-//         COOL_ON; // Enable Cooling
-//         led_e |= LED_COOL;
-//     } // else
-//} // enable_cooling()
-//
-///*-----------------------------------------------------------------------------
-//  Purpose  : This routine switches the heating relay and the LED indicator.
-//  Variables: -
-//  Returns  : -
-//  ---------------------------------------------------------------------------*/
-//void enable_heating(void)
-//{
-//     if (heating_delay) 
-//         led_e ^= LED_HEAT; // Flash to indicate heating delay
-//     else
-//     {   // time-out
-//         HEAT_ON; // Enable Cooling
-//         led_e |= LED_HEAT;
-//     } // else
-//} // enable_heating()
-//
-///*-----------------------------------------------------------------------------
-//  Purpose  : This routine controls the temperature setpoints. It should be 
-//             called once every second by ctrl_task().
-//  Variables: -
-//  Returns  : -
-//  ---------------------------------------------------------------------------*/
-//void temperature_control(void)
-//{
-//    init_temp_delays(); // Initialise Heating and Cooling delay
-//
-//    // This is the thermostat logic
-//    if (!pwr_on ||
-//       (COOL_STATUS && (temp_ntc1 <= setpoint || (probe2 && (temp_ntc2 < (setpoint - hysteresis2))))) || 
-//       (HEAT_STATUS && (temp_ntc1 >= setpoint || (probe2 && (temp_ntc2 > (setpoint + hysteresis2))))))
-//    {
-//        cooling_delay = min_to_sec(cd);
-//        heating_delay = min_to_sec(hd);
-//	RELAYS_OFF; // Disable Cooling and Heating relays
-//        led_e &= ~(LED_HEAT | LED_COOL); // disable both LEDs
-//    } // if
-//    else if (!HEAT_STATUS && !COOL_STATUS) 
-//    {
-//	hysteresis2 >>= 2; // Divide hysteresis2 by 2
-//	if ((temp_ntc1 > setpoint + hysteresis) && (!probe2 || (temp_ntc2 >= setpoint - hysteresis2))) 
-//             enable_cooling(); // switch cooling relay
-//        else led_e &= ~LED_COOL;
-//	if ((temp_ntc1 < setpoint - hysteresis) && (!probe2 || (temp_ntc2 <= setpoint + hysteresis2))) 
-//	    enable_heating(); // switch heating relay
-//	else led_e &= ~LED_HEAT;
-//    } // else if
-//} // temperature_control()
-
 /*-----------------------------------------------------------------------------
   Purpose  : This routine is called whenever Pb2 == 2. This mode only deals
              with cooling where the fan of the compressor is controlled by
@@ -6437,7 +6365,7 @@ void temperature_control(void)
     
     switch (std_x)
     {
-        case 0: // OFF
+        case (0): // OFF
             hysteresis  = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (hy)));
             hysteresis2 = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (hy2))) >> 1;
             cooling_delay = min_to_sec(cd);
@@ -6447,40 +6375,43 @@ void temperature_control(void)
             if (probe2 < 2)
             {
                 if ((temp_ntc1 > setpoint + hysteresis) && (!probe2 || (temp_ntc2 >= setpoint - hysteresis2))) 
-                    std_x = 2; // COOLING DELAY
+                    std_x = (2); // COOLING DELAY
                 else if ((temp_ntc1 < setpoint - hysteresis) && (!probe2 || (temp_ntc2 <= setpoint + hysteresis2)))
-                    std_x = 1; // HEATING_DELAY
+                    std_x = (1); // HEATING_DELAY
             } // if
             else
-            {   // Probe2 >= 2, coooling with compressor fan control
+            {   // Probe2 >= 2, cooling with compressor fan control
                 fan_control(); // controls fan of cooling compressor
                 if (temp_ntc1 > setpoint + hysteresis)
-                    std_x = 2; // COOLING_DELAY
+                    std_x = (2); // COOLING_DELAY
             } // else
             break;
-        case 1: // HEATING DELAY
+        case (1): // HEATING DELAY
             led_e ^= (0x01); // Flash to indicate heating delay
-            if (temp_ntc1 > setpoint - hysteresis) std_x = 0; // OFF
-            else if (--heating_delay == 0)         std_x = 3; // HEATING
+            if ((temp_ntc1 > setpoint - hysteresis) ||
+                (probe2 && (temp_ntc2 > setpoint + hysteresis2))) std_x = (0);     // OFF
+            else if (--heating_delay == 0)                        std_x = (3); // HEATING
             break;
-        case 2: // COOLING DELAY
+        case (2): // COOLING DELAY
             if (probe2 == 2) fan_control(); // controls fan of cooling compressor
+            if ((temp_ntc1 < setpoint + hysteresis) ||
+                ((probe2 == 1) && (temp_ntc2 < setpoint - hysteresis2))) 
+                                            std_x = (0);     // OFF
+            else if (--cooling_delay == 0)  std_x = (4); // COOLING
             led_e ^= (0x04); // Flash to indicate cooling delay
-            if (temp_ntc1 < setpoint + hysteresis) std_x = 0; // OFF
-            else if (--cooling_delay == 0)         std_x = 4; // COOLING
             break;
-        case 3: // HEATING
+        case (3): // HEATING
             led_e |= (0x01); // Heating LED on
             (PA_ODR |= (0x02));           // Enable Heating
             if ((temp_ntc1 >= setpoint) || (probe2 && (temp_ntc2 > (setpoint + hysteresis2))))
-                std_x = 0; // OFF
+                std_x = (0); // OFF
             break;
-        case 4: // COOLING
+        case (4): // COOLING
             if (probe2 == 2) fan_control(); // controls fan of cooling compressor
             led_e |= (0x04); // Cooling LED on
             (PA_ODR |= (0x04));           // Enable Cooling
-            if ((temp_ntc1 <= setpoint) || (probe2 && (temp_ntc2 < (setpoint - hysteresis2))))
-                std_x = 0; // OFF
+            if ((temp_ntc1 <= setpoint) || ((probe2 == 1) && (temp_ntc2 < (setpoint - hysteresis2))))
+                std_x = (0); // OFF
             break;
     } // switch
 } // std_temp_control()
