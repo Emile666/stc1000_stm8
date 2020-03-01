@@ -357,7 +357,7 @@
                 </option>
                 <option>
                     <name>AsmListFile</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>AsmListNoDiagnostics</name>
@@ -365,7 +365,7 @@
                 </option>
                 <option>
                     <name>AsmListIncludeCrossRef</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>AsmListMacroDefinitions</name>

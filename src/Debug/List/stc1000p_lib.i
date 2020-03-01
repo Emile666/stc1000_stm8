@@ -6341,12 +6341,12 @@ uint16_t min_to_sec(enum menu_enum x)
   ---------------------------------------------------------------------------*/
 void fan_control(void)
 {
-        if (temp_ntc2 >= 300 + hysteresis2)
+        if (temp_ntc2 >= (300 + hysteresis2))
         {
             (PA_ODR |= (0x02));
             led_e |= (0x01);  // Heating LED on
         }
-        else if (temp_ntc2 < 300 - hysteresis2)
+        else if (temp_ntc2 < (300 - hysteresis2))
         {
             (PA_ODR &= ~(0x02));
             led_e &= ~(0x01); // Heating LED off
@@ -6363,11 +6363,11 @@ void temperature_control(void)
 {
     static uint8_t std_x = 0;
     
+    hysteresis  = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (hy)));
+    hysteresis2 = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (hy2))) >> 1;
     switch (std_x)
     {
         case (0): // OFF
-            hysteresis  = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (hy)));
-            hysteresis2 = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (hy2))) >> 1;
             cooling_delay = min_to_sec(cd);
             heating_delay = min_to_sec(hd);
             (PA_ODR &= ~((0x02) | (0x04))); // Disable Cooling and Heating relays
@@ -6393,7 +6393,7 @@ void temperature_control(void)
             else if (--heating_delay == 0)                        std_x = (3); // HEATING
             break;
         case (2): // COOLING DELAY
-            if (probe2 == 2) fan_control(); // controls fan of cooling compressor
+            if (probe2 >= 2) fan_control(); // controls fan of cooling compressor
             if ((temp_ntc1 < setpoint + hysteresis) ||
                 ((probe2 == 1) && (temp_ntc2 < setpoint - hysteresis2))) 
                                             std_x = (0);     // OFF
@@ -6407,7 +6407,7 @@ void temperature_control(void)
                 std_x = (0); // OFF
             break;
         case (4): // COOLING
-            if (probe2 == 2) fan_control(); // controls fan of cooling compressor
+            if (probe2 >= 2) fan_control(); // controls fan of cooling compressor
             led_e |= (0x04); // Cooling LED on
             (PA_ODR |= (0x04));           // Enable Cooling
             if ((temp_ntc1 <= setpoint) || ((probe2 == 1) && (temp_ntc2 < (setpoint - hysteresis2))))

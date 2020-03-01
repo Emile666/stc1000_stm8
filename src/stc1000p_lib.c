@@ -755,12 +755,12 @@ uint16_t min_to_sec(enum menu_enum x)
   ---------------------------------------------------------------------------*/
 void fan_control(void)
 {
-        if (temp_ntc2 >= 300 + hysteresis2)
+        if (temp_ntc2 >= (300 + hysteresis2))
         {
             HEAT_ON;
             led_e |= LED_HEAT;  // Heating LED on
         }
-        else if (temp_ntc2 < 300 - hysteresis2)
+        else if (temp_ntc2 < (300 - hysteresis2))
         {
             HEAT_OFF;
             led_e &= ~LED_HEAT; // Heating LED off
@@ -777,11 +777,11 @@ void temperature_control(void)
 {
     static uint8_t std_x = 0;
     
+    hysteresis  = eeprom_read_config(EEADR_MENU_ITEM(hy));
+    hysteresis2 = eeprom_read_config(EEADR_MENU_ITEM(hy2)) >> 1;
     switch (std_x)
     {
         case STD_OFF: // OFF
-            hysteresis  = eeprom_read_config(EEADR_MENU_ITEM(hy));
-            hysteresis2 = eeprom_read_config(EEADR_MENU_ITEM(hy2)) >> 1;
             cooling_delay = min_to_sec(cd);
             heating_delay = min_to_sec(hd);
             RELAYS_OFF; // Disable Cooling and Heating relays
@@ -807,7 +807,7 @@ void temperature_control(void)
             else if (--heating_delay == 0)                        std_x = STD_HEATING; // HEATING
             break;
         case STD_DLY_COOL: // COOLING DELAY
-            if (probe2 == 2) fan_control(); // controls fan of cooling compressor
+            if (probe2 >= 2) fan_control(); // controls fan of cooling compressor
             if ((temp_ntc1 < setpoint + hysteresis) ||
                 ((probe2 == 1) && (temp_ntc2 < setpoint - hysteresis2))) 
                                             std_x = STD_OFF;     // OFF
@@ -821,7 +821,7 @@ void temperature_control(void)
                 std_x = STD_OFF; // OFF
             break;
         case STD_COOLING: // COOLING
-            if (probe2 == 2) fan_control(); // controls fan of cooling compressor
+            if (probe2 >= 2) fan_control(); // controls fan of cooling compressor
             led_e |= LED_COOL; // Cooling LED on
             COOL_ON;           // Enable Cooling
             if ((temp_ntc1 <= setpoint) || ((probe2 == 1) && (temp_ntc2 < (setpoint - hysteresis2))))

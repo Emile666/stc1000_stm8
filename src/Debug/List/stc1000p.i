@@ -6345,7 +6345,7 @@ void ctrl_task(void)
 
    // Start with updating the alarm
    // cache whether the 2nd probe is enabled or not.
-   probe2 = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Pb2))); 
+   probe2 = (uint8_t)eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Pb2))); 
    if (ad_err1 || (ad_err2 && probe2))
    {
        sound_alarm = 1;
