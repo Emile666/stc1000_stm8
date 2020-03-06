@@ -6369,11 +6369,11 @@ void temperature_control(void)
     {
         case (0): // OFF
             cooling_delay = min_to_sec(cd);
-            heating_delay = min_to_sec(hd);
-            (PA_ODR &= ~((0x02) | (0x04))); // Disable Cooling and Heating relays
-            led_e &= ~((0x01) | (0x04)); // disable both LEDs
             if (probe2 < 2)
             {
+                heating_delay = min_to_sec(hd);
+                (PA_ODR &= ~((0x02) | (0x04))); // Disable Cooling and Heating relays
+                led_e &= ~((0x01) | (0x04)); // disable both LEDs
                 if ((temp_ntc1 > setpoint + hysteresis) && (!probe2 || (temp_ntc2 >= setpoint - hysteresis2))) 
                     std_x = (2); // COOLING DELAY
                 else if ((temp_ntc1 < setpoint - hysteresis) && (!probe2 || (temp_ntc2 <= setpoint + hysteresis2)))
@@ -6381,7 +6381,9 @@ void temperature_control(void)
             } // if
             else
             {   // Probe2 >= 2, cooling with compressor fan control
-                fan_control(); // controls fan of cooling compressor
+                (PA_ODR &= ~(0x04));           // reset Cooling only, Heating is controlled by fan_control()
+                led_e &= ~(0x04); // Cooling LED on
+                fan_control();      // controls fan of cooling compressor
                 if (temp_ntc1 > setpoint + hysteresis)
                     std_x = (2); // COOLING_DELAY
             } // else
