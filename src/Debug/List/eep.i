@@ -5208,13 +5208,13 @@ V5.04:0576 */
 
 
 
-#line 100 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
-     
+#line 103 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 139 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 142 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
-#line 148 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 151 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
 // Function prototypes
 void save_display_state(void);

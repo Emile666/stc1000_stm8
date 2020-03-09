@@ -33,6 +33,6 @@
 // Function Prototypes
 //--------------------
 void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
-void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset, bool pid_on);
 
 #endif

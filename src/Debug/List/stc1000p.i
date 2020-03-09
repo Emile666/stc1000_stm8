@@ -5244,13 +5244,13 @@ V5.04:0576 */
 
 
 
-#line 100 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
-     
+#line 103 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 139 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 142 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
-#line 148 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 151 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
 // Function prototypes
 void save_display_state(void);
@@ -5434,7 +5434,7 @@ V5.04:0576 */
 // Function Prototypes
 //--------------------
 void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
-void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset, _Bool pid_on);
 
 #line 38 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
@@ -5442,11 +5442,6 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 #line 48 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 #line 57 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
-
-// Default values
-
-
-
 
 // Values for temperature control STD
 
@@ -5463,7 +5458,7 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
 // 1) proper #include in stc1000p.h: <iostm8s003f3.h> or <iostm8s103f3.h>
 // 2) Project -> Options -> Target -> Device to STM8S003F3 or STM8S103F3
 //---------------------------------------------------------------------------
-#line 88 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 83 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 //-----------------------------------------------------------------------------
 // Enum to specify the types of the parameters in the menu.
@@ -5477,6 +5472,12 @@ enum e_item_type
 {
     t_temperature = 0,
     t_tempdiff,
+
+    t_percentage,
+    t_period,
+    t_apflags,
+    t_pumpflags, 
+
     t_hyst_1,
     t_hyst_2,
     t_sp_alarm,
@@ -5490,6 +5491,11 @@ enum e_item_type
 
 
 
+
+
+
+
+
 //-----------------------------------------------------------------------------
 // The data needed for the 'Set' menu. Using x macros to generate the needed
 // data structures, all menu configuration can be kept in this single place.
@@ -5497,35 +5503,51 @@ enum e_item_type
 // The values are:
 // 	name, LED data 10, LED data 1, LED data 01, min value, max value, default value
 //
-// SP	Set setpoint	                                 -40 to 140°C or -40 to 250°F
-// hy	Set hysteresis                                   0.0 to 5.0°C or 0.0 to 10.0°F
-// hy2	Set hysteresis for 2nd temp probe	         0.0 to 25.0°C or 0.0 to 50.0°F
-// tc	Set temperature correction	                 -5.0 to 5.0°C or -10.0 to 10.0°F
-// tc2	Set temperature correction for 2nd temp probe    -5.0 to 5.0°C or -10.0 to 10.0°F
-// SA	Setpoint alarm	                                 0 = off, -40 to 40°C or -80 to 80°F
-// St	Set current profile step	                 0 to 8
-// dh	Set current profile duration	                 0 to 999 hours
-// cd	Set cooling delay	                         0 to 60 minutes
-// hd	Set heating delay	                         0 to 60 minutes
-// rP	Ramping	                                         0 = off, 1 = on
+// Sd	Strike delay	                                 0-999 minutes
+// St	Strike water setpoint                            -40.0 to +140 °C or -40.0 to 250.0°F
+// Pt1	Mash step 1 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd1	Mash step 1 duration                             0-999 minutes
+// Pt2	Mash step 2 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd2	Mash step 2 duration                             0-999 minutes
+// Pt3	Mash step 3 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd3	Mash step 3 duration                             0-999 minutes
+// Pt4	Mash step 4 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd4	Mash step 4 duration                             0-999 minutes
+// Pt5	Mash step 5 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd5	Mash step 5 duration                             0-999 minutes
+// Pt6	Mash step 6 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd6	Mash step 6 duration                             0-999 minutes
+// Ht	Hot break temperature	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Hd	Hot break duration	                         0-999 minutes
+// bt	Boil temperature	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// bd	Boil duration	                                 0-999 minutes
+// hd1	Hop alarm 1                                      0-999 minutes
+// hd2	Hop alarm 2                                      0-999 minutes
+// hd3	Hop alarm 3                                      0-999 minutes
+// hd4	Hop alarm 4                                      0-999 minutes
 // CF	Set Celsius of Fahrenheit temperature display    0 = Celsius, 1 = Fahrenheit
-// Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on, 2 = probe controls compressor fan
-// HrS	Control and Times in minutes or hours	         0 = minutes, 1 = hours
+// tc	Temperature correction	                         -5.0 to 5.0°C or -10.0 to 10.0°F
 // Hc   Kc parameter for PID controller in %/°C          -9999..9999, >0: heating loop, <0: cooling loop 
 // ti   Ti parameter for PID controller in seconds       0..9999 
 // td   Td parameter for PID controller in seconds       0..9999 
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
-// rn	Set run mode	                                 Pr0 to Pr5 and th (6)
+// APF	Alarm/Pause control flags	                 0 to 511
+// PF	Pump control flags	                         0 to 31
+// cO   Manual mode output                               -200 to +200 % 
+// cP   Manual mode Pump                                 0 (off) or 1 (on) 
+// ASd  Safety shutdown timer                            0..999 minutes
+// rUn	Run mode	                                 OFF, Pr (run program), 
+//                                                       Ct (manual mode thermostat), Co (manual mode constant output)
 //-----------------------------------------------------------------------------
-#line 161 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
-
+#line 248 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+            
 
 
 
 // Generate enum values for each entry int the set menu
 enum menu_enum 
 {
-    SP, hy, hy2, tc, tc2, SA, St, dh, cd, hd, rP, CF, Pb2, HrS, Hc, Ti, Td, Ts, rn,
+    Sd, St, Pt1, Pd1, Pt2, Pd2, Pt3, Pd3, Pt4, Pd4, Pt5, Pd5, Pt6, Pd6, Ht, Hd, bt, bd, hd1, hd2, hd3, hd4, CF, tc, Hc, Ti, Td, Ts, APF, PF, Pd, cO, cP, cSP, ASd,
 }; // menu_enum
 
 //---------------------------------------------------------------------------
@@ -5538,9 +5560,7 @@ enum menu_enum
 // Find the parameter word address in EEPROM
 
 // Help to convert menu item number and config item number to an EEPROM config address
-
-// Set POWER_ON after LAST parameter (in this case rn)!
-
+#line 276 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 // KEY_UP..KEY_S are the hardware bits on PORTC
 
@@ -5577,6 +5597,22 @@ enum menu_enum
 
 
 
+
+enum prg_state_enum 
+{
+	PRG_OFF = 0,
+	PRG_WAIT_STRIKE,
+	PRG_STRIKE,
+	PRG_STRIKE_WAIT_ALARM,
+	PRG_INIT_MASH_STEP,
+	PRG_MASH,
+	PRG_WAIT_BOIL_UP_ALARM,
+	PRG_INIT_BOIL_UP,
+	PRG_HOTBREAK,
+	PRG_BOIL
+    };
+
+        
 /* Menu struct */
 struct s_menu 
 {
@@ -5619,6 +5655,7 @@ void     read_buttons(void);
 void     menu_fsm(void);
 void     temperature_control(void);
 void     pid_control(void);
+void     ovbsc_fsm(void); // in ovbsc.c
 #line 31 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
 #line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\scheduler.h"
 /*==================================================================
@@ -6052,6 +6089,15 @@ extern int16_t  kc;              // Parameter value for Kc value in %/°C
 extern uint8_t  ts;              // Parameter value for sample time [sec.]
 extern int16_t  pid_out;         // Output from PID controller in E-1 %
 
+
+extern uint8_t  prg_state;
+extern uint8_t  al_led_10, al_led_1, al_led_01;  // values of 10s, 1s and 0.1s
+extern _Bool     ovbsc_pump_on;
+extern _Bool     ovbsc_run_prg;
+extern uint16_t countdown;
+
+
+
 /*-----------------------------------------------------------------------------
   Purpose  : This routine saves the current state of the 7-segment display.
              This is necessary since the buttons, but also the AD-channels,
@@ -6246,15 +6292,9 @@ void adc_task(void)
      temp       = read_adc((0x04));
      ad_ntc1    = ((ad_ntc1 - (ad_ntc1 >> (6))) + temp);
      temp_ntc1  = ad_to_temp(ad_ntc1,&ad_err1);
-     temp_ntc1 += eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (tc)));
+     temp_ntc1 += eeprom_read_config(((0) + (tc)));
   } // if
-  else
-  {  // Process NTC probe 2
-     temp       = read_adc((0x03));
-     ad_ntc2    = ((ad_ntc2 - (ad_ntc2 >> (6))) + temp);
-     temp_ntc2  = ad_to_temp(ad_ntc2,&ad_err2);
-     temp_ntc2 += eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (tc2)));
-  } // else
+#line 281 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
   ad_ch = !ad_ch;
 
   // Since the ADC disables GPIO pins automatically, these need
@@ -6326,27 +6366,22 @@ void std_task(void)
     pid_to_time();  // Make Slow-PWM signal and send to S3 output-port
 } // std_task()
 
+
 /*-----------------------------------------------------------------------------
   Purpose  : This task is called every second and contains the main control
-             task for the device. It also calls temperature_control().
+             task for one vessel brew system controller (OVBSC)
   Variables: -
   Returns  : -
   ---------------------------------------------------------------------------*/
 void ctrl_task(void)
 {
-   int16_t sa, diff;
-   
-    if (eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (CF)))) // true = Fahrenheit
+    if (eeprom_read_config(((0) + (CF)))) // true = Fahrenheit
          fahrenheit = 1;
     else fahrenheit = 0;
-    if (eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (HrS)))) // true = hours
-         minutes = 0; // control-timing is in hours 
-    else minutes = 1;  // control-timing is in minutes
 
+    ovbsc_fsm(); // run OVBSC Finite State Machine
    // Start with updating the alarm
-   // cache whether the 2nd probe is enabled or not.
-   probe2 = (uint8_t)eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Pb2))); 
-   if (ad_err1 || (ad_err2 && probe2))
+   if (ad_err1)
    {
        sound_alarm = 1;
        (PA_ODR &= ~((0x02) | (0x04))); // disable the output relays
@@ -6354,92 +6389,33 @@ void ctrl_task(void)
        {  // Make it less anoying to nagivate menu during alarm
           led_10 = (0x77);
 	  led_1  = (0xE0);
-          if (ad_err1) led_01 = (0x03);
-          else         led_01 = (0xD6);
-	  led_e = (0x00);
+          led_01 = (0x03);
+	  led_e  = (0x00);
        } // if
-       cooling_delay = heating_delay = 60;
-   } else {
-       sound_alarm = 0; // reset the piezo buzzer
-       if(((uint8_t)eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)))) < (4))
-            led_e |=  (0x02); // Indicate profile mode
-       else led_e &= ~(0x02);
- 
-       ts = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Ts))); // Read Ts [seconds]
-       sa = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SA))); // Show Alarm parameter
-       if (sa)
-       {
-           if (minutes) // is timing-control in minutes?
-                diff = temp_ntc1 - setpoint;
-	   else diff = temp_ntc1 - eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP)));
-
-	   if (diff < 0) diff = -diff;
-	   if (sa < 0)
-           {
-  	      sa = -sa;
-              sound_alarm = (diff <= sa); // enable buzzer if diff is small
-	   } else {
-              sound_alarm = (diff >= sa); // enable buzzer if diff is large
-	   } // if
-       } // if
-       if (!minutes) setpoint = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP)));
-       if (ts == 0)                // PID Ts parameter is 0?
-       {
-           temperature_control();  // Run thermostat
-           pid_out = 0;            // Disable PID-output
-       } // if
-       else 
-       {
-           pid_control();          // Run PID controller
-           (PA_ODR &= ~((0x02) | (0x04)));             // Disable relays
-       } // else
-       if (menu_is_idle)           // show temperature if menu is idle
+   } 
+   else 
+   {
+       ts = eeprom_read_config(((0) + (Ts))); // Read Ts [seconds]
+       pid_control();              // Run PID controller
+       if (ovbsc_pump_on) (PA_ODR |= (0x04)); // Control pump
+       else               (PA_ODR &= ~(0x04));
+       if (menu_is_idle)           // show counter / temperature if menu is idle
        {
            if (sound_alarm && show_sa_alarm)
            {
-               led_10 = (0x77);
-	       led_1  = (0xE0);
-	       led_01 = (0xD3);
+               led_10 = al_led_10;
+	       led_1  = al_led_1;
+	       led_01 = al_led_01;
            } else {
-               led_e &= ~(0x10); // LED in middle, does not seem to work
-               switch (sensor2_selected)
-               {
-                   case 0: value_to_led(temp_ntc1,(1)); 
-                           break;
-                   case 1: value_to_led(temp_ntc2,(1)); 
-                           led_e |= (0x10);
-                           break;
-                   case 2: value_to_led(pid_out  ,(2)) ; 
-                           break;
-               } // switch
+               if (ovbsc_run_prg && (prg_state == PRG_BOIL) || (prg_state == PRG_WAIT_STRIKE))
+                    value_to_led(countdown,(0));
+               else value_to_led(temp_ntc1,(1));
            } // else
            show_sa_alarm = !show_sa_alarm;
        } // if
    } // else
 } // ctrl_task()
-
-/*-----------------------------------------------------------------------------
-  Purpose  : This task is called every minute or every hour and updates the
-             current running temperature profile.
-  Variables: minutes: timing control: false = hours, true = minutes
-  Returns  : -
-  ---------------------------------------------------------------------------*/
-void prfl_task(void)
-{
-    static uint8_t min = 0;
-    
-    if (minutes)
-    {   // call every minute
-        update_profile();
-        min = 0;
-    } else {
-        if (++min >= 60)
-        {   // call every hour
-            min = 0;
-            update_profile(); 
-        } // if
-    } // else
-} // prfl_task();
+#line 517 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
 
 /*-----------------------------------------------------------------------------
   Purpose  : This is the main entry-point for the entire program.
@@ -6457,13 +6433,16 @@ int main(void)
     initialise_system_clock(); // Set system-clock to 16 MHz
     setup_output_ports();      // Init. needed output-ports for LED and keys
     setup_timer2();            // Set Timer 2 to 1 kHz
-    pwr_on = eeprom_read_config(((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)) + 1)); // check pwr_on flag
-    
+
+
+
     // Initialise all tasks for the scheduler
     add_task(adc_task ,"ADC",  0,  500); // every 500 msec.
     add_task(std_task ,"STD", 50,  100); // every 100 msec.
     add_task(ctrl_task,"CTL",200, 1000); // every second
-    add_task(prfl_task,"PRF",300,60000); // every minute / hour
+
+
+
     __enable_interrupt();
 
     while (1)

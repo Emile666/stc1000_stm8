@@ -64,6 +64,15 @@ extern int16_t  kc;              // Parameter value for Kc value in %/°C
 extern uint8_t  ts;              // Parameter value for sample time [sec.]
 extern int16_t  pid_out;         // Output from PID controller in E-1 %
 
+#if defined(OVBSC)
+extern uint8_t  prg_state;
+extern uint8_t  al_led_10, al_led_1, al_led_01;  // values of 10s, 1s and 0.1s
+extern bool     ovbsc_pump_on;
+extern bool     ovbsc_run_prg;
+extern uint16_t countdown;
+
+#endif
+
 /*-----------------------------------------------------------------------------
   Purpose  : This routine saves the current state of the 7-segment display.
              This is necessary since the buttons, but also the AD-channels,
@@ -260,6 +269,7 @@ void adc_task(void)
      temp_ntc1  = ad_to_temp(ad_ntc1,&ad_err1);
      temp_ntc1 += eeprom_read_config(EEADR_MENU_ITEM(tc));
   } // if
+#if !(defined(OVBSC))
   else
   {  // Process NTC probe 2
      temp       = read_adc(AD_NTC2);
@@ -267,6 +277,7 @@ void adc_task(void)
      temp_ntc2  = ad_to_temp(ad_ntc2,&ad_err2);
      temp_ntc2 += eeprom_read_config(EEADR_MENU_ITEM(tc2));
   } // else
+#endif
   ad_ch = !ad_ch;
 
   // Since the ADC disables GPIO pins automatically, these need
@@ -338,6 +349,56 @@ void std_task(void)
     pid_to_time();  // Make Slow-PWM signal and send to S3 output-port
 } // std_task()
 
+#if defined(OVBSC)
+/*-----------------------------------------------------------------------------
+  Purpose  : This task is called every second and contains the main control
+             task for one vessel brew system controller (OVBSC)
+  Variables: -
+  Returns  : -
+  ---------------------------------------------------------------------------*/
+void ctrl_task(void)
+{
+    if (eeprom_read_config(EEADR_MENU_ITEM(CF))) // true = Fahrenheit
+         fahrenheit = true;
+    else fahrenheit = false;
+
+    ovbsc_fsm(); // run OVBSC Finite State Machine
+   // Start with updating the alarm
+   if (ad_err1)
+   {
+       sound_alarm = true;
+       RELAYS_OFF; // disable the output relays
+       if (menu_is_idle)
+       {  // Make it less anoying to nagivate menu during alarm
+          led_10 = LED_A;
+	  led_1  = LED_L;
+          led_01 = LED_1;
+	  led_e  = LED_OFF;
+       } // if
+   } 
+   else 
+   {
+       ts = eeprom_read_config(EEADR_MENU_ITEM(Ts)); // Read Ts [seconds]
+       pid_control();              // Run PID controller
+       if (ovbsc_pump_on) PUMP_ON; // Control pump
+       else               PUMP_OFF;
+       if (menu_is_idle)           // show counter / temperature if menu is idle
+       {
+           if (sound_alarm && show_sa_alarm)
+           {
+               led_10 = al_led_10;
+	       led_1  = al_led_1;
+	       led_01 = al_led_01;
+           } else {
+               if (ovbsc_run_prg && (prg_state == PRG_BOIL) || (prg_state == PRG_WAIT_STRIKE))
+                    value_to_led(countdown,LEDS_INT);
+               else value_to_led(temp_ntc1,LEDS_TEMP);
+           } // else
+           show_sa_alarm = !show_sa_alarm;
+       } // if
+   } // else
+} // ctrl_task()
+#else
 /*-----------------------------------------------------------------------------
   Purpose  : This task is called every second and contains the main control
              task for the device. It also calls temperature_control().
@@ -452,6 +513,7 @@ void prfl_task(void)
         } // if
     } // else
 } // prfl_task();
+#endif
 
 /*-----------------------------------------------------------------------------
   Purpose  : This is the main entry-point for the entire program.
@@ -469,13 +531,16 @@ int main(void)
     initialise_system_clock(); // Set system-clock to 16 MHz
     setup_output_ports();      // Init. needed output-ports for LED and keys
     setup_timer2();            // Set Timer 2 to 1 kHz
+#if !(defined(OVBSC))
     pwr_on = eeprom_read_config(EEADR_POWER_ON); // check pwr_on flag
-    
+#endif    
     // Initialise all tasks for the scheduler
     add_task(adc_task ,"ADC",  0,  500); // every 500 msec.
     add_task(std_task ,"STD", 50,  100); // every 100 msec.
     add_task(ctrl_task,"CTL",200, 1000); // every second
+#if !(defined(OVBSC))
     add_task(prfl_task,"PRF",300,60000); // every minute / hour
+#endif    
     __enable_interrupt();
 
     while (1)

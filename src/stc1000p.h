@@ -97,7 +97,10 @@
 #define HEAT_OFF     (PA_ODR &= ~HEAT)
 #define HEAT_STATUS  ((PA_IDR & HEAT) == HEAT)
 #define RELAYS_OFF   (PA_ODR &= ~(HEAT | COOL))
-     
+#define PUMP_ON      COOL_ON
+#define PUMP_OFF     COOL_OFF
+#define PUMP_STATUS  COOL_STATUS
+
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
 #define LED_OFF	(0x00)

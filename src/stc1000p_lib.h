@@ -55,11 +55,6 @@
 #define SP_ALARM_MIN_C	  (-400)
 #define SP_ALARM_MAX_C	  ( 400)
 
-// Default values
-#define DEFAULT_SP	  (200)
-#define DEFAULT_hy	    (5)
-#define DEFAULT_hy2	  (100)
-
 // Values for temperature control STD
 #define STD_OFF      (0)
 #define STD_DLY_HEAT (1)
@@ -98,6 +93,12 @@ enum e_item_type
 {
     t_temperature = 0,
     t_tempdiff,
+#if defined(OVBSC)
+    t_percentage,
+    t_period,
+    t_apflags,
+    t_pumpflags, 
+#endif
     t_hyst_1,
     t_hyst_2,
     t_sp_alarm,
@@ -109,8 +110,93 @@ enum e_item_type
     t_parameter
 }; // e_item_type
 
-#define MENU_TYPE_IS_TEMPERATURE(x) 	((x) <= t_sp_alarm)
+#if defined(OVBSC)
+    #define MENU_TYPE_IS_TEMPERATURE(x) 	((x) <= t_tempdiff)
+#else
+    #define MENU_TYPE_IS_TEMPERATURE(x) 	((x) <= t_sp_alarm)
+#endif
 
+#if defined(OVBSC)
+//-----------------------------------------------------------------------------
+// The data needed for the 'Set' menu. Using x macros to generate the needed
+// data structures, all menu configuration can be kept in this single place.
+//
+// The values are:
+// 	name, LED data 10, LED data 1, LED data 01, min value, max value, default value
+//
+// Sd	Strike delay	                                 0-999 minutes
+// St	Strike water setpoint                            -40.0 to +140 °C or -40.0 to 250.0°F
+// Pt1	Mash step 1 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd1	Mash step 1 duration                             0-999 minutes
+// Pt2	Mash step 2 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd2	Mash step 2 duration                             0-999 minutes
+// Pt3	Mash step 3 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd3	Mash step 3 duration                             0-999 minutes
+// Pt4	Mash step 4 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd4	Mash step 4 duration                             0-999 minutes
+// Pt5	Mash step 5 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd5	Mash step 5 duration                             0-999 minutes
+// Pt6	Mash step 6 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Pd6	Mash step 6 duration                             0-999 minutes
+// Ht	Hot break temperature	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// Hd	Hot break duration	                         0-999 minutes
+// bt	Boil temperature	                         -40.0 to 140 °C or -40.0 to 250.0 °F
+// bd	Boil duration	                                 0-999 minutes
+// hd1	Hop alarm 1                                      0-999 minutes
+// hd2	Hop alarm 2                                      0-999 minutes
+// hd3	Hop alarm 3                                      0-999 minutes
+// hd4	Hop alarm 4                                      0-999 minutes
+// CF	Set Celsius of Fahrenheit temperature display    0 = Celsius, 1 = Fahrenheit
+// tc	Temperature correction	                         -5.0 to 5.0°C or -10.0 to 10.0°F
+// Hc   Kc parameter for PID controller in %/°C          -9999..9999, >0: heating loop, <0: cooling loop 
+// ti   Ti parameter for PID controller in seconds       0..9999 
+// td   Td parameter for PID controller in seconds       0..9999 
+// ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
+// APF	Alarm/Pause control flags	                 0 to 511
+// PF	Pump control flags	                         0 to 31
+// cO   Manual mode output                               -200 to +200 % 
+// cP   Manual mode Pump                                 0 (off) or 1 (on) 
+// ASd  Safety shutdown timer                            0..999 minutes
+// rUn	Run mode	                                 OFF, Pr (run program), 
+//                                                       Ct (manual mode thermostat), Co (manual mode constant output)
+//-----------------------------------------------------------------------------
+#define MENU_DATA(_) \
+    _(Sd,       LED_S, 	LED_d, 	LED_OFF,   t_duration,		0)	\
+    _(St, 	LED_S, 	LED_t, 	LED_OFF,   t_temperature,	550)    \
+    _(Pt1, 	LED_P, 	LED_t, 	LED_1,	   t_temperature,	530)	\
+    _(Pd1, 	LED_P, 	LED_d, 	LED_1,	   t_duration,		20)	\
+    _(Pt2, 	LED_P, 	LED_t, 	LED_2,	   t_temperature,	620)	\
+    _(Pd2, 	LED_P, 	LED_d, 	LED_2,	   t_duration,		30)	\
+    _(Pt3, 	LED_P, 	LED_t, 	LED_3,	   t_temperature,	720)	\
+    _(Pd3, 	LED_P, 	LED_d, 	LED_3,	   t_duration,		20)	\
+    _(Pt4, 	LED_P, 	LED_t, 	LED_4,	   t_temperature,	780)	\
+    _(Pd4, 	LED_P, 	LED_d, 	LED_4,	   t_duration,		5)	\
+    _(Pt5, 	LED_P, 	LED_t, 	LED_5,	   t_temperature,	0)	\
+    _(Pd5, 	LED_P, 	LED_d, 	LED_5,	   t_duration,		0)	\
+    _(Pt6, 	LED_P, 	LED_t, 	LED_6,	   t_temperature,	0)	\
+    _(Pd6, 	LED_P, 	LED_d, 	LED_6,	   t_duration,		0)	\
+    _(Ht, 	LED_H, 	LED_t, 	LED_OFF,   t_temperature,	985)	\
+    _(Hd, 	LED_H, 	LED_d, 	LED_OFF,   t_duration,		15)	\
+    _(bt, 	LED_b, 	LED_t, 	LED_OFF,   t_temperature,     1050)	\
+    _(bd, 	LED_b, 	LED_d, 	LED_OFF,   t_duration,		90)	\
+    _(hd1, 	LED_h, 	LED_d, 	LED_1,	   t_duration,		60)	\
+    _(hd2, 	LED_h, 	LED_d, 	LED_2,	   t_duration,		45)	\
+    _(hd3, 	LED_h, 	LED_d, 	LED_3, 	   t_duration,		15)	\
+    _(hd4, 	LED_h, 	LED_d, 	LED_4,	   t_duration,		5)	\
+    _(CF, 	LED_C, 	LED_F, 	LED_OFF,   t_boolean,	        0)	\
+    _(tc, 	LED_t, 	LED_c, 	LED_OFF,   t_tempdiff,		0)	\
+    _(Hc, 	LED_H, 	LED_c, 	LED_OFF,   t_parameter,	        80)	\
+    _(Ti, 	LED_t, 	LED_I, 	LED_OFF,   t_parameter,         280)	\
+    _(Td, 	LED_t, 	LED_d, 	LED_OFF,   t_parameter,         20)	\
+    _(Ts, 	LED_t, 	LED_S, 	LED_OFF,   t_parameter,         10)	\
+    _(APF, 	LED_A, 	LED_P, 	LED_F,	   t_apflags,		511)	\
+    _(PF, 	LED_P, 	LED_F, 	LED_OFF,   t_pumpflags,		6)	\
+    _(Pd, 	LED_P, 	LED_d, 	LED_OFF,   t_period,		50)	\
+    _(cO, 	LED_c, 	LED_O, 	LED_OFF,   t_percentage,	80)	\
+    _(cP, 	LED_c, 	LED_P, 	LED_OFF,   t_boolean,		0)	\
+    _(cSP, 	LED_c, 	LED_S, 	LED_P, 	   t_temperature,       0)	\
+    _(ASd, 	LED_A, 	LED_S, 	LED_d, 	   t_duration,		70) 
+#else
 //-----------------------------------------------------------------------------
 // The data needed for the 'Set' menu. Using x macros to generate the needed
 // data structures, all menu configuration can be kept in this single place.
@@ -139,9 +225,9 @@ enum e_item_type
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
 #define MENU_DATA(_) \
-	_(SP, 	LED_S, 	LED_P, 	LED_OFF, t_temperature,	DEFAULT_SP)	\
-	_(hy, 	LED_h, 	LED_y, 	LED_OFF, t_hyst_1,	DEFAULT_hy) 	\
-	_(hy2, 	LED_h, 	LED_y, 	LED_2, 	 t_hyst_2, 	DEFAULT_hy2)	\
+	_(SP, 	LED_S, 	LED_P, 	LED_OFF, t_temperature,	200)	        \
+	_(hy, 	LED_h, 	LED_y, 	LED_OFF, t_hyst_1,	5) 	        \
+	_(hy2, 	LED_h, 	LED_y, 	LED_2, 	 t_hyst_2, 	100)	        \
 	_(tc, 	LED_t, 	LED_c, 	LED_OFF, t_tempdiff,	0)		\
 	_(tc2, 	LED_t, 	LED_c, 	LED_2, 	 t_tempdiff,	0)		\
 	_(SA, 	LED_S, 	LED_A, 	LED_OFF, t_sp_alarm,	0)		\
@@ -158,7 +244,8 @@ enum e_item_type
 	_(Td, 	LED_t, 	LED_d, 	LED_OFF, t_parameter,   20)		\
 	_(Ts, 	LED_t, 	LED_S, 	LED_OFF, t_parameter,    0)		\
 	_(rn, 	LED_r, 	LED_n, 	LED_OFF, t_runmode,    NO_OF_PROFILES)
-
+#endif
+            
 #define ENUM_VALUES(name,led10ch,led1ch,led01ch,type,default_value) name,
 #define EEPROM_DEFAULTS(name,led10ch,led1ch,led01ch,type,default_value) default_value,
 
@@ -174,13 +261,18 @@ enum menu_enum
 //---------------------------------------------------------------------------
 #define EEADR_PROFILE_SETPOINT(profile, step)	(((profile)*PROFILE_SIZE) + ((step)<<1))
 #define EEADR_PROFILE_DURATION(profile, step)	EEADR_PROFILE_SETPOINT(profile, step) + 1
-#define EEADR_MENU				EEADR_PROFILE_SETPOINT(NO_OF_PROFILES, 0)
+
 // Find the parameter word address in EEPROM
 #define EEADR_MENU_ITEM(name)		        (EEADR_MENU + (name))
 // Help to convert menu item number and config item number to an EEPROM config address
 #define MI_CI_TO_EEADR(mi, ci)	                ((mi)*PROFILE_SIZE + (ci))
-// Set POWER_ON after LAST parameter (in this case rn)!
-#define EEADR_POWER_ON				(EEADR_MENU_ITEM(rn) + 1)
+#if defined(OVBSC)
+    #define EEADR_MENU (0)
+#else
+    #define EEADR_MENU				EEADR_PROFILE_SETPOINT(NO_OF_PROFILES, 0)
+    // Set POWER_ON after LAST parameter (in this case rn)!
+    #define EEADR_POWER_ON				(EEADR_MENU_ITEM(rn) + 1)
+#endif
 
 // KEY_UP..KEY_S are the hardware bits on PORTC
 #define KEY_UP   (0x40)
@@ -217,6 +309,22 @@ enum menu_enum
 #define TMR_NO_KEY_TIMEOUT    (150)
 #define TMR_KEY_ACC            (20)
 
+#if defined(OVBSC)
+enum prg_state_enum 
+{
+	PRG_OFF = 0,
+	PRG_WAIT_STRIKE,
+	PRG_STRIKE,
+	PRG_STRIKE_WAIT_ALARM,
+	PRG_INIT_MASH_STEP,
+	PRG_MASH,
+	PRG_WAIT_BOIL_UP_ALARM,
+	PRG_INIT_BOIL_UP,
+	PRG_HOTBREAK,
+	PRG_BOIL
+    };
+#endif 
+        
 /* Menu struct */
 struct s_menu 
 {
@@ -259,4 +367,5 @@ void     read_buttons(void);
 void     menu_fsm(void);
 void     temperature_control(void);
 void     pid_control(void);
+void     ovbsc_fsm(void); // in ovbsc.c
 #endif

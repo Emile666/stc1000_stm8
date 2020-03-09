@@ -44,20 +44,22 @@ const uint8_t led_lookup[] = {LED_0,LED_1,LED_2,LED_3,LED_4,LED_5,LED_6,LED_7,LE
 //----------------------------------------------------------------------------
 __root __eeprom const int eedata[] = 
 {
-#ifdef __IOSTM8S103F3_H__
-    // STM8S103F3 with 640 bytes EEPROM
-   110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr0 (SP0, dh0, ..., dh8, SP9)
-   190, 72, 190,  6, 200, 72, 200,  6, 210, 408, 210, 12, 60, 0, 0, 0, 0, 0, 0, // Pr1 (SP0, dh0, ..., dh8, SP9)
-   200, 72, 200,  6, 210, 72, 210,  6, 220, 408, 220, 12, 60, 0, 0, 0, 0, 0, 0, // Pr2 (SP0, dh0, ..., dh8, SP9)
-   180,564, 180, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr3 (SP0, dh0, ..., dh8, SP9)
-   190,564, 190, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr4 (SP0, dh0, ..., dh8, SP9)
-   200,564, 200, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr5 (SP0, dh0, ..., dh8, SP9)
-#else
-    // STM8S003F3 with 128 bytes EEPROM (stock STC1000 IC)
-   110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0, // Pr0 (SP0, dh0, ..., dh4, SP5)
-   190, 72, 190, 12, 210,504, 210, 12,  60,   0,   0, // Pr1 (SP0, dh0, ..., dh4, SP5)
-   200, 72, 200, 12, 220,504, 220, 12,  60,   0,   0, // Pr2 (SP0, dh0, ..., dh4, SP5)
-   180,564, 180, 12,  60,  0,   0,  0,   0,   0,   0, // Pr3 (SP0, dh0, ..., dh4, SP5)
+#if !(defined(OVBSC))
+    #ifdef __IOSTM8S103F3_H__
+        // STM8S103F3 with 640 bytes EEPROM
+       110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr0 (SP0, dh0, ..., dh8, SP9)
+       190, 72, 190,  6, 200, 72, 200,  6, 210, 408, 210, 12, 60, 0, 0, 0, 0, 0, 0, // Pr1 (SP0, dh0, ..., dh8, SP9)
+       200, 72, 200,  6, 210, 72, 210,  6, 220, 408, 220, 12, 60, 0, 0, 0, 0, 0, 0, // Pr2 (SP0, dh0, ..., dh8, SP9)
+       180,564, 180, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr3 (SP0, dh0, ..., dh8, SP9)
+       190,564, 190, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr4 (SP0, dh0, ..., dh8, SP9)
+       200,564, 200, 12,  60,  0,   0,  0,   0,   0,   0,  0,  0, 0, 0, 0, 0, 0, 0, // Pr5 (SP0, dh0, ..., dh8, SP9)
+    #else
+        // STM8S003F3 with 128 bytes EEPROM (stock STC1000 IC)
+       110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0, // Pr0 (SP0, dh0, ..., dh4, SP5)
+       190, 72, 190, 12, 210,504, 210, 12,  60,   0,   0, // Pr1 (SP0, dh0, ..., dh4, SP5)
+       200, 72, 200, 12, 220,504, 220, 12,  60,   0,   0, // Pr2 (SP0, dh0, ..., dh4, SP5)
+       180,564, 180, 12,  60,  0,   0,  0,   0,   0,   0, // Pr3 (SP0, dh0, ..., dh4, SP5)
+    #endif
 #endif
    MENU_DATA(EEPROM_DEFAULTS) 1 // Last one is for POWER_ON
 }; // eedata[]
@@ -80,13 +82,14 @@ uint8_t  _buttons      = 0;     // Current and previous value of button states
 int16_t  config_value;          // Current value of menu-item
 int8_t   key_held_tmr;          // Timer for value change acceleration
 uint8_t  sensor2_selected = 0;  // DOWN button pressed < 3 sec. shows 2nd temperature / pid_output
-int16_t  setpoint;              // local copy of SP variable
+int16_t  setpoint;              // Setpoint temperature
 uint16_t curr_dur = 0;          // local counter for temperature duration
 int16_t  pid_out  = 0;          // Output from PID controller in E-1 %
 int16_t  hysteresis;            // th-mode: hysteresis for temp probe ; pid-mode: lower hyst. limit in E-1 %
 int16_t  hysteresis2;           // th-mode: hysteresis for 2nd temp probe ; pid-mode: upper hyst. limit in E-1 %
 
 // External variables, defined in other files
+extern bool     sound_alarm; // true = sound alarm
 extern uint8_t  probe2;    // cached flag indicating whether 2nd probe is active
 extern int16_t  temp_ntc1; // The temperature in E-1 °C from NTC probe 1
 extern int16_t  temp_ntc2; // The temperature in E-1 °C from NTC probe 2
@@ -94,6 +97,19 @@ extern int16_t  kc;        // Parameter value for Kc value in %/°C
 extern uint16_t ti;        // Parameter value for I action in seconds
 extern uint16_t td;        // Parameter value for D action in seconds
 extern uint8_t  ts;        // Parameter value for sample time [sec.]
+
+#if defined(OVBSC)
+extern bool     ovbsc_pause;
+extern bool     ovbsc_off;
+extern bool     ovbsc_pump_on;
+extern bool     ovbsc_run_prg;
+extern bool     ovbsc_t_control;
+extern bool     ovbsc_thermostat;
+extern uint8_t  prg_state;
+extern int16_t  output;
+extern uint8_t  mashstep; 
+extern uint16_t countdown;
+#endif
 
 // This contains the definition of the menu-items for the parameters menu
 const struct s_menu menu[] = 
@@ -119,6 +135,27 @@ uint16_t divu10(uint16_t n)
   return q + ((r + 6) >> 4);     // 13107/131072 + 1/1048576 = 104857 / 1048576  
 } // divu10()
 
+#if defined(OVBSC)
+/*-----------------------------------------------------------------------------
+  Purpose  : This routine is called by menu_fsm() to show the name of the
+             menu-item. This can be either one of the Profiles (Pr0, Pr1, ...),
+             the text 'SET' (when in the parameter menu) of the text 'th' when
+             in thermostat mode.
+  Variables: mi:
+  Returns  : -
+  ---------------------------------------------------------------------------*/
+void menu_to_led(uint8_t mi)
+{
+    // clear negative, deg, c and point indicators
+    led_e &= ~(LED_NEG | LED_DEGR | LED_CELS | LED_POINT);  
+    if (mi < MENU_SIZE)
+    {   // 
+	led_10 = menu[mi].led_c_10;
+	led_1  = menu[mi].led_c_1;
+	led_01 = menu[mi].led_c_01;
+    }
+} // menu_to_led()
+#else
 /*-----------------------------------------------------------------------------
   Purpose  : This routine is called by menu_fsm() to show the name of the
              menu-item. This can be either one of the Profiles (Pr0, Pr1, ...),
@@ -157,6 +194,7 @@ void prx_to_led(uint8_t run_mode, uint8_t is_menu)
         } // else
     } // else
 } // prx_to_led()
+#endif
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine is called by menu_fsm() to show the value of a
@@ -227,6 +265,7 @@ void value_to_led(int value, uint8_t mode)
 	led_01 = led_lookup[(uint8_t)value];
 } // value_to_led()
 
+#if !(defined(OVBSC))
 /*-----------------------------------------------------------------------------
   Purpose  : This task updates the current running profile. A profile consists
              of several temperature-time pairs. When a time-out occurs, the
@@ -307,6 +346,7 @@ void update_profile(void)
       } // if
    } // if
 } // update_profile()
+#endif
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine checks if a value is within a minimum and maximul value.
@@ -337,6 +377,11 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
     int16_t t_min = 0, t_max = 999;
     uint8_t type;
     
+#if defined(OVBSC)
+    if (eeadr == MENU_SIZE)
+    {
+        t_max = 3;
+#else
     if (eeadr < EEADR_MENU)
     {   // One of the Profiles
 	while (eeadr >= PROFILE_SIZE)
@@ -348,6 +393,7 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
 	    t_min = (fahrenheit ? TEMP_MIN_F : TEMP_MIN_C);
 	    t_max = (fahrenheit ? TEMP_MAX_F : TEMP_MAX_C);
 	} // if
+#endif
     } else { // Parameter menu
         type = menu[eeadr - EEADR_MENU].type;
 	if (type == t_temperature)
@@ -368,12 +414,29 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
 	} else if (type == t_boolean)
         {   // the control variables
 	    t_max = 1;
+#if defined(OVBSC)
+        } else if (type == t_percentage)
+        {
+            t_min = -200;
+            t_max = 200;
+        } else if (type == t_period)
+        {
+            t_min = 10;
+            t_max = 200;
+        } else if (type == t_apflags)
+        {
+            t_max = 511;
+        } else if (type == t_pumpflags)
+        {
+            t_max = 31; 
+#else
 	} else if (type == t_hyst_1)
         {
 	    t_max = (fahrenheit ? TEMP_HYST_1_MAX_F : TEMP_HYST_1_MAX_C);
 	} else if (type == t_hyst_2)
         {
 	    t_max = (fahrenheit ? TEMP_HYST_2_MAX_F : TEMP_HYST_2_MAX_C);
+#endif
 	} else if (type == t_sp_alarm)
         {
 	    t_min = (fahrenheit ? SP_ALARM_MIN_F : SP_ALARM_MIN_C);
@@ -430,7 +493,10 @@ void read_buttons(void)
   ---------------------------------------------------------------------------*/
 void menu_fsm(void)
 {
-   uint8_t run_mode, adr, type, eeadr_sp;
+#if !(defined(OVBSC))
+    uint8_t run_mode, eeadr_sp;
+#endif
+    uint8_t adr, type;
    
    if (m_countdown) m_countdown--; // countdown counter
     
@@ -438,11 +504,24 @@ void menu_fsm(void)
    {
        //--------------------------------------------------------------------         
        case MENU_IDLE:
-	    if(BTN_PRESSED(BTN_PWR))
+#if defined(OVBSC)
+            if (sound_alarm && ((_buttons & 0x0F) == 0) && ((_buttons & 0xF0) != 0))
+            {
+                sound_alarm = false;
+            }
+            else if (BTN_RELEASED(BTN_PWR))
+            {
+                ovbsc_pause = !ovbsc_pause;
+            }
+            else
+#else
+            if(BTN_PRESSED(BTN_PWR))
             {
                 m_countdown = TMR_POWERDOWN;
                 menustate   = MENU_POWER_DOWN_WAIT;
-	    } else if(_buttons && eeprom_read_config(EEADR_POWER_ON))
+	    } 
+            else if(_buttons && eeprom_read_config(EEADR_POWER_ON))
+#endif
             {
                 if (BTN_PRESSED(BTN_UP | BTN_DOWN)) 
                 {   // UP and DOWN button pressed
@@ -456,10 +535,15 @@ void menu_fsm(void)
                     menustate   = MENU_SHOW_STATE_DOWN;
                 } else if(BTN_RELEASED(BTN_S))
                 {   // S button pressed
+#if defined(OVBSC)
+                    menustate = MENU_SHOW_CONFIG_ITEM;
+#else
                     menustate = MENU_SHOW_MENU_ITEM;
+#endif
                 } // else if
 	    } // else
 	    break;
+#if !(defined(OVBSC))
        //--------------------------------------------------------------------         
        case MENU_POWER_DOWN_WAIT:
             if (m_countdown == 0)
@@ -479,6 +563,7 @@ void menu_fsm(void)
                 menustate = MENU_IDLE;
             } // else if
             break; // MENU_POWER_DOWN_WAIT
+#endif
        //--------------------------------------------------------------------         
        case MENU_SHOW_VERSION: // Show STC1000p version number
             value_to_led(STC1000P_VERSION,LEDS_INT);
@@ -489,35 +574,139 @@ void menu_fsm(void)
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_UP: // Show setpoint value
-	    if (minutes) // is timing-control in minutes?
+#if defined(OVBSC)
+           if (ovbsc_off)
+           {
+               led_10 = LED_O;
+               led_1  = LED_F;
+               led_01 = LED_F;
+               led_e  = LED_OFF; // clear negative, ° and Celsius symbols
+           } // if
+           else if (ovbsc_pause)
+           {
+               led_10 = LED_P;
+               led_1  = LED_S;
+               led_01 = LED_E;
+               led_e  = LED_OFF; // clear negative, ° and Celsius symbols
+           } // else
+           else if (ovbsc_t_control)
+                value_to_led(setpoint,LEDS_TEMP);
+           else value_to_led(output,LEDS_INT);
+#else           
+           if (minutes) // is timing-control in minutes?
                  value_to_led(setpoint,LEDS_TEMP);
 	    else value_to_led(eeprom_read_config(EEADR_MENU_ITEM(SP)),LEDS_TEMP);
+#endif
 	    if(!BTN_HELD(BTN_UP)) menustate = MENU_IDLE;
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN: // Show Profile-number
-	    run_mode = eeprom_read_config(EEADR_MENU_ITEM(rn));
+#if defined(OVBSC)
+           if (ovbsc_off)
+           {
+               led_10 = LED_O;
+               led_1  = LED_F;
+               led_01 = LED_F;
+               led_e  = LED_OFF; // clear negative, ° and Celsius symbols
+           } // if
+           else if(ovbsc_run_prg)
+           {
+		led_01 = LED_OFF;
+		led_e  = LED_OFF;
+		if (prg_state == PRG_WAIT_STRIKE)
+                {
+                    led_10 = LED_S;
+                    led_1  = LED_d;
+		} 
+                else if (prg_state == PRG_STRIKE)
+                {
+                    led_10 = LED_S;
+                    led_1  = LED_t;
+		} 
+                else if (prg_state == PRG_INIT_MASH_STEP)
+                {
+                    led_10 = LED_P;
+                    led_1  = LED_U;
+                    led_01 = led_lookup[mashstep+1];
+		} 
+                else if (prg_state == PRG_MASH)
+                {
+                    led_10 = LED_OFF;
+                    led_1  = LED_P;
+                    led_01 = led_lookup[mashstep+1];
+		} 
+                else if (prg_state == PRG_INIT_BOIL_UP)
+                {
+                    led_10 = LED_b;
+                    led_1  = LED_U;
+		} 
+                else if (prg_state == PRG_HOTBREAK)
+                {
+                    led_10 = LED_H;
+                    led_1  = LED_b;
+		} 
+                else if (prg_state == PRG_BOIL)
+                {
+                    led_10 = LED_b;
+                    led_1  = LED_OFF;
+		}
+	   } // if (ovbsc_run_prg)
+           else if (ovbsc_thermostat)
+           {
+                led_10 = LED_C;
+		led_1  = LED_t;
+		led_01 = LED_OFF;
+		led_e  = LED_OFF;
+	   } // else if
+           else
+           {
+		led_10 = LED_C;
+		led_1  = LED_O;
+		led_01 = LED_OFF;
+		led_e  = LED_OFF;
+	   } // else
+	   if (m_countdown == 0)
+           {
+                m_countdown = 20;
+		if ((prg_state == PRG_WAIT_STRIKE) || (prg_state == PRG_MASH) || 
+                    (prg_state >= PRG_HOTBREAK))
+                {
+                    menustate = MENU_SHOW_STATE_DOWN_2;
+		} // if
+	   } // if 
+#else
+           run_mode = eeprom_read_config(EEADR_MENU_ITEM(rn));
             prx_to_led(run_mode,LEDS_RUN_MODE);
             if ((run_mode < THERMOSTAT_MODE) && (m_countdown == 0))
             {
                 m_countdown = TMR_SHOW_PROFILE_ITEM;
                 menustate   = MENU_SHOW_STATE_DOWN_2;
             } // if
+#endif
 	    if(!BTN_HELD(BTN_DOWN)) menustate = MENU_IDLE;
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN_2: // Show current step number within profile
+#if defined(OVBSC)
+           value_to_led(countdown,LEDS_INT);
+           if (m_countdown == 0)
+           {
+               m_countdown = 20;
+               menustate = MENU_SHOW_STATE_DOWN;
+#else
 	    value_to_led(eeprom_read_config(EEADR_MENU_ITEM(St)),LEDS_INT);
-	    if(m_countdown == 0)
+	    if (m_countdown == 0)
             {
                 m_countdown = TMR_SHOW_PROFILE_ITEM;
                 menustate   = MENU_SHOW_STATE_DOWN_3;
-	    }
+#endif
+	    } // if
 	    if(!BTN_HELD(BTN_DOWN)) menustate = MENU_IDLE;
 	    break;
+#if !(defined(OVBSC))
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN_3: // Show current duration of running profile
-            if (minutes) // is timing-control in minutes?
+           if (minutes) // is timing-control in minutes?
                  value_to_led(curr_dur,LEDS_INT);
             else value_to_led(eeprom_read_config(EEADR_MENU_ITEM(dh)),LEDS_INT);
             if(m_countdown == 0)
@@ -555,10 +744,13 @@ void menu_fsm(void)
                 menustate   = MENU_SHOW_CONFIG_ITEM;
             } // else if
             break; // MENU_SET_MENU_ITEM
+#endif
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_ITEM: // S-button is released
 	    led_e &= ~(LED_NEG | LED_DEGR | LED_CELS); // clear negative, ° and Celsius symbols
-
+#if defined(OVBSC)
+            value_to_led(config_item,LEDS_INT);
+#else
 	    if(menu_item < MENU_ITEM_NO)
             {
                 if(config_item & 0x1) 
@@ -576,6 +768,7 @@ void menu_fsm(void)
                 led_1  = menu[config_item].led_c_1;
                 led_01 = menu[config_item].led_c_01;
 	    } // else
+#endif
 	    m_countdown = TMR_NO_KEY_TIMEOUT;
 	    menustate   = MENU_SET_CONFIG_ITEM;
 	    break;
@@ -586,6 +779,55 @@ void menu_fsm(void)
                 menustate = MENU_IDLE;
 	    } else if(BTN_RELEASED(BTN_PWR))
             {   // Go back
+#if defined(OVBSC)
+                menustate = MENU_IDLE;
+            } 
+            else if(BTN_RELEASED(BTN_UP))
+            {
+                config_item++;
+                if (config_item > MENU_SIZE)
+                {
+                    config_item = 0;
+                } // if
+                menustate = MENU_SHOW_CONFIG_ITEM;
+            } 
+            else if (BTN_RELEASED(BTN_DOWN))
+            {
+                config_item--;
+                if (config_item > MENU_SIZE)
+                {
+                    config_item = MENU_SIZE;
+                } // if
+                menustate = MENU_SHOW_CONFIG_ITEM;
+            } 
+            else if (BTN_RELEASED(BTN_S))
+            {
+                if (config_item < MENU_SIZE)
+                {
+                    config_value = eeprom_read_config(config_item);
+                } 
+                else 
+                {
+                    if (ovbsc_off)
+                    {
+                        config_value = 0;
+                    } 
+                    else if (ovbsc_run_prg)
+                    {
+                        config_value = 1;
+                    } 
+                    else if (ovbsc_thermostat)
+                    {
+                        config_value = 2;
+                    } 
+                    else 
+                    {
+                        config_value = 3;
+                    } // else
+                } // else
+                menustate = MENU_SHOW_CONFIG_VALUE;
+            } // else
+#else
                 menustate = MENU_SHOW_MENU_ITEM;
             } else if(BTN_RELEASED(BTN_UP))
             {
@@ -641,10 +883,55 @@ void menu_fsm(void)
                 m_countdown  = TMR_NO_KEY_TIMEOUT;
                 menustate    = MENU_SHOW_CONFIG_VALUE;
             } // else if
-       break; // MENU_SET_CONFIG_ITEM
+#endif
+            break; // MENU_SET_CONFIG_ITEM
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_VALUE:
-            if(menu_item < MENU_ITEM_NO)
+#if defined(OVBSC)
+            if (config_item < MENU_SIZE)
+            {
+                type = menu[config_item].type;
+                if (MENU_TYPE_IS_TEMPERATURE(type))
+                {   // temperature, display in 0.1
+                    value_to_led(config_value,LEDS_TEMP);
+                } 
+                else if (type == t_period)
+                {
+                    value_to_led(config_value,LEDS_PERC);
+                } // else 
+                else 
+                {
+                    value_to_led(config_value,LEDS_INT);
+                } // else
+            } else {
+                    led_e = LED_OFF; // clear negative, ° and Celsius symbols
+                    if (config_value == 0)
+                    {
+                            led_10 = LED_O;
+                            led_1  = LED_F;
+                            led_01 = LED_F;
+                    } // if
+                    else if (config_value == 1)
+                    {
+                            led_10 = LED_P;
+                            led_1  = LED_r;
+                            led_01 = LED_OFF;
+                    } // else if
+                    else if (config_value == 2)
+                    {
+                            led_10 = LED_c;
+                            led_1  = LED_t;
+                            led_01 = LED_OFF;
+                    } // else if
+                    else 
+                    {
+                            led_10 = LED_c;
+                            led_1  = LED_O;
+                            led_01 = LED_OFF;
+                    } // else
+            } 
+#else
+           if (menu_item < MENU_ITEM_NO)
             {   // Display duration as integer, temperature in 0.1
                 value_to_led(config_value, (config_item & 0x1) ? LEDS_INT : LEDS_TEMP);
             } else 
@@ -660,19 +947,26 @@ void menu_fsm(void)
                     value_to_led(config_value,LEDS_INT);
                 } // else
             } // else
+#endif
             m_countdown  = TMR_NO_KEY_TIMEOUT;
             menustate    = MENU_SET_CONFIG_VALUE;
             break;
        //--------------------------------------------------------------------         
        case MENU_SET_CONFIG_VALUE:
-            adr = MI_CI_TO_EEADR(menu_item, config_item);
+#if defined(OVBSC)
+           adr = config_item;
+#else
+           adr = MI_CI_TO_EEADR(menu_item, config_item);
+#endif
             if (m_countdown == 0)
             {
                 menustate = MENU_IDLE;
-            } else if (BTN_RELEASED(BTN_PWR))
+            } 
+            else if (BTN_RELEASED(BTN_PWR))
             {
                 menustate = MENU_SHOW_CONFIG_ITEM;
-            } else if(BTN_HELD_OR_RELEASED(BTN_UP)) 
+            } 
+            else if(BTN_HELD_OR_RELEASED(BTN_UP)) 
             {
                 config_value++;
                 if ((config_value > 1000) || (--key_held_tmr < 0))
@@ -681,7 +975,8 @@ void menu_fsm(void)
                 } // if
                 /* Jump to exit code shared with BTN_DOWN case */
                 goto chk_cfg_acc_label;
-            } else if(BTN_HELD_OR_RELEASED(BTN_DOWN)) 
+            } 
+            else if(BTN_HELD_OR_RELEASED(BTN_DOWN)) 
             {
                 config_value--;
                 if ((config_value > 1000) || (--key_held_tmr < 0))
@@ -691,11 +986,45 @@ void menu_fsm(void)
             chk_cfg_acc_label: // label for goto
                 config_value = check_config_value(config_value, adr);
                 menustate    = MENU_SHOW_CONFIG_VALUE;
-            } else if(BTN_RELEASED(BTN_S))
+            } 
+            else if(BTN_RELEASED(BTN_S))
             {
-                if(menu_item == MENU_ITEM_NO)
+#if defined(OVBSC)
+                if (config_item < MENU_SIZE)
+                {
+                    eeprom_write_config(config_item, config_value);
+                } // if
+                else 
+                {
+                    if (config_value == 0)
+                    {   // OFF
+                        ovbsc_off        = true;
+                        ovbsc_run_prg    = false;
+                        ovbsc_pump_on    = false;
+                        ovbsc_thermostat = false;
+                    } // if
+                    else if (config_value == 1)
+                    {    // Pr
+                        ovbsc_off        = false;
+                        ovbsc_run_prg    = true;
+                    } // else
+                    else if (config_value == 2)
+                    {    // Ct
+                        ovbsc_off        = false;
+                        ovbsc_run_prg    = false;
+                        ovbsc_thermostat = true;
+                    } // else
+                    else 
+                    {    // Co
+                        ovbsc_off        = false;
+                        ovbsc_run_prg    = false;
+                        ovbsc_thermostat = false;
+                    } // else
+                } // else
+#else
+                if (menu_item == MENU_ITEM_NO)
                 {   // We are in the parameter menu
-                    if(config_item == rn)
+                    if (config_item == rn)
                     {   // When setting run-mode, clear current step & duration
                         eeprom_write_config(EEADR_MENU_ITEM(St), 0);
                         if (minutes)
@@ -716,6 +1045,7 @@ void menu_fsm(void)
                     } // if
                 } // if
                 eeprom_write_config(adr, config_value);
+#endif
                 menustate = MENU_SHOW_CONFIG_ITEM;
             } else 
             {   // reset timer to default value
@@ -744,6 +1074,7 @@ uint16_t min_to_sec(enum menu_enum x)
     return retv;
 } // min_to_sec()
 
+#if !(defined(OVBSC))
 /*-----------------------------------------------------------------------------
   Purpose  : This routine is called whenever Pb2 == 2. This mode only deals
              with cooling where the fan of the compressor is controlled by
@@ -830,7 +1161,8 @@ void temperature_control(void)
                 std_x = STD_OFF; // OFF
             break;
     } // switch
-} // std_temp_control()
+} // temperature_control()
+#endif
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine controls the PID controller. It should be 
@@ -855,7 +1187,7 @@ void pid_control(void)
     
     if (++pid_tmr >= ts) 
     {   // Call PID controller every TS seconds
-        pid_ctrl(temp_ntc1,&pid_out,setpoint);
+        pid_ctrl(temp_ntc1,&pid_out,setpoint,true);
         pid_tmr = 0;
     } // if
 } // pid_control()

@@ -1996,7 +1996,7 @@ V5.04:0576 */
 // Function Prototypes
 //--------------------
 void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
-void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset);
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset, _Bool pid_on);
 
 #line 34 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\pid.c"
 
@@ -2049,7 +2049,7 @@ void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk)
    yk_2 = yk_1 = yk; // init. previous samples to current temperature
 } // init_pid()
 
-void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset)
+void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset, _Bool pid_on)
 /*------------------------------------------------------------------
   Purpose  : This function implements the Takahashi Type C PID
              controller: the P and D term are no longer dependent
@@ -2071,15 +2071,18 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset)
     //                                      Ti           Ts
     //
     //-----------------------------------------------------------------------------
-    pp   = (int32_t)kc * (yk_1 - yk);      //  Kc.(y[k-1]-y[k])
-    pp  += ki * (tset - yk);               // (Kc.Ts/Ti).e[k]
-    pp  += kd * ((yk_1 << 1) - yk - yk_2); // (Kc.Td/Ts).(2.y[k-1]-y[k]-y[k-2])
-    if (reverse_acting) pp = -pp;          // cooling loop!
-    *uk += (int16_t)pp;                    // u[k] = u[k-1] + ...
-    // limit u[k] to GMA_HLIM and GMA_LLIM
-    if (*uk > (1000))      *uk = (1000);
-    else if (*uk < (0)) *uk = (0);
-
+    if (pid_on)
+    {
+        pp   = (int32_t)kc * (yk_1 - yk);               //  Kc.(y[k-1]-y[k])
+        pp  += (int32_t)ki * (tset - yk);               // (Kc.Ts/Ti).e[k]
+        pp  += (int32_t)kd * ((yk_1 << 1) - yk - yk_2); // (Kc.Td/Ts).(2.y[k-1]-y[k]-y[k-2])
+        if (reverse_acting) pp = -pp;                   // cooling loop!
+        *uk += (int16_t)pp;                             // u[k] = u[k-1] + ...
+        // limit u[k] to GMA_HLIM and GMA_LLIM
+        if (*uk > (1000))      *uk = (1000);
+        else if (*uk < (0)) *uk = (0);
+    } // if
+    else *uk = 0;
     yk_2  = yk_1; // y[k-2] = y[k-1]
     yk_1  = yk;   // y[k-1] = y[k]
 } // pid_ctrl()

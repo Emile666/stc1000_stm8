@@ -188,7 +188,7 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
-                    <state></state>
+                    <state>OVBSC</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -606,7 +606,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>$TOOLKIT_DIR$\config\lnkstm8s103f3.icf</state>
+                    <state>$TOOLKIT_DIR$\config\lnkstm8s003f3.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -1611,6 +1611,9 @@
     </file>
     <file>
         <name>$PROJ_DIR$\eep.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\ovbsc.c</name>
     </file>
     <file>
         <name>$PROJ_DIR$\pid.c</name>
