@@ -5536,8 +5536,8 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // APF	Alarm/Pause control flags	                 0 to 511
 // PF	Pump control flags	                         0 to 31
-// cO   Manual mode output                               -200 to +200 % 
 // cP   Manual mode Pump                                 0 (off) or 1 (on) 
+// cO   Manual mode output                               -200 to +200 % 
 // ASd  Safety shutdown timer                            0..999 minutes
 // rUn	Run mode	                                 OFF, Pr (run program), 
 //                                                       Ct (manual mode thermostat), Co (manual mode constant output)
@@ -5550,7 +5550,7 @@ enum e_item_type
 // Generate enum values for each entry int the set menu
 enum menu_enum 
 {
-    Sd, St, Pt1, Pd1, Pt2, Pd2, Pt3, Pd3, Pt4, Pd4, Pt5, Pd5, Pt6, Pd6, Ht, Hd, bt, bd, hd1, hd2, hd3, hd4, CF, tc, Hc, Ti, Td, Ts, APF, PF, Pd, cO, cP, cSP, ASd,
+    Sd, St, Pt1, Pd1, Pt2, Pd2, Pt3, Pd3, Pt4, Pd4, Pt5, Pd5, Pt6, Pd6, Ht, Hd, bt, bd, hd1, hd2, hd3, hd4, CF, tc, Hc, Ti, Td, Ts, APF, PF, Pd, cO, cSP, cP, ASd,
 }; // menu_enum
 
 //---------------------------------------------------------------------------
@@ -5657,7 +5657,7 @@ int16_t  check_config_value(int16_t config_value, uint8_t eeadr);
 void     read_buttons(void);
 void     menu_fsm(void);
 void     temperature_control(void);
-void     pid_control(void);
+void     pid_control(_Bool pid_run);
 void     ovbsc_fsm(void); // in ovbsc.c
 #line 32 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 
@@ -5718,10 +5718,9 @@ extern _Bool     ovbsc_pause;
 extern _Bool     ovbsc_off;
 extern _Bool     ovbsc_pump_on;
 extern _Bool     ovbsc_run_prg;
-extern _Bool     ovbsc_t_control;
+extern _Bool     ovbsc_pid_on;
 extern _Bool     ovbsc_thermostat;
 extern uint8_t  prg_state;
-extern int16_t  output;
 extern uint8_t  mashstep; 
 extern uint16_t countdown;
 
@@ -5729,7 +5728,7 @@ extern uint16_t countdown;
 // This contains the definition of the menu-items for the parameters menu
 const struct s_menu menu[] = 
 {
-    { (0xB5), (0xD3), (0x00), t_duration }, { (0xB5), (0xF0), (0x00), t_temperature }, { (0x76), (0xF0), (0x03), t_temperature }, { (0x76), (0xD3), (0x03), t_duration }, { (0x76), (0xF0), (0xD6), t_temperature }, { (0x76), (0xD3), (0xD6), t_duration }, { (0x76), (0xF0), (0x97), t_temperature }, { (0x76), (0xD3), (0x97), t_duration }, { (0x76), (0xF0), (0x33), t_temperature }, { (0x76), (0xD3), (0x33), t_duration }, { (0x76), (0xF0), (0xB5), t_temperature }, { (0x76), (0xD3), (0xB5), t_duration }, { (0x76), (0xF0), (0xF5), t_temperature }, { (0x76), (0xD3), (0xF5), t_duration }, { (0x73), (0xF0), (0x00), t_temperature }, { (0x73), (0xD3), (0x00), t_duration }, { (0xF1), (0xF0), (0x00), t_temperature }, { (0xF1), (0xD3), (0x00), t_duration }, { (0x71), (0xD3), (0x03), t_duration }, { (0x71), (0xD3), (0xD6), t_duration }, { (0x71), (0xD3), (0x97), t_duration }, { (0x71), (0xD3), (0x33), t_duration }, { (0xE4), (0x74), (0x00), t_boolean }, { (0xF0), (0xD0), (0x00), t_tempdiff }, { (0x73), (0xD0), (0x00), t_parameter }, { (0xF0), (0x03), (0x00), t_parameter }, { (0xF0), (0xD3), (0x00), t_parameter }, { (0xF0), (0xB5), (0x00), t_parameter }, { (0x77), (0x76), (0x74), t_apflags }, { (0x76), (0x74), (0x00), t_pumpflags }, { (0x76), (0xD3), (0x00), t_period }, { (0xD0), (0xE7), (0x00), t_percentage }, { (0xD0), (0x76), (0x00), t_boolean }, { (0xD0), (0xB5), (0x76), t_temperature }, { (0x77), (0xB5), (0xD3), t_duration },
+    { (0xB5), (0xD3), (0x00), t_duration }, { (0xB5), (0xF0), (0x00), t_temperature }, { (0x76), (0xF0), (0x03), t_temperature }, { (0x76), (0xD3), (0x03), t_duration }, { (0x76), (0xF0), (0xD6), t_temperature }, { (0x76), (0xD3), (0xD6), t_duration }, { (0x76), (0xF0), (0x97), t_temperature }, { (0x76), (0xD3), (0x97), t_duration }, { (0x76), (0xF0), (0x33), t_temperature }, { (0x76), (0xD3), (0x33), t_duration }, { (0x76), (0xF0), (0xB5), t_temperature }, { (0x76), (0xD3), (0xB5), t_duration }, { (0x76), (0xF0), (0xF5), t_temperature }, { (0x76), (0xD3), (0xF5), t_duration }, { (0x73), (0xF0), (0x00), t_temperature }, { (0x73), (0xD3), (0x00), t_duration }, { (0xF1), (0xF0), (0x00), t_temperature }, { (0xF1), (0xD3), (0x00), t_duration }, { (0x71), (0xD3), (0x03), t_duration }, { (0x71), (0xD3), (0xD6), t_duration }, { (0x71), (0xD3), (0x97), t_duration }, { (0x71), (0xD3), (0x33), t_duration }, { (0xE4), (0x74), (0x00), t_boolean }, { (0xF0), (0xD0), (0x00), t_tempdiff }, { (0x73), (0xD0), (0x00), t_parameter }, { (0xF0), (0x03), (0x00), t_parameter }, { (0xF0), (0xD3), (0x00), t_parameter }, { (0xF0), (0xB5), (0x00), t_parameter }, { (0x77), (0x76), (0x74), t_apflags }, { (0x76), (0x74), (0x00), t_pumpflags }, { (0x76), (0xD3), (0x00), t_period }, { (0xD0), (0xE7), (0x00), t_percentage }, { (0xD0), (0xB5), (0x76), t_temperature }, { (0xD0), (0x76), (0x00), t_boolean }, { (0x77), (0xB5), (0xD3), t_duration },
 }; // menu[]
 
 
@@ -5770,7 +5769,7 @@ void menu_to_led(uint8_t mi)
 	led_01 = menu[mi].led_c_01;
     }
 } // menu_to_led()
-#line 198 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 197 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine is called by menu_fsm() to show the value of a
@@ -5841,7 +5840,7 @@ void value_to_led(int value, uint8_t mode)
 	led_01 = led_lookup[(uint8_t)value];
 } // value_to_led()
 
-#line 350 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 349 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine checks if a value is within a minimum and maximul value.
@@ -5876,7 +5875,7 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
     if (eeadr == (sizeof(menu)/sizeof(menu[0])))
     {
         t_max = 3;
-#line 397 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 396 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
     } else { // Parameter menu
         type = menu[eeadr - (0)].type;
 	if (type == t_temperature)
@@ -5912,7 +5911,7 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
         } else if (type == t_pumpflags)
         {
             t_max = 31; 
-#line 440 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 439 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	} else if (type == t_sp_alarm)
         {
 	    t_min = (fahrenheit ? (-800) : (-400));
@@ -5990,7 +5989,7 @@ void menu_fsm(void)
                 ovbsc_pause = !ovbsc_pause;
             }
             else
-#line 525 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 524 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
             {
                 if (((_buttons & ((0x88) | (0x44))) == (((0x88) | (0x44)) & 0x0f))) 
                 {   // UP and DOWN button pressed
@@ -6012,7 +6011,7 @@ void menu_fsm(void)
                 } // else if
 	    } // else
 	    break;
-#line 567 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 566 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
        //--------------------------------------------------------------------         
        case MENU_SHOW_VERSION: // Show STC1000p version number
             value_to_led((210),(0));
@@ -6038,9 +6037,9 @@ void menu_fsm(void)
                led_01 = (0xF4);
                led_e  = (0x00); // clear negative, ° and Celsius symbols
            } // else
-           else if (ovbsc_t_control)
+           else if (ovbsc_pid_on)
                 value_to_led(setpoint,(1));
-           else value_to_led(output,(0));
+           else value_to_led(pid_out,(0));
 
 
 
@@ -6123,7 +6122,7 @@ void menu_fsm(void)
                     menustate = MENU_SHOW_STATE_DOWN_2;
 		} // if
 	   } // if 
-#line 686 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 685 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	    if(!((_buttons & ((0x44))) == ((0x44)))) menustate = MENU_IDLE;
 	    break;
        //--------------------------------------------------------------------         
@@ -6134,17 +6133,17 @@ void menu_fsm(void)
            {
                m_countdown = 20;
                menustate = MENU_SHOW_STATE_DOWN;
-#line 703 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 702 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	    } // if
 	    if(!((_buttons & ((0x44))) == ((0x44)))) menustate = MENU_IDLE;
 	    break;
-#line 748 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 747 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_ITEM: // S-button is released
 	    led_e &= ~((0x80) | (0x40) | (0x20)); // clear negative, ° and Celsius symbols
 
             value_to_led(config_item,(0));
-#line 772 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 771 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	    m_countdown = (150);
 	    menustate   = MENU_SET_CONFIG_ITEM;
 	    break;
@@ -6203,7 +6202,7 @@ void menu_fsm(void)
                 } // else
                 menustate = MENU_SHOW_CONFIG_VALUE;
             } // else
-#line 887 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 886 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
             break; // MENU_SET_CONFIG_ITEM
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_VALUE:
@@ -6250,7 +6249,7 @@ void menu_fsm(void)
                             led_01 = (0x00);
                     } // else
             } 
-#line 951 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 950 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
             m_countdown  = (150);
             menustate    = MENU_SET_CONFIG_VALUE;
             break;
@@ -6324,7 +6323,7 @@ void menu_fsm(void)
                         ovbsc_thermostat = 0;
                     } // else
                 } // else
-#line 1049 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 1048 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
                 menustate = MENU_SHOW_CONFIG_ITEM;
             } else 
             {   // reset timer to default value
@@ -6353,7 +6352,7 @@ uint16_t min_to_sec(enum menu_enum x)
     return retv;
 } // min_to_sec()
 
-#line 1166 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 1165 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine controls the PID controller. It should be 
@@ -6362,7 +6361,7 @@ uint16_t min_to_sec(enum menu_enum x)
   Variables: -
   Returns  : -
   ---------------------------------------------------------------------------*/
-void pid_control(void)
+void pid_control(_Bool pid_run)
 {
     static uint8_t pid_tmr = 0;
     
@@ -6378,7 +6377,7 @@ void pid_control(void)
     
     if (++pid_tmr >= ts) 
     {   // Call PID controller every TS seconds
-        pid_ctrl(temp_ntc1,&pid_out,setpoint,1);
+        pid_ctrl(temp_ntc1,&pid_out,setpoint,pid_run);
         pid_tmr = 0;
     } // if
 } // pid_control()

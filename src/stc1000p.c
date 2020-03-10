@@ -67,10 +67,10 @@ extern int16_t  pid_out;         // Output from PID controller in E-1 %
 #if defined(OVBSC)
 extern uint8_t  prg_state;
 extern uint8_t  al_led_10, al_led_1, al_led_01;  // values of 10s, 1s and 0.1s
+extern bool     ovbsc_pid_on;
 extern bool     ovbsc_pump_on;
 extern bool     ovbsc_run_prg;
 extern uint16_t countdown;
-
 #endif
 
 /*-----------------------------------------------------------------------------
@@ -379,10 +379,10 @@ void ctrl_task(void)
    else 
    {
        ts = eeprom_read_config(EEADR_MENU_ITEM(Ts)); // Read Ts [seconds]
-       pid_control();              // Run PID controller
+       pid_control(ovbsc_pid_on);  // Control PID controller
        if (ovbsc_pump_on) PUMP_ON; // Control pump
        else               PUMP_OFF;
-       if (menu_is_idle)           // show counter / temperature if menu is idle
+       if (menu_is_idle)           // show counter/temperature if menu is idle
        {
            if (sound_alarm && show_sa_alarm)
            {
@@ -463,7 +463,7 @@ void ctrl_task(void)
        } // if
        else 
        {
-           pid_control();          // Run PID controller
+           pid_control(true);      // Run PID controller
            RELAYS_OFF;             // Disable relays
        } // else
        if (menu_is_idle)           // show temperature if menu is idle

@@ -103,10 +103,9 @@ extern bool     ovbsc_pause;
 extern bool     ovbsc_off;
 extern bool     ovbsc_pump_on;
 extern bool     ovbsc_run_prg;
-extern bool     ovbsc_t_control;
+extern bool     ovbsc_pid_on;
 extern bool     ovbsc_thermostat;
 extern uint8_t  prg_state;
-extern int16_t  output;
 extern uint8_t  mashstep; 
 extern uint16_t countdown;
 #endif
@@ -589,9 +588,9 @@ void menu_fsm(void)
                led_01 = LED_E;
                led_e  = LED_OFF; // clear negative, ° and Celsius symbols
            } // else
-           else if (ovbsc_t_control)
+           else if (ovbsc_pid_on)
                 value_to_led(setpoint,LEDS_TEMP);
-           else value_to_led(output,LEDS_INT);
+           else value_to_led(pid_out,LEDS_INT);
 #else           
            if (minutes) // is timing-control in minutes?
                  value_to_led(setpoint,LEDS_TEMP);
@@ -1171,7 +1170,7 @@ void temperature_control(void)
   Variables: -
   Returns  : -
   ---------------------------------------------------------------------------*/
-void pid_control(void)
+void pid_control(bool pid_run)
 {
     static uint8_t pid_tmr = 0;
     
@@ -1187,7 +1186,7 @@ void pid_control(void)
     
     if (++pid_tmr >= ts) 
     {   // Call PID controller every TS seconds
-        pid_ctrl(temp_ntc1,&pid_out,setpoint,true);
+        pid_ctrl(temp_ntc1,&pid_out,setpoint,pid_run);
         pid_tmr = 0;
     } // if
 } // pid_control()

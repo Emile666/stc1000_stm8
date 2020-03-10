@@ -5533,8 +5533,8 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // APF	Alarm/Pause control flags	                 0 to 511
 // PF	Pump control flags	                         0 to 31
-// cO   Manual mode output                               -200 to +200 % 
 // cP   Manual mode Pump                                 0 (off) or 1 (on) 
+// cO   Manual mode output                               -200 to +200 % 
 // ASd  Safety shutdown timer                            0..999 minutes
 // rUn	Run mode	                                 OFF, Pr (run program), 
 //                                                       Ct (manual mode thermostat), Co (manual mode constant output)
@@ -5547,7 +5547,7 @@ enum e_item_type
 // Generate enum values for each entry int the set menu
 enum menu_enum 
 {
-    Sd, St, Pt1, Pd1, Pt2, Pd2, Pt3, Pd3, Pt4, Pd4, Pt5, Pd5, Pt6, Pd6, Ht, Hd, bt, bd, hd1, hd2, hd3, hd4, CF, tc, Hc, Ti, Td, Ts, APF, PF, Pd, cO, cP, cSP, ASd,
+    Sd, St, Pt1, Pd1, Pt2, Pd2, Pt3, Pd3, Pt4, Pd4, Pt5, Pd5, Pt6, Pd6, Ht, Hd, bt, bd, hd1, hd2, hd3, hd4, CF, tc, Hc, Ti, Td, Ts, APF, PF, Pd, cO, cSP, cP, ASd,
 }; // menu_enum
 
 //---------------------------------------------------------------------------
@@ -5654,7 +5654,7 @@ int16_t  check_config_value(int16_t config_value, uint8_t eeadr);
 void     read_buttons(void);
 void     menu_fsm(void);
 void     temperature_control(void);
-void     pid_control(void);
+void     pid_control(_Bool pid_run);
 void     ovbsc_fsm(void); // in ovbsc.c
 #line 31 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
 #line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\scheduler.h"
@@ -6092,10 +6092,10 @@ extern int16_t  pid_out;         // Output from PID controller in E-1 %
 
 extern uint8_t  prg_state;
 extern uint8_t  al_led_10, al_led_1, al_led_01;  // values of 10s, 1s and 0.1s
+extern _Bool     ovbsc_pid_on;
 extern _Bool     ovbsc_pump_on;
 extern _Bool     ovbsc_run_prg;
 extern uint16_t countdown;
-
 
 
 /*-----------------------------------------------------------------------------
@@ -6396,10 +6396,10 @@ void ctrl_task(void)
    else 
    {
        ts = eeprom_read_config(((0) + (Ts))); // Read Ts [seconds]
-       pid_control();              // Run PID controller
+       pid_control(ovbsc_pid_on);  // Control PID controller
        if (ovbsc_pump_on) (PA_ODR |= (0x04)); // Control pump
        else               (PA_ODR &= ~(0x04));
-       if (menu_is_idle)           // show counter / temperature if menu is idle
+       if (menu_is_idle)           // show counter/temperature if menu is idle
        {
            if (sound_alarm && show_sa_alarm)
            {
