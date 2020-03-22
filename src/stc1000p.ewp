@@ -188,7 +188,7 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
-                    <state>OVBSC</state>
+                    <state></state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>

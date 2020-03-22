@@ -380,8 +380,16 @@ void ctrl_task(void)
    {
        ts = eeprom_read_config(EEADR_MENU_ITEM(Ts)); // Read Ts [seconds]
        pid_control(ovbsc_pid_on);  // Control PID controller
-       if (ovbsc_pump_on) PUMP_ON; // Control pump
-       else               PUMP_OFF;
+       if (ovbsc_pump_on) 
+       {
+           PUMP_ON; // Control pump
+           led_e |= LED_COOL; // Pump LED on
+       } // if
+       else 
+       {
+           PUMP_OFF;
+           led_e &= ~LED_COOL; // Cooling LED off
+       } // else
        if (menu_is_idle)           // show counter/temperature if menu is idle
        {
            if (sound_alarm && show_sa_alarm)

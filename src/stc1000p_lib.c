@@ -500,6 +500,22 @@ void menu_fsm(void)
 {
 #if !(defined(OVBSC))
     uint8_t run_mode, eeadr_sp;
+#else
+    static uint8_t up_tmr = 0;  // toggle timer for UP state
+    static uint8_t pse_tmr = 0; // toggle timer for pause
+    static bool    up_toggle = false;
+   
+    if (ovbsc_pause)
+    {
+        if (++pse_tmr >= 10)
+        {
+            pse_tmr = 0;
+            led_e  ^= LED_SET;
+        } // if
+    } // if
+    else if (ovbsc_off)
+         led_e &= ~LED_SET;
+    else led_e |=  LED_SET;
 #endif
     uint8_t adr, type;
    
@@ -580,22 +596,34 @@ void menu_fsm(void)
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_UP: // Show setpoint value
 #if defined(OVBSC)
+           if (++up_tmr >= 10)
+           {
+               up_tmr = 0;
+               up_toggle = !up_toggle;
+           } // if
            if (ovbsc_off)
            {
-               led_10 = LED_O;
-               led_1  = LED_F;
-               led_01 = LED_F;
-               led_e  = LED_OFF; // clear negative, ° and Celsius symbols
+               if (ovbsc_pause && up_toggle)
+               {
+                   led_10 = LED_P;
+                   led_1  = LED_S;
+                   led_01 = LED_E;
+                   led_e  = LED_OFF; // clear negative, ° and Celsius symbols
+               }
+               else
+               {
+                   led_10 = LED_O;
+                   led_1  = LED_F;
+                   led_01 = LED_F;
+                   led_e  = LED_OFF; // clear negative, ° and Celsius symbols
+               } // else
            } // if
-           else if (ovbsc_pause)
-           {
-               led_10 = LED_P;
-               led_1  = LED_S;
-               led_01 = LED_E;
-               led_e  = LED_OFF; // clear negative, ° and Celsius symbols
-           } // else
            else if (ovbsc_pid_on)
-                value_to_led(setpoint,LEDS_TEMP);
+           {   // thermostat mode 
+               if (up_toggle)
+                    value_to_led(setpoint,LEDS_TEMP);
+               else value_to_led(pid_out,LEDS_INT);
+           } // else if
            else value_to_led(pid_out,LEDS_INT);
 #else           
            if (minutes) // is timing-control in minutes?
@@ -1005,7 +1033,6 @@ void menu_fsm(void)
                     {   // OFF
                         ovbsc_off        = true;
                         ovbsc_run_prg    = false;
-                        ovbsc_pump_on    = false;
                         ovbsc_thermostat = false;
                     } // if
                     else if (config_value == 1)

@@ -154,8 +154,9 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // APF	Alarm/Pause control flags	                 0 to 511
 // PF	Pump control flags	                         0 to 31
-// cP   Manual mode Pump                                 0 (off) or 1 (on) 
 // cO   Manual mode output                               -200 to +200 % 
+// cSP  Manual mode Thermostat setpoint                  -40.0 to 140 °C or -40.0 to 250.0 °F
+// cP   Manual mode Pump                                 0 (off) or 1 (on) 
 // ASd  Safety shutdown timer                            0..999 minutes
 // rUn	Run mode	                                 OFF, Pr (run program), 
 //                                                       Ct (manual mode thermostat), Co (manual mode constant output)
@@ -191,9 +192,8 @@ enum e_item_type
     _(Ts, 	LED_t, 	LED_S, 	LED_OFF,   t_parameter,         10)	\
     _(APF, 	LED_A, 	LED_P, 	LED_F,	   t_apflags,		511)	\
     _(PF, 	LED_P, 	LED_F, 	LED_OFF,   t_pumpflags,		6)	\
-    _(Pd, 	LED_P, 	LED_d, 	LED_OFF,   t_period,		50)	\
     _(cO, 	LED_c, 	LED_O, 	LED_OFF,   t_percentage,	80)	\
-    _(cSP, 	LED_c, 	LED_S, 	LED_P, 	   t_temperature,       0)	\
+    _(cSP, 	LED_c, 	LED_S, 	LED_P, 	   t_temperature,       300)	\
     _(cP, 	LED_c, 	LED_P, 	LED_OFF,   t_boolean,		0)	\
     _(ASd, 	LED_A, 	LED_S, 	LED_d, 	   t_duration,		70) 
 #else

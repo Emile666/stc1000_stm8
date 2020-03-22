@@ -55,6 +55,7 @@ uint8_t al_led_10, al_led_1, al_led_01;  // values of 10s, 1s and 0.1s
 
 /*-----------------------------------------------------------------------------
   Purpose  : This is the state machine for the One Vessel Brew System Controller.
+             It is called every second from ctrl_task().
   Variables: -
   Returns  : -
   ---------------------------------------------------------------------------*/
@@ -64,12 +65,7 @@ void ovbsc_fsm(void)
     uint8_t        i;
     bool           found;
     
-    if (ovbsc_pause)
-    {
-        return;
-    } // if
-
-    if (!ovbsc_off && countdown)
+    if (!ovbsc_off && !ovbsc_pause && countdown)
     {   // countdown minutes
         if (sec_countdown == 0)
         {

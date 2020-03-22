@@ -5475,12 +5475,7 @@ enum e_item_type
 {
     t_temperature = 0,
     t_tempdiff,
-
-    t_percentage,
-    t_period,
-    t_apflags,
-    t_pumpflags, 
-
+#line 102 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
     t_hyst_1,
     t_hyst_2,
     t_sp_alarm,
@@ -5498,7 +5493,7 @@ enum e_item_type
 
 
 
-
+#line 200 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 //-----------------------------------------------------------------------------
 // The data needed for the 'Set' menu. Using x macros to generate the needed
 // data structures, all menu configuration can be kept in this single place.
@@ -5506,41 +5501,25 @@ enum e_item_type
 // The values are:
 // 	name, LED data 10, LED data 1, LED data 01, min value, max value, default value
 //
-// Sd	Strike delay	                                 0-999 minutes
-// St	Strike water setpoint                            -40.0 to +140 °C or -40.0 to 250.0°F
-// Pt1	Mash step 1 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
-// Pd1	Mash step 1 duration                             0-999 minutes
-// Pt2	Mash step 2 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
-// Pd2	Mash step 2 duration                             0-999 minutes
-// Pt3	Mash step 3 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
-// Pd3	Mash step 3 duration                             0-999 minutes
-// Pt4	Mash step 4 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
-// Pd4	Mash step 4 duration                             0-999 minutes
-// Pt5	Mash step 5 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
-// Pd5	Mash step 5 duration                             0-999 minutes
-// Pt6	Mash step 6 setpoint 	                         -40.0 to 140 °C or -40.0 to 250.0 °F
-// Pd6	Mash step 6 duration                             0-999 minutes
-// Ht	Hot break temperature	                         -40.0 to 140 °C or -40.0 to 250.0 °F
-// Hd	Hot break duration	                         0-999 minutes
-// bt	Boil temperature	                         -40.0 to 140 °C or -40.0 to 250.0 °F
-// bd	Boil duration	                                 0-999 minutes
-// hd1	Hop alarm 1                                      0-999 minutes
-// hd2	Hop alarm 2                                      0-999 minutes
-// hd3	Hop alarm 3                                      0-999 minutes
-// hd4	Hop alarm 4                                      0-999 minutes
+// SP	Set setpoint	                                 -40 to 140°C or -40 to 250°F
+// hy	Set hysteresis                                   0.0 to 5.0°C or 0.0 to 10.0°F
+// hy2	Set hysteresis for 2nd temp probe	         0.0 to 25.0°C or 0.0 to 50.0°F
+// tc	Set temperature correction	                 -5.0 to 5.0°C or -10.0 to 10.0°F
+// tc2	Set temperature correction for 2nd temp probe    -5.0 to 5.0°C or -10.0 to 10.0°F
+// SA	Setpoint alarm	                                 0 = off, -40 to 40°C or -80 to 80°F
+// St	Set current profile step	                 0 to 8
+// dh	Set current profile duration	                 0 to 999 hours
+// cd	Set cooling delay	                         0 to 60 minutes
+// hd	Set heating delay	                         0 to 60 minutes
+// rP	Ramping	                                         0 = off, 1 = on
 // CF	Set Celsius of Fahrenheit temperature display    0 = Celsius, 1 = Fahrenheit
-// tc	Temperature correction	                         -5.0 to 5.0°C or -10.0 to 10.0°F
+// Pb2	Enable 2nd temp probe for thermostat control	 0 = off, 1 = on, 2 = probe controls compressor fan
+// HrS	Control and Times in minutes or hours	         0 = minutes, 1 = hours
 // Hc   Kc parameter for PID controller in %/°C          -9999..9999, >0: heating loop, <0: cooling loop 
 // ti   Ti parameter for PID controller in seconds       0..9999 
 // td   Td parameter for PID controller in seconds       0..9999 
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
-// APF	Alarm/Pause control flags	                 0 to 511
-// PF	Pump control flags	                         0 to 31
-// cP   Manual mode Pump                                 0 (off) or 1 (on) 
-// cO   Manual mode output                               -200 to +200 % 
-// ASd  Safety shutdown timer                            0..999 minutes
-// rUn	Run mode	                                 OFF, Pr (run program), 
-//                                                       Ct (manual mode thermostat), Co (manual mode constant output)
+// rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
 #line 248 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
             
@@ -5550,7 +5529,7 @@ enum e_item_type
 // Generate enum values for each entry int the set menu
 enum menu_enum 
 {
-    Sd, St, Pt1, Pd1, Pt2, Pd2, Pt3, Pd3, Pt4, Pd4, Pt5, Pd5, Pt6, Pd6, Ht, Hd, bt, bd, hd1, hd2, hd3, hd4, CF, tc, Hc, Ti, Td, Ts, APF, PF, Pd, cO, cSP, cP, ASd,
+    SP, hy, hy2, tc, tc2, SA, St, dh, cd, hd, rP, CF, Pb2, HrS, Hc, Ti, Td, Ts, rn,
 }; // menu_enum
 
 //---------------------------------------------------------------------------
@@ -5563,7 +5542,14 @@ enum menu_enum
 // Find the parameter word address in EEPROM
 
 // Help to convert menu item number and config item number to an EEPROM config address
-#line 276 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+
+
+
+
+
+    // Set POWER_ON after LAST parameter (in this case rn)!
+
+
 
 // KEY_UP..KEY_S are the hardware bits on PORTC
 
@@ -5600,21 +5586,7 @@ enum menu_enum
 
 
 
-
-enum prg_state_enum 
-{
-	PRG_OFF = 0,
-	PRG_WAIT_STRIKE,
-	PRG_STRIKE,
-	PRG_STRIKE_WAIT_ALARM,
-	PRG_INIT_MASH_STEP,
-	PRG_MASH,
-	PRG_WAIT_BOIL_UP_ALARM,
-	PRG_INIT_BOIL_UP,
-	PRG_HOTBREAK,
-	PRG_BOIL
-    };
-
+#line 327 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
         
 /* Menu struct */
 struct s_menu 
@@ -5675,8 +5647,15 @@ const uint8_t led_lookup[] = {(0xE7),(0x03),(0xD6),(0x97),(0x33),(0xB5),(0xF5),(
 //----------------------------------------------------------------------------
 __root __eeprom const int eedata[] = 
 {
-#line 64 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
-   0, 550, 530, 20, 620, 30, 720, 20, 780, 5, 0, 0, 0, 0, 985, 15, 1050, 90, 60, 45, 15, 5, 0, 0, 80, 280, 20, 10, 511, 6, 50, 80, 0, 0, 70, 1 // Last one is for POWER_ON
+#line 57 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+        // STM8S003F3 with 128 bytes EEPROM (stock STC1000 IC)
+       110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0, // Pr0 (SP0, dh0, ..., dh4, SP5)
+       190, 72, 190, 12, 210,504, 210, 12,  60,   0,   0, // Pr1 (SP0, dh0, ..., dh4, SP5)
+       200, 72, 200, 12, 220,504, 220, 12,  60,   0,   0, // Pr2 (SP0, dh0, ..., dh4, SP5)
+       180,564, 180, 12,  60,  0,   0,  0,   0,   0,   0, // Pr3 (SP0, dh0, ..., dh4, SP5)
+
+
+   200, 5, 100, 0, 0, 0, 0, 0, 5, 2, 1, 0, 0, 1, 80, 280, 20, 0, (4), 1 // Last one is for POWER_ON
 }; // eedata[]
 
 // Global variables to hold LED data (for multiplexing purposes)
@@ -5713,22 +5692,12 @@ extern uint16_t ti;        // Parameter value for I action in seconds
 extern uint16_t td;        // Parameter value for D action in seconds
 extern uint8_t  ts;        // Parameter value for sample time [sec.]
 
-
-extern _Bool     ovbsc_pause;
-extern _Bool     ovbsc_off;
-extern _Bool     ovbsc_pump_on;
-extern _Bool     ovbsc_run_prg;
-extern _Bool     ovbsc_pid_on;
-extern _Bool     ovbsc_thermostat;
-extern uint8_t  prg_state;
-extern uint8_t  mashstep; 
-extern uint16_t countdown;
-
+#line 112 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 
 // This contains the definition of the menu-items for the parameters menu
 const struct s_menu menu[] = 
 {
-    { (0xB5), (0xD3), (0x00), t_duration }, { (0xB5), (0xF0), (0x00), t_temperature }, { (0x76), (0xF0), (0x03), t_temperature }, { (0x76), (0xD3), (0x03), t_duration }, { (0x76), (0xF0), (0xD6), t_temperature }, { (0x76), (0xD3), (0xD6), t_duration }, { (0x76), (0xF0), (0x97), t_temperature }, { (0x76), (0xD3), (0x97), t_duration }, { (0x76), (0xF0), (0x33), t_temperature }, { (0x76), (0xD3), (0x33), t_duration }, { (0x76), (0xF0), (0xB5), t_temperature }, { (0x76), (0xD3), (0xB5), t_duration }, { (0x76), (0xF0), (0xF5), t_temperature }, { (0x76), (0xD3), (0xF5), t_duration }, { (0x73), (0xF0), (0x00), t_temperature }, { (0x73), (0xD3), (0x00), t_duration }, { (0xF1), (0xF0), (0x00), t_temperature }, { (0xF1), (0xD3), (0x00), t_duration }, { (0x71), (0xD3), (0x03), t_duration }, { (0x71), (0xD3), (0xD6), t_duration }, { (0x71), (0xD3), (0x97), t_duration }, { (0x71), (0xD3), (0x33), t_duration }, { (0xE4), (0x74), (0x00), t_boolean }, { (0xF0), (0xD0), (0x00), t_tempdiff }, { (0x73), (0xD0), (0x00), t_parameter }, { (0xF0), (0x03), (0x00), t_parameter }, { (0xF0), (0xD3), (0x00), t_parameter }, { (0xF0), (0xB5), (0x00), t_parameter }, { (0x77), (0x76), (0x74), t_apflags }, { (0x76), (0x74), (0x00), t_pumpflags }, { (0x76), (0xD3), (0x00), t_period }, { (0xD0), (0xE7), (0x00), t_percentage }, { (0xD0), (0xB5), (0x76), t_temperature }, { (0xD0), (0x76), (0x00), t_boolean }, { (0x77), (0xB5), (0xD3), t_duration },
+    { (0xB5), (0x76), (0x00), t_temperature }, { (0x71), (0xB3), (0x00), t_hyst_1 }, { (0x71), (0xB3), (0xD6), t_hyst_2 }, { (0xF0), (0xD0), (0x00), t_tempdiff }, { (0xF0), (0xD0), (0xD6), t_tempdiff }, { (0xB5), (0x77), (0x00), t_sp_alarm }, { (0xB5), (0xF0), (0x00), t_step }, { (0xD3), (0x71), (0x00), t_duration }, { (0xD0), (0xD3), (0x00), t_delay }, { (0x71), (0xD3), (0x00), t_delay }, { (0x50), (0x76), (0x00), t_boolean }, { (0xE4), (0x74), (0x00), t_boolean }, { (0x76), (0xF1), (0xD6), t_parameter }, { (0x73), (0x50), (0xB5), t_boolean }, { (0x73), (0xD0), (0x00), t_parameter }, { (0xF0), (0x03), (0x00), t_parameter }, { (0xF0), (0xD3), (0x00), t_parameter }, { (0xF0), (0xB5), (0x00), t_parameter }, { (0x50), (0x51), (0x00), t_runmode },
 }; // menu[]
 
 
@@ -5749,33 +5718,46 @@ uint16_t divu10(uint16_t n)
   return q + ((r + 6) >> 4);     // 13107/131072 + 1/1048576 = 104857 / 1048576  
 } // divu10()
 
-
+#line 164 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 /*-----------------------------------------------------------------------------
   Purpose  : This routine is called by menu_fsm() to show the name of the
              menu-item. This can be either one of the Profiles (Pr0, Pr1, ...),
              the text 'SET' (when in the parameter menu) of the text 'th' when
              in thermostat mode.
-  Variables: mi:
+  Variables: run_mode: [0..NR_OF_PROFILES]
+             is_menu : 0=thermostat mode, 1=within a menu         
   Returns  : -
   ---------------------------------------------------------------------------*/
-void menu_to_led(uint8_t mi)
+void prx_to_led(uint8_t run_mode, uint8_t is_menu)
 {
     // clear negative, deg, c and point indicators
     led_e &= ~((0x80) | (0x40) | (0x20) | (0x10));  
-    if (mi < (sizeof(menu)/sizeof(menu[0])))
-    {   // 
-	led_10 = menu[mi].led_c_10;
-	led_1  = menu[mi].led_c_1;
-	led_01 = menu[mi].led_c_01;
-    }
-    else
-    {   
-        led_10 = (0x50);
-        led_1  = (0xE3);
-        led_01 = (0x51);
+    if(run_mode < (4))
+    {   // one of the profiles
+	led_10 = (0x76);
+	led_1  = (0x50);
+	led_01 = led_lookup[run_mode];
+    } else { // parameter menu
+	if (is_menu)
+        {   // within menu
+	    led_10 = (0xB5);
+	    led_1  = (0xF4);
+	    led_01 = (0xF0);
+	} else if (ts == 0) 
+        { // Thermostat Mode
+	    led_10 = (0xF0); 
+	    led_1  = (0x71);
+	    led_01 = (0x00);
+	} // else if
+        else 
+        {   // PID controller mode
+	    led_10 = (0x76); 
+	    led_1  = (0x03);
+	    led_01 = (0xD3);
+        } // else
     } // else
-} // menu_to_led()
-#line 203 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+} // prx_to_led()
+
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine is called by menu_fsm() to show the value of a
@@ -5846,7 +5828,88 @@ void value_to_led(int value, uint8_t mode)
 	led_01 = led_lookup[(uint8_t)value];
 } // value_to_led()
 
-#line 355 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+
+/*-----------------------------------------------------------------------------
+  Purpose  : This task updates the current running profile. A profile consists
+             of several temperature-time pairs. When a time-out occurs, the
+             next temperature-time pair within that profile is selected.
+             Updates are stored in the EEPROM configuration.
+             It is called once every hour on the hour or every minute.
+  Variables: minutes: timing control: false = hours, true = minutes
+  Returns  : -
+  ---------------------------------------------------------------------------*/
+void update_profile(void)
+{
+  uint8_t  profile_no = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)));
+  uint8_t  curr_step;            // Current step number within a profile
+  uint8_t  profile_step_eeaddr;  // Address index in eeprom for step nr in profile
+  uint16_t profile_step_dur;     // Duration of current step
+  int16_t  profile_next_step_sp; // Setpoint value of next step in profile
+  int16_t  profile_step_sp;      // Setpoint value of current step in profile
+  uint16_t t;
+  int32_t  sp;
+  uint8_t  i;
+
+  // Running profile?
+  if (profile_no < (4)) 
+  {
+      curr_step = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (St)));
+      if (minutes) // is timing-control in minutes?
+           curr_dur++;
+      else curr_dur = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (dh))) + 1;
+
+      // Sanity check
+      if(curr_step > (5)-1) curr_step = (5) - 1;
+
+      profile_step_eeaddr  = (((profile_no)*(2*((5))+1)) + ((curr_step)<<1));
+      profile_step_dur     = eeprom_read_config(profile_step_eeaddr + 1);
+      profile_next_step_sp = eeprom_read_config(profile_step_eeaddr + 2);
+
+      // Reached end of step?
+      if (curr_dur >= profile_step_dur) 
+      {   // Update setpoint with value from next step
+	  if (minutes) setpoint = profile_next_step_sp;
+	  eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP)), profile_next_step_sp);
+	  // Is this the last step (next step is number 9 or next step duration is 0)?
+	  if ((curr_step == (5)-1) || eeprom_read_config(profile_step_eeaddr + 3) == 0) 
+          {   // Switch to thermostat mode.
+              eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)), (4));
+              return; // Fastest way out...
+	  } // if
+          curr_dur = 0; // Reset duration
+	  curr_step++;  // Update step
+	  eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (St)), curr_step);
+      } // if
+      else if (eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rP)))) 
+      {  // Is ramping enabled?
+         profile_step_sp = eeprom_read_config(profile_step_eeaddr);
+	 t  = curr_dur << 6;
+	 sp = 32;
+	 for (i = 0; i < 64; i++) 
+         {   // Linear interpolation of new setpoint (64 substeps)
+	     if (t >= profile_step_dur) 
+             {
+	        t  -= profile_step_dur;
+		sp += profile_next_step_sp;
+	     } // if
+             else 
+             {
+		sp += profile_step_sp;
+	     } // else
+	 } // for
+	 sp >>= 6;
+	 // Update setpoint
+	 if (minutes) // is timing-control in minutes?
+              setpoint = sp;
+         else eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP)), sp);
+      } // else if
+      if (!minutes)
+      {   // Update duration
+          eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (dh)), curr_dur);
+      } // if
+   } // if
+} // update_profile()
+
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine checks if a value is within a minimum and maximul value.
@@ -5878,12 +5941,24 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
     uint8_t type;
     
 
-    if (eeadr == (sizeof(menu)/sizeof(menu[0])))
-    {
-        t_max = 3;
-#line 402 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+
+
+
+
+    if (eeadr < ((((4))*(2*((5))+1)) + ((0)<<1)))
+    {   // One of the Profiles
+	while (eeadr >= (2*((5))+1))
+        {   // Find the eeprom address within a profile
+            eeadr -= (2*((5))+1);
+	} // while
+	if (!(eeadr & 0x1))
+        {   // Only constrain a temperature
+	    t_min = (fahrenheit ? (-400) : (-400));
+	    t_max = (fahrenheit ? (2500) : (1400));
+	} // if
+
     } else { // Parameter menu
-        type = menu[eeadr - (0)].type;
+        type = menu[eeadr - ((((4))*(2*((5))+1)) + ((0)<<1))].type;
 	if (type == t_temperature)
         {
 	    t_min = (fahrenheit ? (-400) : (-400));
@@ -5895,29 +5970,21 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
 	} else if (type == t_parameter)
 	    {
 		t_max = 9999;
-                if (eeadr == ((0) + (Hc))) 
+                if (eeadr == (((((4))*(2*((5))+1)) + ((0)<<1)) + (Hc))) 
                 {   // Kc parameter for PID: enable heating and cooling-loop
                     t_min = -9999; 
                 } // if
 	} else if (type == t_boolean)
         {   // the control variables
 	    t_max = 1;
+#line 438 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+	} else if (type == t_hyst_1)
+        {
+	    t_max = (fahrenheit ? ( 100) : ( 50));
+	} else if (type == t_hyst_2)
+        {
+	    t_max = (fahrenheit ? ( 500) : ( 250));
 
-        } else if (type == t_percentage)
-        {
-            t_min = -200;
-            t_max = 200;
-        } else if (type == t_period)
-        {
-            t_min = 10;
-            t_max = 200;
-        } else if (type == t_apflags)
-        {
-            t_max = 511;
-        } else if (type == t_pumpflags)
-        {
-            t_max = 31; 
-#line 445 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	} else if (type == t_sp_alarm)
         {
 	    t_min = (fahrenheit ? (-800) : (-400));
@@ -5975,8 +6042,8 @@ void read_buttons(void)
 void menu_fsm(void)
 {
 
-
-
+    uint8_t run_mode, eeadr_sp;
+#line 520 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
     uint8_t adr, type;
    
    if (m_countdown) m_countdown--; // countdown counter
@@ -5985,17 +6052,14 @@ void menu_fsm(void)
    {
        //--------------------------------------------------------------------         
        case MENU_IDLE:
+#line 539 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+            if(((_buttons & ((0x22))) == (((0x22)) & 0x0f)))
+            {
+                m_countdown = (30);
+                menustate   = MENU_POWER_DOWN_WAIT;
+	    } 
+            else if(_buttons && eeprom_read_config(((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)) + 1)))
 
-            if (sound_alarm && ((_buttons & 0x0F) == 0) && ((_buttons & 0xF0) != 0))
-            {
-                sound_alarm = 0;
-            }
-            else if (((_buttons & ((0x22))) == (((0x22)) & 0xf0)))
-            {
-                ovbsc_pause = !ovbsc_pause;
-            }
-            else
-#line 530 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
             {
                 if (((_buttons & ((0x88) | (0x44))) == (((0x88) | (0x44)) & 0x0f))) 
                 {   // UP and DOWN button pressed
@@ -6010,14 +6074,34 @@ void menu_fsm(void)
                 } else if(((_buttons & ((0x11))) == (((0x11)) & 0xf0)))
                 {   // S button pressed
 
-                    menustate = MENU_SHOW_CONFIG_ITEM;
 
 
+                    menustate = MENU_SHOW_MENU_ITEM;
 
                 } // else if
 	    } // else
 	    break;
-#line 572 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+
+       //--------------------------------------------------------------------         
+       case MENU_POWER_DOWN_WAIT:
+            if (m_countdown == 0)
+            {
+                pwr_on = eeprom_read_config(((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)) + 1));
+                pwr_on = !pwr_on;
+                eeprom_write_config(((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)) + 1), pwr_on);
+                if (pwr_on)
+                {
+                    heating_delay = 60; // 60 sec.
+                    cooling_delay = 60; // 60 sec.
+                } // else
+                menustate = MENU_IDLE;
+            } else if(!((_buttons & ((0x22))) == ((0x22))))
+            {   // 0 = temp_ntc1, 1 = temp_ntc2, 2 = pid-output
+                if (++sensor2_selected > 1 + (ts > 0)) sensor2_selected = 0;
+                menustate = MENU_IDLE;
+            } // else if
+            break; // MENU_POWER_DOWN_WAIT
+
        //--------------------------------------------------------------------         
        case MENU_SHOW_VERSION: // Show STC1000p version number
             value_to_led((210),(0));
@@ -6028,128 +6112,104 @@ void menu_fsm(void)
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_UP: // Show setpoint value
-
-           if (ovbsc_off)
-           {
-               led_10 = (0xE7);
-               led_1  = (0x74);
-               led_01 = (0x74);
-               led_e  = (0x00); // clear negative, ° and Celsius symbols
-           } // if
-           else if (ovbsc_pause)
-           {
-               led_10 = (0x76);
-               led_1  = (0xB5);
-               led_01 = (0xF4);
-               led_e  = (0x00); // clear negative, ° and Celsius symbols
-           } // else
-           else if (ovbsc_pid_on)
-                value_to_led(setpoint,(1));
-           else value_to_led(pid_out,(0));
-
-
-
-
+#line 629 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+           if (minutes) // is timing-control in minutes?
+                 value_to_led(setpoint,(1));
+	    else value_to_led(eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP))),(1));
 
 	    if(!((_buttons & ((0x88))) == ((0x88)))) menustate = MENU_IDLE;
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN: // Show Profile-number
+#line 711 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+           run_mode = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)));
+            prx_to_led(run_mode,(0));
+            if ((run_mode < (4)) && (m_countdown == 0))
+            {
+                m_countdown = (15);
+                menustate   = MENU_SHOW_STATE_DOWN_2;
+            } // if
 
-           if (ovbsc_off)
-           {
-               led_10 = (0xE7);
-               led_1  = (0x74);
-               led_01 = (0x74);
-               led_e  = (0x00); // clear negative, ° and Celsius symbols
-           } // if
-           else if(ovbsc_run_prg)
-           {
-		led_01 = (0x00);
-		led_e  = (0x00);
-		if (prg_state == PRG_WAIT_STRIKE)
-                {
-                    led_10 = (0xB5);
-                    led_1  = (0xD3);
-		} 
-                else if (prg_state == PRG_STRIKE)
-                {
-                    led_10 = (0xB5);
-                    led_1  = (0xF0);
-		} 
-                else if (prg_state == PRG_INIT_MASH_STEP)
-                {
-                    led_10 = (0x76);
-                    led_1  = (0xE3);
-                    led_01 = led_lookup[mashstep+1];
-		} 
-                else if (prg_state == PRG_MASH)
-                {
-                    led_10 = (0x00);
-                    led_1  = (0x76);
-                    led_01 = led_lookup[mashstep+1];
-		} 
-                else if (prg_state == PRG_INIT_BOIL_UP)
-                {
-                    led_10 = (0xF1);
-                    led_1  = (0xE3);
-		} 
-                else if (prg_state == PRG_HOTBREAK)
-                {
-                    led_10 = (0x73);
-                    led_1  = (0xF1);
-		} 
-                else if (prg_state == PRG_BOIL)
-                {
-                    led_10 = (0xF1);
-                    led_1  = (0x00);
-		}
-	   } // if (ovbsc_run_prg)
-           else if (ovbsc_thermostat)
-           {
-                led_10 = (0xE4);
-		led_1  = (0xF0);
-		led_01 = (0x00);
-		led_e  = (0x00);
-	   } // else if
-           else
-           {
-		led_10 = (0xE4);
-		led_1  = (0xE7);
-		led_01 = (0x00);
-		led_e  = (0x00);
-	   } // else
-	   if (m_countdown == 0)
-           {
-                m_countdown = 20;
-		if ((prg_state == PRG_WAIT_STRIKE) || (prg_state == PRG_MASH) || 
-                    (prg_state >= PRG_HOTBREAK))
-                {
-                    menustate = MENU_SHOW_STATE_DOWN_2;
-		} // if
-	   } // if 
-#line 691 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	    if(!((_buttons & ((0x44))) == ((0x44)))) menustate = MENU_IDLE;
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN_2: // Show current step number within profile
+#line 730 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+	    value_to_led(eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (St))),(0));
+	    if (m_countdown == 0)
+            {
+                m_countdown = (15);
+                menustate   = MENU_SHOW_STATE_DOWN_3;
 
-           value_to_led(countdown,(0));
-           if (m_countdown == 0)
-           {
-               m_countdown = 20;
-               menustate = MENU_SHOW_STATE_DOWN;
-#line 708 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	    } // if
 	    if(!((_buttons & ((0x44))) == ((0x44)))) menustate = MENU_IDLE;
 	    break;
-#line 753 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+
+       //--------------------------------------------------------------------         
+       case MENU_SHOW_STATE_DOWN_3: // Show current duration of running profile
+           if (minutes) // is timing-control in minutes?
+                 value_to_led(curr_dur,(0));
+            else value_to_led(eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (dh))),(0));
+            if(m_countdown == 0)
+            {   // Time-Out
+                m_countdown = (15);
+                menustate   = MENU_SHOW_STATE_DOWN;
+            } // if
+            if(!((_buttons & ((0x44))) == ((0x44))))
+            {   // Down button is released again
+                menustate = MENU_IDLE;
+            } // if
+            break; // MENU_SHOW_STATE_DOWN_3
+       //--------------------------------------------------------------------         
+       case MENU_SHOW_MENU_ITEM: // S-button was pressed
+            prx_to_led(menu_item, (1));
+            m_countdown = (150);
+            menustate   = MENU_SET_MENU_ITEM;
+            break; // MENU_SHOW_MENU_ITEM
+       //--------------------------------------------------------------------         
+       case MENU_SET_MENU_ITEM:
+            if(m_countdown == 0 || ((_buttons & ((0x22))) == (((0x22)) & 0xf0)))
+            {   // On Time-out of S-button released, go back
+                menustate = MENU_IDLE;
+            } else if(((_buttons & ((0x88))) == (((0x88)) & 0xf0)))
+            {
+                if(++menu_item > (4)) menu_item = 0;
+                menustate = MENU_SHOW_MENU_ITEM;
+            } else if(((_buttons & ((0x44))) == (((0x44)) & 0xf0)))
+            {
+                if(--menu_item > (4)) menu_item = (4);
+                menustate = MENU_SHOW_MENU_ITEM;
+            } else if(((_buttons & ((0x11))) == (((0x11)) & 0xf0)))
+            {   // only go to next state if S-button is released
+                config_item = 0;
+                menustate   = MENU_SHOW_CONFIG_ITEM;
+            } // else if
+            break; // MENU_SET_MENU_ITEM
+
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_ITEM: // S-button is released
 	    led_e &= ~((0x80) | (0x40) | (0x20)); // clear negative, ° and Celsius symbols
 
-            menu_to_led(config_item);
-#line 777 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+
+
+	    if(menu_item < (4))
+            {
+                if(config_item & 0x1) 
+                {   
+                    led_10 = (0xD3); // duration: 2nd value of a profile-step
+                    led_1  = (0x71);
+                } else {
+                    led_10 = (0xB5); // setpoint: 1st value of a profile-step
+                    led_1  = (0x76);
+                } // else
+                led_01 = led_lookup[(config_item >> 1)];
+	    } else /* if (menu_item == 6) */
+            {   // show parameter name
+                led_10 = menu[config_item].led_c_10;
+                led_1  = menu[config_item].led_c_1;
+                led_01 = menu[config_item].led_c_01;
+	    } // else
+
 	    m_countdown = (150);
 	    menustate   = MENU_SET_CONFIG_ITEM;
 	    break;
@@ -6160,111 +6220,93 @@ void menu_fsm(void)
                 menustate = MENU_IDLE;
 	    } else if(((_buttons & ((0x22))) == (((0x22)) & 0xf0)))
             {   // Go back
-
-                menustate = MENU_IDLE;
-            } 
-            else if(((_buttons & ((0x88))) == (((0x88)) & 0xf0)))
+#line 864 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+                menustate = MENU_SHOW_MENU_ITEM;
+            } else if(((_buttons & ((0x88))) == (((0x88)) & 0xf0)))
             {
                 config_item++;
-                if (config_item > (sizeof(menu)/sizeof(menu[0])))
+                if(menu_item < (4))
                 {
-                    config_item = 0;
-                } // if
+                    if(config_item >= (2*((5))+1))
+                    {
+                        config_item = 0;
+                    } // if
+                } else {
+                    if(config_item >= (sizeof(menu)/sizeof(menu[0])))
+                    {
+                        config_item = 0;
+                    }
+                    /* Jump to exit code shared with BTN_DOWN case */
+                    /* GOTO's are frowned upon, but avoiding code duplication saves precious code space */
+                    goto chk_skip_menu_item;
+                } // else
                 menustate = MENU_SHOW_CONFIG_ITEM;
-            } 
-            else if (((_buttons & ((0x44))) == (((0x44)) & 0xf0)))
+            } else if(((_buttons & ((0x44))) == (((0x44)) & 0xf0)))
             {
                 config_item--;
-                if (config_item > (sizeof(menu)/sizeof(menu[0])))
-                {
-                    config_item = (sizeof(menu)/sizeof(menu[0]));
-                } // if
-                menustate = MENU_SHOW_CONFIG_ITEM;
-            } 
-            else if (((_buttons & ((0x11))) == (((0x11)) & 0xf0)))
-            {
-                if (config_item < (sizeof(menu)/sizeof(menu[0])))
-                {
-                    config_value = eeprom_read_config(config_item);
-                } 
-                else 
-                {
-                    if (ovbsc_off)
+                if(menu_item < (4))
+                {   // One of the profiles
+                    if(config_item >= (2*((5))+1))
                     {
-                        config_value = 0;
-                    } 
-                    else if (ovbsc_run_prg)
+                        config_item = (2*((5))+1)-1;
+                    } // if
+                } else { // Menu with parameters
+                    if(config_item > (sizeof(menu)/sizeof(menu[0]))-1)
                     {
-                        config_value = 1;
-                    } 
-                    else if (ovbsc_thermostat)
+                        config_item = (sizeof(menu)/sizeof(menu[0]))-1;
+                    } // if
+            chk_skip_menu_item: // label for goto
+                    if (!minutes && ((uint8_t)eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn))) >= (4)))
                     {
-                        config_value = 2;
-                    } 
-                    else 
-                    {
-                        config_value = 3;
-                    } // else
+                        if (config_item == St)
+                        {   // Skip current profile-step and duration
+                            config_item += 2;
+                        }else if (config_item == dh)
+                        {   // Skip current profile-step and duration
+                            config_item -= 2;
+                        } // else if
+                    } // if
                 } // else
-                menustate = MENU_SHOW_CONFIG_VALUE;
-            } // else
-#line 892 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+                menustate = MENU_SHOW_CONFIG_ITEM;
+            } else if(((_buttons & ((0x11))) == (((0x11)) & 0xf0)))
+            {   // S-button is released again
+                adr          = ((menu_item)*(2*((5))+1) + (config_item));
+                config_value = eeprom_read_config(adr);
+                config_value = check_config_value(config_value, adr);
+                m_countdown  = (150);
+                menustate    = MENU_SHOW_CONFIG_VALUE;
+            } // else if
+
             break; // MENU_SET_CONFIG_ITEM
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_VALUE:
-
-            if (config_item < (sizeof(menu)/sizeof(menu[0])))
-            {
+#line 967 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+           if (menu_item < (4))
+            {   // Display duration as integer, temperature in 0.1
+                value_to_led(config_value, (config_item & 0x1) ? (0) : (1));
+            } else 
+            {   // menu_item == MENU_ITEM_NO
                 type = menu[config_item].type;
-                if (((type) <= t_tempdiff))
+                if(((type) <= t_sp_alarm))
                 {   // temperature, display in 0.1
                     value_to_led(config_value,(1));
-                } 
-                else if (type == t_period)
+                } else if (type == t_runmode)
                 {
-                    value_to_led(config_value,(2));
-                } // else 
-                else 
-                {
+                    prx_to_led(config_value,(0));
+                } else { // others, display as integer
                     value_to_led(config_value,(0));
                 } // else
-            } else {
-                    led_e = (0x00); // clear negative, ° and Celsius symbols
-                    if (config_value == 0)
-                    {
-                            led_10 = (0xE7);
-                            led_1  = (0x74);
-                            led_01 = (0x74);
-                    } // if
-                    else if (config_value == 1)
-                    {
-                            led_10 = (0x76);
-                            led_1  = (0x50);
-                            led_01 = (0x00);
-                    } // else if
-                    else if (config_value == 2)
-                    {
-                            led_10 = (0xD0);
-                            led_1  = (0xF0);
-                            led_01 = (0x00);
-                    } // else if
-                    else 
-                    {
-                            led_10 = (0xD0);
-                            led_1  = (0xE7);
-                            led_01 = (0x00);
-                    } // else
-            } 
-#line 956 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+            } // else
+
             m_countdown  = (150);
             menustate    = MENU_SET_CONFIG_VALUE;
             break;
        //--------------------------------------------------------------------         
        case MENU_SET_CONFIG_VALUE:
 
-           adr = config_item;
 
 
+           adr = ((menu_item)*(2*((5))+1) + (config_item));
 
             if (m_countdown == 0)
             {
@@ -6297,39 +6339,31 @@ void menu_fsm(void)
             } 
             else if(((_buttons & ((0x11))) == (((0x11)) & 0xf0)))
             {
-
-                if (config_item < (sizeof(menu)/sizeof(menu[0])))
-                {
-                    eeprom_write_config(config_item, config_value);
-                } // if
-                else 
-                {
-                    if (config_value == 0)
-                    {   // OFF
-                        ovbsc_off        = 1;
-                        ovbsc_run_prg    = 0;
-                        ovbsc_pump_on    = 0;
-                        ovbsc_thermostat = 0;
+#line 1057 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+                if (menu_item == (4))
+                {   // We are in the parameter menu
+                    if (config_item == rn)
+                    {   // When setting run-mode, clear current step & duration
+                        eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (St)), 0);
+                        if (minutes)
+                             curr_dur = 0;
+                        else eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (dh)), 0);
+                        if(config_value < (4))
+                        {
+                            eeadr_sp = (((((uint8_t)config_value))*(2*((5))+1)) + ((0)<<1));
+                            // Set initial value for SP
+                            setpoint = eeprom_read_config(eeadr_sp);
+                            eeprom_write_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP)), setpoint);
+                            // Hack in case inital step duration is '0'
+                            if(eeprom_read_config(eeadr_sp+1) == 0)
+                            {   // Set to thermostat mode
+                                config_value = (4);
+                            } // if
+                        } // if
                     } // if
-                    else if (config_value == 1)
-                    {    // Pr
-                        ovbsc_off        = 0;
-                        ovbsc_run_prg    = 1;
-                    } // else
-                    else if (config_value == 2)
-                    {    // Ct
-                        ovbsc_off        = 0;
-                        ovbsc_run_prg    = 0;
-                        ovbsc_thermostat = 1;
-                    } // else
-                    else 
-                    {    // Co
-                        ovbsc_off        = 0;
-                        ovbsc_run_prg    = 0;
-                        ovbsc_thermostat = 0;
-                    } // else
-                } // else
-#line 1054 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+                } // if
+                eeprom_write_config(adr, config_value);
+
                 menustate = MENU_SHOW_CONFIG_ITEM;
             } else 
             {   // reset timer to default value
@@ -6353,12 +6387,100 @@ uint16_t min_to_sec(enum menu_enum x)
 {
     uint16_t retv;
    
-    retv = eeprom_read_config(((0) + (x))) << 6; // * 64
+    retv = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (x))) << 6; // * 64
     retv = retv - (retv >> 4); // 64 - 4 = 60
     return retv;
 } // min_to_sec()
 
-#line 1171 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+
+/*-----------------------------------------------------------------------------
+  Purpose  : This routine is called whenever Pb2 == 2. This mode only deals
+             with cooling where the fan of the compressor is controlled by
+             the second temperature probe. The fan is switched on/off with a
+             hysteresis around 30 °C controlled by parameter Hy2.
+             Example: Hy2 is set to 100 E-1 °C => hysteresis is 25-35 °C.
+  Variables: -
+  Returns  : -
+  ---------------------------------------------------------------------------*/
+void fan_control(void)
+{
+        if (temp_ntc2 >= (300 + hysteresis2))
+        {
+            (PA_ODR |= (0x02));
+            led_e |= (0x01);  // Heating LED on
+        }
+        else if (temp_ntc2 < (300 - hysteresis2))
+        {
+            (PA_ODR &= ~(0x02));
+            led_e &= ~(0x01); // Heating LED off
+        } // else
+} // fan_control()
+
+/*-----------------------------------------------------------------------------
+  Purpose  : This routine controls the temperature setpoints. It should be 
+             called once every second by ctrl_task().
+  Variables: -
+  Returns  : -
+  ---------------------------------------------------------------------------*/
+void temperature_control(void)
+{
+    static uint8_t std_x = 0;
+    
+    hysteresis  = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (hy)));
+    hysteresis2 = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (hy2))) >> 1;
+    switch (std_x)
+    {
+        case (0): // OFF
+            cooling_delay = min_to_sec(cd);
+            if (probe2 < 2)
+            {
+                heating_delay = min_to_sec(hd);
+                (PA_ODR &= ~((0x02) | (0x04))); // Disable Cooling and Heating relays
+                led_e &= ~((0x01) | (0x04)); // disable both LEDs
+                if ((temp_ntc1 > setpoint + hysteresis) && (!probe2 || (temp_ntc2 >= setpoint - hysteresis2))) 
+                    std_x = (2); // COOLING DELAY
+                else if ((temp_ntc1 < setpoint - hysteresis) && (!probe2 || (temp_ntc2 <= setpoint + hysteresis2)))
+                    std_x = (1); // HEATING_DELAY
+            } // if
+            else
+            {   // Probe2 >= 2, cooling with compressor fan control
+                (PA_ODR &= ~(0x04));           // reset Cooling only, Heating is controlled by fan_control()
+                led_e &= ~(0x04); // Cooling LED on
+                fan_control();      // controls fan of cooling compressor
+                if (temp_ntc1 > setpoint + hysteresis)
+                    std_x = (2); // COOLING_DELAY
+            } // else
+            break;
+        case (1): // HEATING DELAY
+            led_e ^= (0x01); // Flash to indicate heating delay
+            if ((temp_ntc1 > setpoint - hysteresis) ||
+                (probe2 && (temp_ntc2 > setpoint + hysteresis2))) std_x = (0);     // OFF
+            else if (--heating_delay == 0)                        std_x = (3); // HEATING
+            break;
+        case (2): // COOLING DELAY
+            if (probe2 >= 2) fan_control(); // controls fan of cooling compressor
+            if ((temp_ntc1 < setpoint + hysteresis) ||
+                ((probe2 == 1) && (temp_ntc2 < setpoint - hysteresis2))) 
+                                            std_x = (0);     // OFF
+            else if (--cooling_delay == 0)  std_x = (4); // COOLING
+            led_e ^= (0x04); // Flash to indicate cooling delay
+            break;
+        case (3): // HEATING
+            led_e |= (0x01); // Heating LED on
+            (PA_ODR |= (0x02));           // Enable Heating
+            if ((temp_ntc1 >= setpoint) || (probe2 && (temp_ntc2 > (setpoint + hysteresis2))))
+                std_x = (0); // OFF
+            break;
+        case (4): // COOLING
+            if (probe2 >= 2) fan_control(); // controls fan of cooling compressor
+            led_e |= (0x04); // Cooling LED on
+            (PA_ODR |= (0x04));           // Enable Cooling
+            if ((temp_ntc1 <= setpoint) || ((probe2 == 1) && (temp_ntc2 < (setpoint - hysteresis2))))
+                std_x = (0); // OFF
+            break;
+    } // switch
+} // temperature_control()
+
 
 /*-----------------------------------------------------------------------------
   Purpose  : This routine controls the PID controller. It should be 
@@ -6371,13 +6493,13 @@ void pid_control(_Bool pid_run)
 {
     static uint8_t pid_tmr = 0;
     
-    if (kc != eeprom_read_config(((0) + (Hc))) ||
-        ti != eeprom_read_config(((0) + (Ti))) ||
-        td != eeprom_read_config(((0) + (Td))))
+    if (kc != eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Hc))) ||
+        ti != eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Ti))) ||
+        td != eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Td))))
     {   // One or more PID parameters have changed
-       kc = eeprom_read_config(((0) + (Hc)));
-       ti = eeprom_read_config(((0) + (Ti)));
-       td = eeprom_read_config(((0) + (Td)));
+       kc = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Hc)));
+       ti = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Ti)));
+       td = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (Td)));
        init_pid(kc,ti,td,ts,temp_ntc1); // Init PID controller
     } // if
     
