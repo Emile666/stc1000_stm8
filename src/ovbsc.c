@@ -53,23 +53,23 @@ extern const uint8_t led_lookup[];
 // Global variables to hold LED alarm data
 uint8_t al_led_10, al_led_1, al_led_01;  // values of 10s, 1s and 0.1s
 
+/*-----------------------------------------------------------------------------
+  Purpose  : This is the state machine for the One Vessel Brew System Controller.
+  Variables: -
+  Returns  : -
+  ---------------------------------------------------------------------------*/
 void ovbsc_fsm(void)
 {
     static uint8_t sec_countdown = 60;
-    uint8_t i;
+    uint8_t        i;
+    bool           found;
     
-    if (ovbsc_off)
-    {
-        prg_state = PRG_OFF;
-        return;
-    } // if
-
     if (ovbsc_pause)
     {
         return;
     } // if
 
-    if (countdown)
+    if (!ovbsc_off && countdown)
     {   // countdown minutes
         if (sec_countdown == 0)
         {
@@ -81,12 +81,15 @@ void ovbsc_fsm(void)
 
     switch (prg_state)
     {
+        //---------------------------------------------------------------------
         case PRG_OFF:
              ovbsc_pid_on = false; // disable PID controller
              if (ovbsc_run_prg)
              {   // ovbsc_run_prg is set to by Run Mode Parameter (rUn)
                  countdown = eeprom_read_config(EEADR_MENU_ITEM(Sd)); /* Strike delay */	
-                 prg_state = PRG_WAIT_STRIKE;
+                 ovbsc_pid_on    = false; // disable PID-controller / SSR
+                 ovbsc_pump_on   = false;
+                 prg_state       = PRG_WAIT_STRIKE;
              } // if
              else 
              {
@@ -102,9 +105,8 @@ void ovbsc_fsm(void)
                  ovbsc_pump_on = eeprom_read_config(EEADR_MENU_ITEM(cP));
              } // else
              break;
+        //---------------------------------------------------------------------
         case PRG_WAIT_STRIKE:
-             ovbsc_pid_on    = false; // disable PID-controller / SSR
-             ovbsc_pump_on   = false;
              if (countdown == 0)
              {   // strike delay timer time-out
                  countdown     = eeprom_read_config(EEADR_MENU_ITEM(ASd)); /* Safety shutdown timer */
@@ -112,7 +114,12 @@ void ovbsc_fsm(void)
                  ovbsc_pump_on = (eeprom_read_config(EEADR_MENU_ITEM(PF)) >> 0) & 0x1;
                  prg_state     = PRG_STRIKE;
              } // if
+             else if (ovbsc_off)
+             {
+                 prg_state = PRG_OFF;
+             } // else
              break;
+        //---------------------------------------------------------------------
         case PRG_STRIKE:
              setpoint = eeprom_read_config(EEADR_MENU_ITEM(St)); /* Strike temp */
              if (temp_ntc1 >= setpoint)
@@ -124,11 +131,13 @@ void ovbsc_fsm(void)
                  countdown = eeprom_read_config(EEADR_MENU_ITEM(ASd)); /* Safety shutdown timer */
                  prg_state = PRG_STRIKE_WAIT_ALARM;
              } // if
-             else if (countdown == 0)
+             else if ((countdown == 0) || ovbsc_off)
              {   // Safety shutdown timer time-out
                  ovbsc_off = true;
+                 prg_state = PRG_OFF;
              } // else if
              break;
+        //---------------------------------------------------------------------
         case PRG_STRIKE_WAIT_ALARM:
              if (!sound_alarm)
              {
@@ -138,11 +147,13 @@ void ovbsc_fsm(void)
                  ovbsc_pump_on = (eeprom_read_config(EEADR_MENU_ITEM(PF)) >> 1) & 0x1;
                  prg_state   = PRG_INIT_MASH_STEP;
              } // if
-             else if (countdown == 0)
+             else if ((countdown == 0) || ovbsc_off)
              {   // Safety shutdown timer time-out
                  ovbsc_off = true;
+                 prg_state = PRG_OFF;
              } // else if
              break;
+        //---------------------------------------------------------------------
         case PRG_INIT_MASH_STEP:
              setpoint   = eeprom_read_config(EEADR_MENU_ITEM(Pt1) + (mashstep << 1)); /* Mash step temp */
              if (temp_ntc1 >= setpoint || (eeprom_read_config(EEADR_MENU_ITEM(Pd1) + (mashstep << 1)) == 0))
@@ -151,11 +162,13 @@ void ovbsc_fsm(void)
                  ovbsc_pump_on = (eeprom_read_config(EEADR_MENU_ITEM(PF)) >> 2) & 0x1;
                  prg_state = PRG_MASH;
              } 
-             else if (countdown == 0)
+             else if ((countdown == 0) || ovbsc_off)
              {   // Safety shutdown timer time-out
                  ovbsc_off = true;
+                 prg_state = PRG_OFF;
              } // else if
              break;
+        //---------------------------------------------------------------------
         case PRG_MASH:
              if (countdown == 0)
              {
@@ -174,7 +187,12 @@ void ovbsc_fsm(void)
                      prg_state = PRG_WAIT_BOIL_UP_ALARM;
                  } // else
              } // if
+             else if (ovbsc_off)
+             {
+                 prg_state = PRG_OFF;
+             } // else
              break;
+        //---------------------------------------------------------------------
         case PRG_WAIT_BOIL_UP_ALARM:
              if (!sound_alarm)
              {
@@ -183,11 +201,13 @@ void ovbsc_fsm(void)
                  ovbsc_pump_on = (eeprom_read_config(EEADR_MENU_ITEM(PF)) >> 3) & 0x1;
                  prg_state     = PRG_INIT_BOIL_UP;
              } // if
-             else if (countdown == 0)
+             else if ((countdown == 0) || ovbsc_off)
              {   // Safety shutdown timer time-out
                  ovbsc_off = true;
+                 prg_state = PRG_OFF;
              } // else if
              break;
+        //---------------------------------------------------------------------
         case PRG_INIT_BOIL_UP:
              if (temp_ntc1 >= eeprom_read_config(EEADR_MENU_ITEM(Ht)))
              {   /* Boil up temp */
@@ -195,41 +215,51 @@ void ovbsc_fsm(void)
                  ovbsc_pump_on = (eeprom_read_config(EEADR_MENU_ITEM(PF)) >> 4) & 0x1;
                  prg_state     = PRG_HOTBREAK;
              } // if
-             else if (countdown==0)
+             else if ((countdown==0) || ovbsc_off)
              {   // Safety shutdown timer time-out
                  ovbsc_off = true;
+                 prg_state = PRG_OFF;
              } // else if
              break;
+        //---------------------------------------------------------------------
         case PRG_HOTBREAK:
              if (countdown == 0)
              {
-                 countdown = eeprom_read_config(EEADR_MENU_ITEM(bd)); /* Boil duration */ 
+                 countdown     = eeprom_read_config(EEADR_MENU_ITEM(bd)); /* Boil duration */ 
                  ovbsc_pump_on = false;
-                 prg_state = PRG_BOIL;
+                 prg_state     = PRG_BOIL;
              } // if
-             break;
-        case PRG_BOIL:
-             for (i = 0; i < 4; i++)
+             else if (ovbsc_off)
              {
-                 if (countdown == eeprom_read_config(EEADR_MENU_ITEM(hd1) + i) && sec_countdown > 57)
+                 prg_state = PRG_OFF;
+             } // else
+             break;
+        //---------------------------------------------------------------------
+        case PRG_BOIL:
+             found = false;
+             i     = 0;
+             while (!found && (i < 4))
+             {
+                 if ((countdown == eeprom_read_config(EEADR_MENU_ITEM(hd1) + i)) && (sec_countdown > 57))
                  {   /* Hop timer */
                      sound_alarm = (eeprom_read_config(EEADR_MENU_ITEM(APF)) >> (4+i)) & 0x1;
-                     al_led_10 = LED_h;
-                     al_led_1  = LED_d;
-                     al_led_01 = led_lookup[i+1];
-                     break;
+                     al_led_10   = LED_h;
+                     al_led_1    = LED_d;
+                     al_led_01   = led_lookup[i+1];
+                     found = true;
                  } // if
-             } // for i
-             if (countdown == 0)
+                 i++;
+             } // while
+             if ((countdown == 0) || ovbsc_off)
              {   // finished boiling
-                 ovbsc_off    = true;
-                 ovbsc_pid_on = false; // disable PID controller
-                 sound_alarm = (eeprom_read_config(EEADR_MENU_ITEM(APF)) >> 8) & 0x1;
-                 al_led_10 = LED_C;
-                 al_led_1  = LED_h;
-                 al_led_01 = LED_OFF;
+                 ovbsc_off     = true;
                  ovbsc_run_prg = false;
-                 prg_state = PRG_OFF;
+                 prg_state     = PRG_OFF;
+                 ovbsc_pid_on  = false; // disable PID controller
+                 sound_alarm   = (eeprom_read_config(EEADR_MENU_ITEM(APF)) >> 8) & 0x1;
+                 al_led_10     = LED_C;
+                 al_led_1      = LED_h;
+                 al_led_01     = LED_OFF;
              } // if
              break;
     } // switch(prg_state)

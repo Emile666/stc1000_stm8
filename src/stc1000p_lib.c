@@ -153,6 +153,12 @@ void menu_to_led(uint8_t mi)
 	led_1  = menu[mi].led_c_1;
 	led_01 = menu[mi].led_c_01;
     }
+    else
+    {   
+        led_10 = LED_r;
+        led_1  = LED_U;
+        led_01 = LED_n;
+    } // else
 } // menu_to_led()
 #else
 /*-----------------------------------------------------------------------------
@@ -748,7 +754,7 @@ void menu_fsm(void)
        case MENU_SHOW_CONFIG_ITEM: // S-button is released
 	    led_e &= ~(LED_NEG | LED_DEGR | LED_CELS); // clear negative, ° and Celsius symbols
 #if defined(OVBSC)
-            value_to_led(config_item,LEDS_INT);
+            menu_to_led(config_item);
 #else
 	    if(menu_item < MENU_ITEM_NO)
             {

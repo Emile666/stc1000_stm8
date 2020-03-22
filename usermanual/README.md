@@ -212,12 +212,18 @@ Now it is possible to connect a 2nd temperature probe AND an SSR to this.
 ![S3 output](img/s3_output.jpg)<br>
 *The S3 output port (From left to right: 2nd temp probe, +5V, 1st temp probe, GND, to SSR)*
 
-Although the microcontroller has sufficient capability to drive an SSR directly, there's a resistor mounted in series with the output pin. It is labeled as C5, but it clearly is a resistor with a value of 5.1 kOhms. This could be too high to drive an SSR directly, better is to use an additional transistor (and resistor) in order to drive an SSR. Use the following schematic to connect an SSR properly.
+Although the microcontroller has sufficient capability to drive an SSR directly, there's a resistor mounted in series with the output pin. It is labeled as C5, but it clearly is a resistor with a value of 5.1 kOhms. This is too high to drive an SSR directly, so it has to removed and replaced by a short-cirtcuit.
 
-![S3 transistor](img/s3_interface.png)<br>
-*Schematic how to wire the S3 output to an SSR*
+![Position of R5](img/R5_position.jpg)<br>
+*Position where R5 is to be found*
 
-The +5V can be taken from the newly soldered 5-pin terminal block. It is pin 2 from the left. If you wire it like this, you don't need to change the resistor within the STC-1000p-STM8. Solder the 5-pin terminal-block and you have a pid-output that connects properly to an SSR. I used a 220 Ohms resistor. This give you approximately 10 mA (the LED within the SSR typically uses 3V, so there's 2 V left). If you need more/less, change the resistor appropriately.
+So do the following:
+- Remove the resistor labeled as C5 with a soldering iron.
+- Connect the two remaining solder-pins with a small wire, so it is now a short-circuit.
+
+Now connect a SSR to the terminal block at the back of the STC-1000. I tested with a Fortek SSR-40 DA and measured that it draws 9 mA when connected directly to +5V. So this is within the capability of the STM8 microcontroller.
+![SSR connected to STC-1000p](img/SSR_stc1000.jpg)<br>
+*How to connect an SST to the STC-1000p*
  
 ## Additional features
 
