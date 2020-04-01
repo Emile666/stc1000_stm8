@@ -416,18 +416,14 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
                 {   // Kc parameter for PID: enable heating and cooling-loop
                     t_min = -9999; 
                 } // if
-	} else if (type == t_boolean)
+	} else if ((type == t_boolean) || (type == t_bool_cf))
         {   // the control variables
 	    t_max = 1;
 #if defined(OVBSC)
         } else if (type == t_percentage)
         {
-            t_min = -200;
-            t_max = 200;
-        } else if (type == t_period)
-        {
-            t_min = 10;
-            t_max = 200;
+            t_min = 0;
+            t_max = 100;
         } else if (type == t_apflags)
         {
             t_max = 511;
@@ -928,9 +924,11 @@ void menu_fsm(void)
                 {   // temperature, display in 0.1
                     value_to_led(config_value,LEDS_TEMP);
                 } 
-                else if (type == t_period)
-                {
-                    value_to_led(config_value,LEDS_PERC);
+                else if (type == t_bool_cf)
+                {   // Celsius or Fahrenheit
+                    if (config_value)
+                         led_01 = LED_F;
+                    else led_01 = LED_c;
                 } // else 
                 else 
                 {
@@ -938,31 +936,31 @@ void menu_fsm(void)
                 } // else
             } else {
                     led_e = LED_OFF; // clear negative, ° and Celsius symbols
-                    if (config_value == 0)
+                    if (config_value == OVBSC_OFF)
                     {
-                            led_10 = LED_O;
-                            led_1  = LED_F;
-                            led_01 = LED_F;
+                        led_10 = LED_O;
+                        led_1  = LED_F;
+                        led_01 = LED_F;
                     } // if
-                    else if (config_value == 1)
+                    else if (config_value == OVBSC_RUN_PRG)
                     {
-                            led_10 = LED_P;
-                            led_1  = LED_r;
-                            led_01 = LED_OFF;
+                        led_10 = LED_P;
+                        led_1  = LED_r;
+                        led_01 = LED_OFF;
                     } // else if
-                    else if (config_value == 2)
+                    else if (config_value == OVBSC_CONST_TEMP)
                     {
-                            led_10 = LED_c;
-                            led_1  = LED_t;
-                            led_01 = LED_OFF;
+                        led_10 = LED_c;
+                        led_1  = LED_t;
+                        led_01 = LED_OFF;
                     } // else if
                     else 
-                    {
-                            led_10 = LED_c;
-                            led_1  = LED_O;
-                            led_01 = LED_OFF;
+                    {   // config_value == OVBSC_CONST_PERC
+                        led_10 = LED_c;
+                        led_1  = LED_O;
+                        led_01 = LED_OFF;
                     } // else
-            } 
+            } // else
 #else
            if (menu_item < MENU_ITEM_NO)
             {   // Display duration as integer, temperature in 0.1
@@ -1029,25 +1027,25 @@ void menu_fsm(void)
                 } // if
                 else 
                 {
-                    if (config_value == 0)
+                    if (config_value == OVBSC_OFF)
                     {   // OFF
                         ovbsc_off        = true;
                         ovbsc_run_prg    = false;
                         ovbsc_thermostat = false;
                     } // if
-                    else if (config_value == 1)
+                    else if (config_value == OVBSC_RUN_PRG)
                     {    // Pr
                         ovbsc_off        = false;
                         ovbsc_run_prg    = true;
                     } // else
-                    else if (config_value == 2)
+                    else if (config_value == OVBSC_CONST_TEMP)
                     {    // Ct
                         ovbsc_off        = false;
                         ovbsc_run_prg    = false;
                         ovbsc_thermostat = true;
                     } // else
                     else 
-                    {    // Co
+                    {    // config_value == OVBSC_CONST_PERC
                         ovbsc_off        = false;
                         ovbsc_run_prg    = false;
                         ovbsc_thermostat = false;

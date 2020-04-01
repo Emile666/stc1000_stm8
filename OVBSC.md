@@ -16,8 +16,8 @@ Features
 * Possible to delay heating of strike water
 * PID-control during entire brew for accurate temperature control
 * Four run-modes: OFF, run-program, constant output and constant temperature
-* Manual pump control (on/off toggle) by pressing Up key for 3 seconds
-* Heater control (on/off toggle) by pressing Down key for 3 seconds
+* TODO: Manual pump control (on/off toggle) by pressing Up key for 3 seconds
+* TODO: Heater control (on/off toggle) by pressing Down key for 3 seconds
 * 1-6 mash steps, 0-4 hop addition alarms
 * Pause program at any time
 * Button acceleration, for frustrationless programming by buttons
@@ -133,8 +133,8 @@ Program algorithm
 
 During the program the keys have the following function:
 - a single press on the power button will pause the program (during pause, a LED will flash and all outputs will be off). Press the power button again and the program will resume.
-- a 3-second press on the Up key toggles the pump on/off.
-- a 3-second press on the Down key toggles the PID-controller on/off.
+- a 3-second press on the Up key toggles the pump on/off (not implemented yet).
+- a 3-second press on the Down key toggles the PID-controller on/off (not implemented yet).
 
 ![Graphical representation](OVBSCgraph.png)<br>
 *Fig4: Graphical representation of the algorithm*

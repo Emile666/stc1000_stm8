@@ -152,7 +152,8 @@ void ovbsc_fsm(void)
         //---------------------------------------------------------------------
         case PRG_INIT_MASH_STEP:
              setpoint   = eeprom_read_config(EEADR_MENU_ITEM(Pt1) + (mashstep << 1)); /* Mash step temp */
-             if (temp_ntc1 >= setpoint || (eeprom_read_config(EEADR_MENU_ITEM(Pd1) + (mashstep << 1)) == 0))
+             if (!ovbsc_pause && ((temp_ntc1 >= setpoint) || 
+                                  (eeprom_read_config(EEADR_MENU_ITEM(Pd1) + (mashstep << 1)) == 0)))
              {
                  countdown = eeprom_read_config(EEADR_MENU_ITEM(Pd1) + (mashstep << 1)); /* Mash step duration */
                  ovbsc_pump_on = (eeprom_read_config(EEADR_MENU_ITEM(PF)) >> 2) & 0x1;
@@ -205,7 +206,7 @@ void ovbsc_fsm(void)
              break;
         //---------------------------------------------------------------------
         case PRG_INIT_BOIL_UP:
-             if (temp_ntc1 >= eeprom_read_config(EEADR_MENU_ITEM(Ht)))
+             if (!ovbsc_pause && (temp_ntc1 >= eeprom_read_config(EEADR_MENU_ITEM(Ht))))
              {   /* Boil up temp */
                  countdown     = eeprom_read_config(EEADR_MENU_ITEM(Hd)); /* Hotbreak duration */
                  ovbsc_pump_on = (eeprom_read_config(EEADR_MENU_ITEM(PF)) >> 4) & 0x1;
@@ -242,7 +243,7 @@ void ovbsc_fsm(void)
                      al_led_10   = LED_h;
                      al_led_1    = LED_d;
                      al_led_01   = led_lookup[i+1];
-                     found = true;
+                     found       = true;
                  } // if
                  i++;
              } // while

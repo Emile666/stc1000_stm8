@@ -5481,6 +5481,7 @@ enum e_item_type
     t_runmode,
     t_duration,
     t_boolean,
+    t_bool_cf,
     t_parameter
 }; // e_item_type
 
@@ -5490,7 +5491,7 @@ enum e_item_type
 
 
 
-#line 200 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 201 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 //-----------------------------------------------------------------------------
 // The data needed for the 'Set' menu. Using x macros to generate the needed
 // data structures, all menu configuration can be kept in this single place.
@@ -5518,7 +5519,7 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
-#line 248 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 249 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
             
 
 
@@ -5583,7 +5584,7 @@ enum menu_enum
 
 
 
-#line 327 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 333 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
         
 /* Menu struct */
 struct s_menu 
@@ -5956,7 +5957,7 @@ V5.04:0576 */
 
 typedef struct _task_struct
 {
-	void     (* pFunction)(); // Function pointer
+	void     (*pFunction)(void); // Function pointer
 	char     Name[(12)];  // Task name
 	uint16_t Period;          // Period between 2 calls in msec.
 	uint16_t Delay;           // Initial delay before Counter starts in msec.
@@ -5970,7 +5971,6 @@ uint8_t add_task(void (*task_ptr)(), char *Name, uint16_t delay, uint16_t period
 uint8_t set_task_time_period(uint16_t Period, char *Name);
 uint8_t enable_task(char *Name);
 uint8_t disable_task(char *Name);
-void    list_all_tasks(_Bool rs232_udp);
 
 #line 32 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
 #line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\adc.h"

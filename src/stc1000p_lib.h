@@ -107,6 +107,7 @@ enum e_item_type
     t_runmode,
     t_duration,
     t_boolean,
+    t_bool_cf,
     t_parameter
 }; // e_item_type
 
@@ -184,14 +185,14 @@ enum e_item_type
     _(hd2, 	LED_h, 	LED_d, 	LED_2,	   t_duration,		45)	\
     _(hd3, 	LED_h, 	LED_d, 	LED_3, 	   t_duration,		15)	\
     _(hd4, 	LED_h, 	LED_d, 	LED_4,	   t_duration,		5)	\
-    _(CF, 	LED_C, 	LED_F, 	LED_OFF,   t_boolean,	        0)	\
+    _(CF, 	LED_C, 	LED_F, 	LED_OFF,   t_bool_cf,	        0)	\
     _(tc, 	LED_t, 	LED_c, 	LED_OFF,   t_tempdiff,		0)	\
     _(Hc, 	LED_H, 	LED_c, 	LED_OFF,   t_parameter,	        80)	\
     _(Ti, 	LED_t, 	LED_I, 	LED_OFF,   t_parameter,         280)	\
     _(Td, 	LED_t, 	LED_d, 	LED_OFF,   t_parameter,         20)	\
     _(Ts, 	LED_t, 	LED_S, 	LED_OFF,   t_parameter,         10)	\
     _(APF, 	LED_A, 	LED_P, 	LED_F,	   t_apflags,		511)	\
-    _(PF, 	LED_P, 	LED_F, 	LED_OFF,   t_pumpflags,		6)	\
+    _(PF, 	LED_P, 	LED_F, 	LED_OFF,   t_pumpflags,		14)	\
     _(cO, 	LED_c, 	LED_O, 	LED_OFF,   t_percentage,	80)	\
     _(cSP, 	LED_c, 	LED_S, 	LED_P, 	   t_temperature,       300)	\
     _(cP, 	LED_c, 	LED_P, 	LED_OFF,   t_boolean,		0)	\
@@ -323,6 +324,11 @@ enum prg_state_enum
 	PRG_HOTBREAK,
 	PRG_BOIL
     };
+
+#define OVBSC_OFF        (0)
+#define OVBSC_RUN_PRG    (1)
+#define OVBSC_CONST_TEMP (2)
+#define OVBSC_CONST_PERC (3)
 #endif 
         
 /* Menu struct */

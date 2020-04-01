@@ -5484,6 +5484,7 @@ enum e_item_type
     t_runmode,
     t_duration,
     t_boolean,
+    t_bool_cf,
     t_parameter
 }; // e_item_type
 
@@ -5493,7 +5494,7 @@ enum e_item_type
 
 
 
-#line 200 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 201 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 //-----------------------------------------------------------------------------
 // The data needed for the 'Set' menu. Using x macros to generate the needed
 // data structures, all menu configuration can be kept in this single place.
@@ -5521,7 +5522,7 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
-#line 248 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 249 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
             
 
 
@@ -5586,7 +5587,7 @@ enum menu_enum
 
 
 
-#line 327 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 333 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
         
 /* Menu struct */
 struct s_menu 
@@ -5974,10 +5975,10 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
                 {   // Kc parameter for PID: enable heating and cooling-loop
                     t_min = -9999; 
                 } // if
-	} else if (type == t_boolean)
+	} else if ((type == t_boolean) || (type == t_bool_cf))
         {   // the control variables
 	    t_max = 1;
-#line 438 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 434 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	} else if (type == t_hyst_1)
         {
 	    t_max = (fahrenheit ? ( 100) : ( 50));
@@ -6043,7 +6044,7 @@ void menu_fsm(void)
 {
 
     uint8_t run_mode, eeadr_sp;
-#line 520 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 516 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
     uint8_t adr, type;
    
    if (m_countdown) m_countdown--; // countdown counter
@@ -6052,7 +6053,7 @@ void menu_fsm(void)
    {
        //--------------------------------------------------------------------         
        case MENU_IDLE:
-#line 539 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 535 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
             if(((_buttons & ((0x22))) == (((0x22)) & 0x0f)))
             {
                 m_countdown = (30);
@@ -6112,7 +6113,7 @@ void menu_fsm(void)
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_UP: // Show setpoint value
-#line 629 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 625 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
            if (minutes) // is timing-control in minutes?
                  value_to_led(setpoint,(1));
 	    else value_to_led(eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP))),(1));
@@ -6121,7 +6122,7 @@ void menu_fsm(void)
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN: // Show Profile-number
-#line 711 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 707 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
            run_mode = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)));
             prx_to_led(run_mode,(0));
             if ((run_mode < (4)) && (m_countdown == 0))
@@ -6134,7 +6135,7 @@ void menu_fsm(void)
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN_2: // Show current step number within profile
-#line 730 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 726 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	    value_to_led(eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (St))),(0));
 	    if (m_countdown == 0)
             {
@@ -6220,7 +6221,7 @@ void menu_fsm(void)
                 menustate = MENU_IDLE;
 	    } else if(((_buttons & ((0x22))) == (((0x22)) & 0xf0)))
             {   // Go back
-#line 864 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 860 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
                 menustate = MENU_SHOW_MENU_ITEM;
             } else if(((_buttons & ((0x88))) == (((0x88)) & 0xf0)))
             {
@@ -6280,7 +6281,7 @@ void menu_fsm(void)
             break; // MENU_SET_CONFIG_ITEM
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_VALUE:
-#line 967 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 965 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
            if (menu_item < (4))
             {   // Display duration as integer, temperature in 0.1
                 value_to_led(config_value, (config_item & 0x1) ? (0) : (1));
@@ -6339,7 +6340,7 @@ void menu_fsm(void)
             } 
             else if(((_buttons & ((0x11))) == (((0x11)) & 0xf0)))
             {
-#line 1057 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 1055 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
                 if (menu_item == (4))
                 {   // We are in the parameter menu
                     if (config_item == rn)
