@@ -212,18 +212,18 @@ Now it is possible to connect a 2nd temperature probe AND an SSR to this.
 ![S3 output](img/s3_output.jpg)<br>
 *The S3 output port (From left to right: 2nd temp probe, +5V, 1st temp probe, GND, to SSR)*
 
-Although the microcontroller has sufficient capability to drive an SSR directly, there's a resistor mounted in series with the output pin. It is labeled as C5, but it clearly is a resistor with a value of 5.1 kOhms. This is too high to drive an SSR directly, so it has to removed and replaced by a short-cirtcuit.
+Although the microcontroller has sufficient capability to drive an SSR directly, there's a resistor mounted in series with the output pin. It is labeled as C5, but it clearly is a resistor with a value of 5.1 kOhms. This is too high to drive an SSR directly, so it has to removed and replaced by a short-cirtcuit or a zero Ohm resistor.
 
 ![Position of R5](img/R5_position.jpg)<br>
 *Position where R5 is to be found*
 
 So do the following:
 - Remove the resistor labeled as C5 with a soldering iron.
-- Connect the two remaining solder-pins with a small wire, so it is now a short-circuit.
+- Connect the two remaining solder-pins with a small wire or solder a zero (0) Ohm resistor in place.
 
 Now connect a SSR to the terminal block at the back of the STC-1000. I tested with a Fortek SSR-40 DA and measured that it draws 9 mA when connected directly to +5V. So this is within the capability of the STM8 microcontroller.
 ![SSR connected to STC-1000p](img/SSR_stc1000.jpg)<br>
-*How to connect an SST to the STC-1000p*
+*How to connect an SSR to the STC-1000p*
  
 ## Additional features
 
