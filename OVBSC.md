@@ -136,7 +136,7 @@ During the program the keys have the following function:
 - a 3-second press on the Up key toggles the pump on/off (not implemented yet).
 - a 3-second press on the Down key toggles the PID-controller on/off (not implemented yet).
 
-![Graphical representation](OVBSCgraph.png)<br>
+![Graphical representation](img/graph-ovbsc.png)<br>
 *Fig4: Graphical representation of the algorithm*
 
 Now, I will try as best I can, to explain the algorithm and key concepts in 'english'.<br>
