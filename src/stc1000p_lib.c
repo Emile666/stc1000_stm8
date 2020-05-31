@@ -466,7 +466,7 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
 void read_buttons(void)
 {
     uint8_t b;
-    
+   
     // Save registers that interferes with LED's and disable common-cathodes
     __disable_interrupt();     // Disable interrups while reading buttons
     save_display_state();      // Save current state of 7-segment displays 

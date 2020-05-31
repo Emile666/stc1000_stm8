@@ -6103,42 +6103,72 @@ void restore_display_state(void)
 /*-----------------------------------------------------------------------------
   Purpose  : This routine multiplexes the 4 segments of the 7-segment displays.
              It runs at 1 kHz, so there's a full update after every 4 msec.
+             There is a preprocessor directive important here:
+             COMMON_ANODE: the latest STC-1000 ship with a common-anode display.
+                           In order to get that working, you need to have a new
+                           PCB with additional circuitry installed.
+             If you do not define COMMON_ANODE, you have the old set-up again
+             with a common-cathode display.
   Variables: -
   Returns  : -
   ---------------------------------------------------------------------------*/
 void multiplexer(void)
 {
+#line 133 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
+    // This was the default 7-segment display up until 2020
+    // Make CC 1 and a single segment 0 to disable LED
     PC_ODR    &= ~(0xF8);    // Clear LEDs
     PD_ODR    &= ~portd_leds;    // Clear LEDs
+
     PB_ODR    |= ((0x20) | (0x10)); // Disable common-cathode for 10s and 1s
     PD_ODR    |= ((0x20) | (0x10)); // Disable common-cathode for 0.1s and extras
-   
+
     switch (mpx_nr)
     {
         case 0: // output 10s digit
+
+
+
+
             PC_ODR |= (led_10 & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_10 << 1) & portd_leds); // Update PD3..PD1
+
             PB_ODR &= ~(0x20);    // Enable  common-cathode for 10s
             if (sound_alarm) (PD_ODR |= (0x40));
             mpx_nr = 1;
             break;
         case 1: // output 1s digit
+
+
+
+
             PC_ODR |= (led_1 & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_1 << 1) & portd_leds); // Update PD3..PD1
-            PB_ODR &= ~(0x10);     // Enable  common-cathode for 1s
+
+            PB_ODR &= ~(0x10);         // Enable  common-cathode for 1s
             (PD_ODR &= ~(0x40));
             mpx_nr = 2;
             break;
         case 2: // output 01s digit
+
+
+
+
             PC_ODR |= (led_01 & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_01 << 1) & portd_leds); // Update PD3..PD1
-            PD_ODR &= ~(0x20);    // Enable common-cathode for 0.1s
+
+            PD_ODR &= ~(0x20);        // Enable common-cathode for 0.1s
             if (sound_alarm) (PD_ODR |= (0x40));
             mpx_nr = 3;
             break;
         case 3: // outputs special digits
+
+
+
+
             PC_ODR |= (led_e & (0xF8));        // Update PC7..PC3
             PD_ODR |= ((led_e << 1) & portd_leds); // Update PD3..PD1
+
             PD_ODR &= ~(0x10);     // Enable common-cathode for extras
             (PD_ODR &= ~(0x40));
         default: // FALL-THROUGH (less code-size)
@@ -6224,15 +6254,15 @@ void setup_output_ports(void)
     PA_ODR      = 0x00; // Turn off all pins from Port A
     PA_DDR     |= ((0x08) | (0x04) | (0x02)); // Set as output
     PA_CR1     |= ((0x08) | (0x04) | (0x02)); // Set to Push-Pull
-    PB_ODR      = 0x30; // Turn off all pins from Port B (CC1 = CC2 = H)
-    PB_DDR     |= 0x30; // Set PB5..PB4 as output
-    PB_CR1     |= 0x30; // Set PB5..PB4 to Push-Pull
+    PB_ODR      = ((0x20) | (0x10)); // Turn off all pins from Port B (CC1 = CC2 = H)
+    PB_DDR     |= ((0x20) | (0x10)); // Set PB5..PB4 as output
+    PB_CR1     |= ((0x20) | (0x10)); // Set PB5..PB4 to Push-Pull
     PC_ODR      = 0x00; // Turn off all pins from Port C
     PC_DDR     |= (0xF8); // Set PC7..PC3 as outputs
     PC_CR1     |= (0xF8); // Set PC7..PC3 to Push-Pull
-    PD_ODR      = 0x30; // Turn off all pins from Port D (CC3 = CCe = H)
-    PD_DDR     |= (0x70 | portd_leds); // Set PD6..PD1 as outputs
-    PD_CR1     |= (0x70 | portd_leds); // Set PD6..PD1 to Push-Pull
+    PD_ODR      = ((0x20) | (0x10)); // Turn off all pins from Port D (CC3 = CCe = H)
+    PD_DDR     |= (0x40 | (0x20) | (0x10) | portd_leds); // Set PD6..PD1 as outputs
+    PD_CR1     |= (0x40 | (0x20) | (0x10) | portd_leds); // Set PD6..PD1 to Push-Pull
 } // setup_output_ports()
 
 /*-----------------------------------------------------------------------------
@@ -6339,7 +6369,7 @@ void std_task(void)
     pid_to_time();  // Make Slow-PWM signal and send to S3 output-port
 } // std_task()
 
-#line 410 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
+#line 445 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.c"
 /*-----------------------------------------------------------------------------
   Purpose  : This task is called every second and contains the main control
              task for the device. It also calls temperature_control().

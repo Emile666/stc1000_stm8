@@ -113,42 +113,77 @@ void restore_display_state(void)
 /*-----------------------------------------------------------------------------
   Purpose  : This routine multiplexes the 4 segments of the 7-segment displays.
              It runs at 1 kHz, so there's a full update after every 4 msec.
+             There is a preprocessor directive important here:
+             COMMON_ANODE: the latest STC-1000 ship with a common-anode display.
+                           In order to get that working, you need to have a new
+                           PCB with additional circuitry installed.
+             If you do not define COMMON_ANODE, you have the old set-up again
+             with a common-cathode display.
   Variables: -
   Returns  : -
   ---------------------------------------------------------------------------*/
 void multiplexer(void)
 {
+#ifdef COMMON_ANODE
+    // STC-1000s are now shipped with Common-Anode instead of Common-Cathode
+    // Make CA 0 and a single segment 1 to disable LED
+    PC_ODR    |= PORTC_LEDS;      // Clear LEDs
+    PD_ODR    |= portd_leds;      // Clear LEDs
+#else
+    // This was the default 7-segment display up until 2020
+    // Make CC 1 and a single segment 0 to disable LED
     PC_ODR    &= ~PORTC_LEDS;    // Clear LEDs
     PD_ODR    &= ~portd_leds;    // Clear LEDs
+#endif   
     PB_ODR    |= (CC_10 | CC_1); // Disable common-cathode for 10s and 1s
     PD_ODR    |= (CC_01 | CC_e); // Disable common-cathode for 0.1s and extras
-   
+
     switch (mpx_nr)
     {
         case 0: // output 10s digit
+#ifdef COMMON_ANODE
+            PC_ODR &= ~(led_10 & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR &= ~((led_10 << 1) & portd_leds); // Update PD3..PD1
+#else
             PC_ODR |= (led_10 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_10 << 1) & portd_leds); // Update PD3..PD1
+#endif
             PB_ODR &= ~CC_10;    // Enable  common-cathode for 10s
             if (sound_alarm) ALARM_ON;
             mpx_nr = 1;
             break;
         case 1: // output 1s digit
+#ifdef COMMON_ANODE
+            PC_ODR &= ~(led_1 & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR &= ~((led_1 << 1) & portd_leds); // Update PD3..PD1
+#else
             PC_ODR |= (led_1 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_1 << 1) & portd_leds); // Update PD3..PD1
-            PB_ODR &= ~CC_1;     // Enable  common-cathode for 1s
+#endif
+            PB_ODR &= ~CC_1;         // Enable  common-cathode for 1s
             ALARM_OFF;
             mpx_nr = 2;
             break;
         case 2: // output 01s digit
+#ifdef COMMON_ANODE
+            PC_ODR &= ~(led_01 & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR &= ~((led_01 << 1) & portd_leds); // Update PD3..PD1
+#else
             PC_ODR |= (led_01 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_01 << 1) & portd_leds); // Update PD3..PD1
-            PD_ODR &= ~CC_01;    // Enable common-cathode for 0.1s
+#endif
+            PD_ODR &= ~CC_01;        // Enable common-cathode for 0.1s
             if (sound_alarm) ALARM_ON;
             mpx_nr = 3;
             break;
         case 3: // outputs special digits
+#ifdef COMMON_ANODE
+            PC_ODR &= ~(led_e & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR &= ~((led_e << 1) & portd_leds); // Update PD3..PD1
+#else
             PC_ODR |= (led_e & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_e << 1) & portd_leds); // Update PD3..PD1
+#endif
             PD_ODR &= ~CC_e;     // Enable common-cathode for extras
             ALARM_OFF;
         default: // FALL-THROUGH (less code-size)
@@ -234,15 +269,15 @@ void setup_output_ports(void)
     PA_ODR      = 0x00; // Turn off all pins from Port A
     PA_DDR     |= (S3 | COOL | HEAT); // Set as output
     PA_CR1     |= (S3 | COOL | HEAT); // Set to Push-Pull
-    PB_ODR      = 0x30; // Turn off all pins from Port B (CC1 = CC2 = H)
-    PB_DDR     |= 0x30; // Set PB5..PB4 as output
-    PB_CR1     |= 0x30; // Set PB5..PB4 to Push-Pull
+    PB_ODR      = (CC_10 | CC_1); // Turn off all pins from Port B (CC1 = CC2 = H)
+    PB_DDR     |= (CC_10 | CC_1); // Set PB5..PB4 as output
+    PB_CR1     |= (CC_10 | CC_1); // Set PB5..PB4 to Push-Pull
     PC_ODR      = 0x00; // Turn off all pins from Port C
     PC_DDR     |= PORTC_LEDS; // Set PC7..PC3 as outputs
     PC_CR1     |= PORTC_LEDS; // Set PC7..PC3 to Push-Pull
-    PD_ODR      = 0x30; // Turn off all pins from Port D (CC3 = CCe = H)
-    PD_DDR     |= (0x70 | portd_leds); // Set PD6..PD1 as outputs
-    PD_CR1     |= (0x70 | portd_leds); // Set PD6..PD1 to Push-Pull
+    PD_ODR      = (CC_01 | CC_e); // Turn off all pins from Port D (CC3 = CCe = H)
+    PD_DDR     |= (0x40 | CC_01 | CC_e | portd_leds); // Set PD6..PD1 as outputs
+    PD_CR1     |= (0x40 | CC_01 | CC_e | portd_leds); // Set PD6..PD1 to Push-Pull
 } // setup_output_ports()
 
 /*-----------------------------------------------------------------------------
