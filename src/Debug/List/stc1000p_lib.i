@@ -1,4 +1,4 @@
-#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 1 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 /*==================================================================
   File Name    : stc1000p_lib.c
   Author       : Mats Staffansson / Emile
@@ -29,7 +29,7 @@
   $Log: $
   ==================================================================
 */ 
-#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 1 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 /*==================================================================
   File Name    : stc1000p_lib.h
   Author       : Mats Staffansson / Emile
@@ -1962,7 +1962,7 @@ typedef signed char __tiny_intptr_t; typedef unsigned char __tiny_uintptr_t; typ
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 33 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 33 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdbool.h"
 /* stdbool.h header */
 /* Copyright 2003-2010 IAR Systems AB.  */
@@ -1993,7 +1993,7 @@ V5.04:0576 */
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 34 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 34 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\intrinsics.h"
 /**************************************************
  *
@@ -2052,8 +2052,8 @@ typedef unsigned char __istate_t;
 
 #pragma language=restore
 
-#line 35 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
-#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 35 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 1 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 /*==================================================================
   File Name    : stc1000p.h
   Author       : Mats Staffansson / Emile
@@ -5282,7 +5282,7 @@ __near __no_init volatile  unsigned char DM_ENFCTR @ 0x7F9A;;
 /*----------------------------------------------
  *      End of file
  *--------------------------------------------*/
-#line 60 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 60 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 //#include <iostm8s103f3.h>
 #line 1 "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\inc\\c\\stdint.h"
 /* stdint.h standard header */
@@ -5295,7 +5295,7 @@ __near __no_init volatile  unsigned char DM_ENFCTR @ 0x7F9A;;
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 62 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 62 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
      
 /* Define STC-1000+ version number (XYY, X=major, YY=minor) */
 /* Also, keep track of last version that has changes in EEPROM layout */
@@ -5322,13 +5322,13 @@ V5.04:0576 */
 
 
 
-#line 103 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 103 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
 // PC7 PC6 PC5 PC4 PC3 PD3 PD2 PD1
 //  D   E   F   G   dp  A   B   C
-#line 142 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 142 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
-#line 151 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
+#line 151 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p.h"
 
 // Function prototypes
 void save_display_state(void);
@@ -5343,8 +5343,8 @@ void std_task(void);
 void ctrl_task(void);
 void prfl_task(void);
 
-#line 36 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
-#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\eep.h"
+#line 36 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 1 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\eep.h"
 /*==================================================================
   File Name    : eep.h
   Author       : Emile
@@ -5381,7 +5381,7 @@ void prfl_task(void);
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 28 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\eep.h"
+#line 28 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\eep.h"
 
 
 // EEPROM base address within STM8 uC
@@ -5391,8 +5391,8 @@ V5.04:0576 */
 uint16_t eeprom_read_config(uint8_t eeprom_address);
 void     eeprom_write_config(uint8_t eeprom_address,uint16_t data);
 
-#line 37 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
-#line 1 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\pid.h"
+#line 37 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 1 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\pid.h"
 /*==================================================================
   File name    : pid.h
   Author       : Emile
@@ -5426,7 +5426,7 @@ void     eeprom_write_config(uint8_t eeprom_address,uint16_t data);
  * Copyright (c) 1992-2009 by P.J. Plauger.  ALL RIGHTS RESERVED.
  * Consult your license regarding permissions and restrictions.
 V5.04:0576 */
-#line 26 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\pid.h"
+#line 26 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\pid.h"
 
 
 // PID controller upper & lower limit [E-1 %]
@@ -5439,12 +5439,12 @@ V5.04:0576 */
 void init_pid(int16_t kc, uint16_t ti, uint16_t td, uint8_t ts, int16_t yk);
 void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset, _Bool pid_on);
 
-#line 38 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 38 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 // Define limits for temperatures in Fahrenheit and Celsius
-#line 48 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 48 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
-#line 57 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 57 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 // Values for temperature control STD
 
@@ -5461,7 +5461,7 @@ void pid_ctrl(int16_t yk, int16_t *uk, int16_t tset, _Bool pid_on);
 // 1) proper #include in stc1000p.h: <iostm8s003f3.h> or <iostm8s103f3.h>
 // 2) Project -> Options -> Target -> Device to STM8S003F3 or STM8S103F3
 //---------------------------------------------------------------------------
-#line 83 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 83 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 
 //-----------------------------------------------------------------------------
 // Enum to specify the types of the parameters in the menu.
@@ -5475,7 +5475,7 @@ enum e_item_type
 {
     t_temperature = 0,
     t_tempdiff,
-#line 102 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 102 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
     t_hyst_1,
     t_hyst_2,
     t_sp_alarm,
@@ -5494,7 +5494,7 @@ enum e_item_type
 
 
 
-#line 201 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 201 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
 //-----------------------------------------------------------------------------
 // The data needed for the 'Set' menu. Using x macros to generate the needed
 // data structures, all menu configuration can be kept in this single place.
@@ -5522,7 +5522,7 @@ enum e_item_type
 // ts   Ts parameter for PID controller in seconds       0..9999, 0 = disable PID controller = thermostat control
 // rn	Set run mode	                                 Pr0 to Pr5 and th (6)
 //-----------------------------------------------------------------------------
-#line 249 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 249 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
             
 
 
@@ -5587,7 +5587,7 @@ enum menu_enum
 
 
 
-#line 333 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
+#line 333 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.h"
         
 /* Menu struct */
 struct s_menu 
@@ -5632,7 +5632,7 @@ void     menu_fsm(void);
 void     temperature_control(void);
 void     pid_control(_Bool pid_run);
 void     ovbsc_fsm(void); // in ovbsc.c
-#line 32 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 32 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 
 // LED character lookup table (0-9)
 const uint8_t led_lookup[] = {(0xE7),(0x03),(0xD6),(0x97),(0x33),(0xB5),(0xF5),(0x07),(0xF7),(0xB7)};
@@ -5648,7 +5648,7 @@ const uint8_t led_lookup[] = {(0xE7),(0x03),(0xD6),(0x97),(0x33),(0xB5),(0xF5),(
 //----------------------------------------------------------------------------
 __root __eeprom const int eedata[] = 
 {
-#line 57 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 57 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
         // STM8S003F3 with 128 bytes EEPROM (stock STC1000 IC)
        110,504, 110,  6, 160, 72, 160, 12,  60,   0,   0, // Pr0 (SP0, dh0, ..., dh4, SP5)
        190, 72, 190, 12, 210,504, 210, 12,  60,   0,   0, // Pr1 (SP0, dh0, ..., dh4, SP5)
@@ -5693,7 +5693,7 @@ extern uint16_t ti;        // Parameter value for I action in seconds
 extern uint16_t td;        // Parameter value for D action in seconds
 extern uint8_t  ts;        // Parameter value for sample time [sec.]
 
-#line 112 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 112 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 
 // This contains the definition of the menu-items for the parameters menu
 const struct s_menu menu[] = 
@@ -5719,7 +5719,7 @@ uint16_t divu10(uint16_t n)
   return q + ((r + 6) >> 4);     // 13107/131072 + 1/1048576 = 104857 / 1048576  
 } // divu10()
 
-#line 164 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 164 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 /*-----------------------------------------------------------------------------
   Purpose  : This routine is called by menu_fsm() to show the name of the
              menu-item. This can be either one of the Profiles (Pr0, Pr1, ...),
@@ -5978,7 +5978,7 @@ int16_t check_config_value(int16_t config_value, uint8_t eeadr)
 	} else if ((type == t_boolean) || (type == t_bool_cf))
         {   // the control variables
 	    t_max = 1;
-#line 434 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 434 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	} else if (type == t_hyst_1)
         {
 	    t_max = (fahrenheit ? ( 100) : ( 50));
@@ -6044,7 +6044,7 @@ void menu_fsm(void)
 {
 
     uint8_t run_mode, eeadr_sp;
-#line 516 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 516 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
     uint8_t adr, type;
    
    if (m_countdown) m_countdown--; // countdown counter
@@ -6053,7 +6053,7 @@ void menu_fsm(void)
    {
        //--------------------------------------------------------------------         
        case MENU_IDLE:
-#line 535 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 535 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
             if(((_buttons & ((0x22))) == (((0x22)) & 0x0f)))
             {
                 m_countdown = (30);
@@ -6113,7 +6113,7 @@ void menu_fsm(void)
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_UP: // Show setpoint value
-#line 625 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 625 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
            if (minutes) // is timing-control in minutes?
                  value_to_led(setpoint,(1));
 	    else value_to_led(eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (SP))),(1));
@@ -6122,7 +6122,7 @@ void menu_fsm(void)
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN: // Show Profile-number
-#line 707 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 707 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
            run_mode = eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (rn)));
             prx_to_led(run_mode,(0));
             if ((run_mode < (4)) && (m_countdown == 0))
@@ -6135,7 +6135,7 @@ void menu_fsm(void)
 	    break;
        //--------------------------------------------------------------------         
        case MENU_SHOW_STATE_DOWN_2: // Show current step number within profile
-#line 726 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 726 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
 	    value_to_led(eeprom_read_config((((((4))*(2*((5))+1)) + ((0)<<1)) + (St))),(0));
 	    if (m_countdown == 0)
             {
@@ -6221,7 +6221,7 @@ void menu_fsm(void)
                 menustate = MENU_IDLE;
 	    } else if(((_buttons & ((0x22))) == (((0x22)) & 0xf0)))
             {   // Go back
-#line 860 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 860 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
                 menustate = MENU_SHOW_MENU_ITEM;
             } else if(((_buttons & ((0x88))) == (((0x88)) & 0xf0)))
             {
@@ -6281,7 +6281,7 @@ void menu_fsm(void)
             break; // MENU_SET_CONFIG_ITEM
        //--------------------------------------------------------------------         
        case MENU_SHOW_CONFIG_VALUE:
-#line 965 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 965 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
            if (menu_item < (4))
             {   // Display duration as integer, temperature in 0.1
                 value_to_led(config_value, (config_item & 0x1) ? (0) : (1));
@@ -6340,7 +6340,7 @@ void menu_fsm(void)
             } 
             else if(((_buttons & ((0x11))) == (((0x11)) & 0xf0)))
             {
-#line 1055 "D:\\ownCloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
+#line 1055 "D:\\nextcloud\\Programming\\stc1000_stm8\\src\\stc1000p_lib.c"
                 if (menu_item == (4))
                 {   // We are in the parameter menu
                     if (config_item == rn)

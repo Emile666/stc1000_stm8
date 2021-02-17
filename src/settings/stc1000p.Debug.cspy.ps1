@@ -23,9 +23,9 @@ param([String]$debugfile = "");
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.general.xcl" --backend -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "D:\nextcloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.general.xcl" --backend -f "D:\nextcloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.general.xcl" --debug_file=$debugfile --backend -f "D:\ownCloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "D:\nextcloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.general.xcl" --debug_file=$debugfile --backend -f "D:\nextcloud\Programming\stc1000_stm8\src\settings\stc1000p.Debug.driver.xcl" 
 }

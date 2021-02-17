@@ -21,8 +21,6 @@
  
   You should have received a copy of the GNU General Public License
   along with STC1000+.  If not, see <http://www.gnu.org/licenses/>.
-  ------------------------------------------------------------------
-  $Log: $
   ==================================================================
 */ 
 #include <intrinsics.h> 
@@ -114,72 +112,55 @@ void restore_display_state(void)
   Purpose  : This routine multiplexes the 4 segments of the 7-segment displays.
              It runs at 1 kHz, so there's a full update after every 4 msec.
              There is a preprocessor directive important here:
-             COMMON_ANODE: the latest STC-1000 ship with a common-anode display.
-                           In order to get that working, you need to have a new
-                           PCB with additional circuitry installed.
-             If you do not define COMMON_ANODE, you have the old set-up again
-             with a common-cathode display.
   Variables: -
   Returns  : -
   ---------------------------------------------------------------------------*/
 void multiplexer(void)
 {
-#ifdef COMMON_ANODE
-    // STC-1000s are now shipped with Common-Anode instead of Common-Cathode
-    // Make CA 0 and a single segment 1 to disable LED
-    PC_ODR    |= PORTC_LEDS;      // Clear LEDs
-    PD_ODR    |= portd_leds;      // Clear LEDs
-#else
-    // This was the default 7-segment display up until 2020
+    uint8_t led_4 = LED_OFF;
+    // The default 7-segment display up until 2020 was Common-Cathode
     // Make CC 1 and a single segment 0 to disable LED
     PC_ODR    &= ~PORTC_LEDS;    // Clear LEDs
     PD_ODR    &= ~portd_leds;    // Clear LEDs
-#endif   
     PB_ODR    |= (CC_10 | CC_1); // Disable common-cathode for 10s and 1s
     PD_ODR    |= (CC_01 | CC_e); // Disable common-cathode for 0.1s and extras
 
     switch (mpx_nr)
     {
         case 0: // output 10s digit
-#ifdef COMMON_ANODE
-            PC_ODR &= ~(led_10 & PORTC_LEDS);        // Update PC7..PC3
-            PD_ODR &= ~((led_10 << 1) & portd_leds); // Update PD3..PD1
-#else
             PC_ODR |= (led_10 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_10 << 1) & portd_leds); // Update PD3..PD1
-#endif
             PB_ODR &= ~CC_10;    // Enable  common-cathode for 10s
             if (sound_alarm) ALARM_ON;
             mpx_nr = 1;
             break;
         case 1: // output 1s digit
-#ifdef COMMON_ANODE
-            PC_ODR &= ~(led_1 & PORTC_LEDS);        // Update PC7..PC3
-            PD_ODR &= ~((led_1 << 1) & portd_leds); // Update PD3..PD1
-#else
             PC_ODR |= (led_1 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_1 << 1) & portd_leds); // Update PD3..PD1
-#endif
             PB_ODR &= ~CC_1;         // Enable  common-cathode for 1s
             ALARM_OFF;
             mpx_nr = 2;
             break;
         case 2: // output 01s digit
-#ifdef COMMON_ANODE
-            PC_ODR &= ~(led_01 & PORTC_LEDS);        // Update PC7..PC3
-            PD_ODR &= ~((led_01 << 1) & portd_leds); // Update PD3..PD1
-#else
             PC_ODR |= (led_01 & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_01 << 1) & portd_leds); // Update PD3..PD1
-#endif
             PD_ODR &= ~CC_01;        // Enable common-cathode for 0.1s
             if (sound_alarm) ALARM_ON;
             mpx_nr = 3;
             break;
         case 3: // outputs special digits
-#ifdef COMMON_ANODE
-            PC_ODR &= ~(led_e & PORTC_LEDS);        // Update PC7..PC3
-            PD_ODR &= ~((led_e << 1) & portd_leds); // Update PD3..PD1
+#if defined(FOUR_DIGITS_DISPLAY)
+            if (menu_is_idle)
+            {
+                if (led_e & LED_POINT)     led_4 = LED_P; // P = 2nd temp. probe
+                else if (led_e & LED_HEAT) led_4 = LED_H; // H = Heating mode
+                else if (led_e & LED_COOL) led_4 = LED_C; // C = Cooling mode
+            }
+            if (led_e & LED_SET)
+                 led_4 |=  LED_DECIMAL; // dp=1: Profile mode
+            else led_4 &= ~LED_DECIMAL; // dp=0: Thermostat mode
+            PC_ODR |= (led_4 & PORTC_LEDS);        // Update PC7..PC3
+            PD_ODR |= ((led_4 << 1) & portd_leds); // Update PD3..PD1
 #else
             PC_ODR |= (led_e & PORTC_LEDS);        // Update PC7..PC3
             PD_ODR |= ((led_e << 1) & portd_leds); // Update PD3..PD1
